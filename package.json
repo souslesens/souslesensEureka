@@ -1,0 +1,33 @@
+{
+  "name": "souslesenseureka",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "base64-stream": "^1.0.0",
+    "bcrypt": "^5.0.1",
+    "chardet": "^1.3.0",
+    "cookie-parser": "~1.4.4",
+    "csv-parser": "^3.0.0",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "html-entities": "^2.1.0",
+    "http-errors": "~1.6.3",
+    "imap": "^0.8.19",
+    "libmime": "^5.0.0",
+    "memory-streams": "^0.1.3",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "ndjson": "^2.0.0",
+    "node-schedule": "^2.0.0",
+    "pdfjs-dist": "^2.6.347",
+    "pug": "2.0.0-beta11",
+    "request": "^2.88.2",
+    "sax": "^1.2.4",
+    "stemmer": "^1.0.5",
+    "superagent": "^6.1.0",
+    "winston": "^3.3.3"
+  }
+}

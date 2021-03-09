@@ -1,0 +1,25 @@
+
+
+.list{
+    font-size:10px;
+}
+
+.details{
+    font-size:12px;
+
+}
+
+.title {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.titleList {
+    font-weight: bold;
+    font-size: smaller;
+}
+
+.date {
+    font-weight: normal;
+    font-style: italic;
+}

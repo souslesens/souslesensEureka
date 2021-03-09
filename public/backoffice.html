@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>souslesens search BO</title>
+
+    <link rel="stylesheet" media="screen" type="text/css" title="Design" href="js/jquery/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="./js/others/jsTree/themes/default/style.min.css"/>
+
+
+    <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/jquery/jquery-ui.min.js"></script>
+    <script src="js/others/async.js"></script>
+    <script src="js/others/socket.io.js"></script>
+
+    <script src="./js/others/jsTree/jstree.min.js"></script><!-- pour imap-->
+
+  <script src="js/searchBackoffice/jquery.json-editor.min.js"></script>
+
+
+
+
+    <link rel="stylesheet" style="text:css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script type="text/javascript" src="js/searchBackoffice/others/underscore.js"></script>
+    <script type="text/javascript" src="js/searchBackoffice/others/jsv.js"></script>
+    <script type="text/javascript" src="js/searchBackoffice/others/jsonform.js"></script>
+
+
+    <script src="js/searchFrontOffice/config.js"></script>
+    <script src="js/searchFrontOffice/authentification.js"></script>
+    <script src="js/searchBackoffice/mainController.js"></script>
+
+    <script src="js/searchBackoffice/context.js"></script>
+    <script src="js/searchBackoffice/ui.js"></script>
+    <script src="js/searchBackoffice/configEditor.js"></script>
+    <script src="js/searchBackoffice/asyncDialog.js"></script>
+    <script src="js/searchBackoffice/imapUI.js"></script>
+    <script src="js/searchBackoffice/profiles.js"></script>
+    <script src="js/searchBackoffice/jobScheduler.js"></script>
+
+
+    <script src="js/searchBackoffice/vocabularies/Entities.js"></script>
+    <script src="js/searchBackoffice/vocabularies/Thesaurus.js"></script>
+    <script src="js/searchBackoffice/vocabularies/TMA.js"></script>
+
+
+   <!-- <script src="js/backoffice/jsonSchemas.js"></script>-->
+
+
+
+    <script src="js/searchFrontOffice/indexes.js"></script>
+   <!-- <script src="js/util.js"></script>-->
+
+
+
+
+    <style>
+        body {
+            font-family: Verdana;
+            font-size: 14px;
+        }
+
+        input, button {
+            margin: 5px;
+            padding: 2px;
+            width: 100px;
+
+        }
+
+        button {
+            width: inherit;
+            margin: 3px;
+            padding: 3px;
+            font-size: 12px;
+        }
+
+        .locateButton {
+            background-color: #efec9f;
+        }
+
+        input {
+            width: 150px;
+        }
+
+        input[type='checkbox'] {
+            width: 30px;
+        }
+
+        #main {
+            width: 100%;
+            display: table
+        }
+
+        #left {
+            float: left;
+            display: inline;
+            width: 20%;
+        }
+
+        #right {
+            float: left;
+            display: inline;
+            width: 77%;
+            margin-left: 5px;
+        }
+
+        .accordionInnerDiv {
+            min-height:150px;
+            background-color: #9ca7b3;
+            background-color: snow;
+
+        }
+
+        .ui-accordion-content {
+            padding: 3px  !important;
+        }
+
+
+
+        #mainDiv {
+         //   border: #0a6aa1;
+        //    border-width: 2px;
+            border-style: solid;
+            height: 500px;
+            overflow: auto;
+        }
+
+        .myDatatableAA {
+            width: 600px;
+            height: 200px;
+
+        }
+
+        .myDatatable td {
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: #93aeca;
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-left-color: #93aeca;
+            width: 100px;
+
+            height: 20px !important;
+        }
+
+        div.dataTables_wrapper {
+            margin: 5px;
+
+        }
+
+        .dt-buttons {
+            left: 200px;
+            position: relative;
+        }
+
+        .dataTables_paginate {
+            font-weight: bold;
+        }
+
+        .datatable tr {
+            height: 20px;
+        }
+
+        .message {
+            font-style: italic;
+        }
+
+        .searchCriteria {
+            background-color: white;
+            border-radius: 5px;
+            padding: 2px;
+            margin: 2px;
+            font-size: 10px;
+            color: #0a6aa1;
+        }
+
+        .dialogTab {
+
+            background-color: #c2beff85;
+        }
+
+        #dialogDiv, .ui-dialog-buttonpane {
+
+            background-color: #93aeca;
+        }
+
+        .selected {
+            background-color: #0a6aa1;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #0a6aa1;
+
+        }
+
+        #recordMessageSpan {
+
+            font: bold 14px Serif;
+            color: red;
+        }
+
+        /*   table thead th {
+               transform: rotate(-45deg);
+               transform-origin: top left;
+           }
+
+           .table-scrollable{
+               overflow: visible;
+           }*/
+
+        div.dt-buttons {
+            float: left;
+        }
+
+        .ui-accordion-header {
+            font-weight: bold;
+            color: #0a6aa1;
+        }
+
+        #popupD3Div {
+            visibility: hidden;
+            position: absolute;
+            background-color: #ddd;
+            margin: 3px;
+            padding: 3px;
+            border-style: solid;
+            border-width: 1px;
+        }
+
+        #dialogContentDiv {
+
+        }
+
+        #dialogD3 {
+            background-color: #ddd;
+            margin: 3px;
+            padding: 3px;
+            width: 500px;
+            height: 500px;
+        }
+
+        #magasind3MouseInfo {
+
+            font-style: italic;
+            font-size: 14px;
+            padding: 3px;
+
+        }
+
+        #messageSpan {
+            color: #003eff;
+            font-weight: bold;
+        }
+
+        .alignCenterFlex0 {
+            display: flex;
+            align-content: center
+        }
+
+
+        li{
+            list-style-type: none;
+        }
+
+        div{
+            border: #6a7179 1px solid;
+        }
+
+
+        .controls{
+
+            border:none;
+            width:90%;
+        }
+        .form-group{
+            border:none;
+            margin-left: 5px;
+            font-size: 14px;
+        }
+        .form-control{
+            width:90%;
+
+        }
+
+
+        label{
+            margin-bottom: 0;
+        }
+
+        .btn-default {
+          background-color: #6a7179;
+        }
+            .glyphicon{
+                font-size: 12px;
+                color:blue;
+            }
+
+    </style>
+
+    <script>
+        var dialog, dialog2, dialog3;
+        $(function () {
+           // http://phototheque.cijw.priv/visu.php?indexCIJW=PH0001006001
+            mainController.setDivsSize();
+            $("#leftAccordion").accordion({
+
+                activate: function (event, ui) {
+                    var content = ui;
+                    var tabName = ui.newHeader.text();
+                    mainController.onAccordionTabChange(tabName);
+
+
+                }
+
+            });
+
+
+            $( "#dialog-confirm" ).dialog({
+                resizable: false,
+                height: "auto",
+                width: 400,
+                modal: true,
+                autoOpen: false,
+
+            });
+
+            dialog = $("#dialogDiv").dialog({
+                autoOpen: false,
+                height: mainController.totalDims.h - 100,
+                width: "100%",
+                modal: true,
+
+
+                open:function(){
+                    $(".ui-dialog .ui-dialog-titlebar").css("display","none")
+                },
+              close: function () {
+
+                 //   $("#dialogDiv").dialog("close");
+                    if (context.redrawMagasinD3) {
+                        context.redrawMagasinD3 = null;
+                        //  magasinD3.drawMagasins()
+                    }
+                    if(Object.keys(recordController.currentRecordChanges).length>0)
+                        recordController.closeRecordDialog()
+                        else
+                    $("#dialogDiv").dialog("close");
+                        return false;
+
+
+
+                }
+            });
+
+
+
+
+            authentication.init();
+
+
+
+        })
+
+    </script>
+</head>
+<body>
+
+<div id="main">
+
+    <div id="left">
+        <div id="acceuilDiv" class="accordionInnerDiv" style="display: flex;flex-direction:column;align-content: center;align-items: center">
+            <B>Recherche fédérée Baillet</B>
+            <img src="images/logoATD.png" width="50px">
+            <br>
+            <B>Index configurations</B>
+            <select id="sourcesSelect" size="7" onchange="ui.selectIndexConfig($(this).val())"></select>
+        </div>
+        <div id="leftAccordion"  class="accordionInnerDiv">
+            <h1>Configuration</h1>
+            <div id="configurationWrapperDiv" class="accordionInnerDiv">
+                <div>
+                    <button onclick="configEditor.editConfig()">edit source</button>
+                    <button onclick="ui.showIndexConfig()">edit source json</button>
+
+                    <button onclick="configEditor.createNewConfig()">new source</button>
+                    <button onclick="ui.deleteIndexConfig()">delete source</button>
+                    <button onclick="ui.associateAnnotators()">Annotators</button>
+                </div>
+
+            </div>
+
+
+
+
+            <!--   <h1>Magasins</h1>
+               <div id="MagasinsDiv" class="accordionInnerDiv">
+                   <div id="searchDiv-Magasins"></div>
+               </div>
+   -->
+
+
+
+
+            <h1>Indexation</h1>
+            <div id="indexationWrapperDiv" class="accordionInnerDiv">
+               <!-- <div id="indexationDiv">
+                    <button onclick="ui.showIndexationForm()">Run indexation</button>
+                </div>-->
+
+            </div>
+
+
+            <h1>Jobs</h1>
+            <div id="jobsWrapperDiv" class="accordionInnerDiv">
+
+
+            </div>
+            <h1>Scheduler</h1>
+            <div id="schedulerWrapperDiv" class="accordionInnerDiv">
+
+            </div>
+            <h1>Profiles</h1>
+            <div id="profilesWrapperDiv" class="accordionInnerDiv">
+
+            </div>
+            <h1>Vocabularies</h1>
+            <div id="vocabulariesWrapperDiv" class="accordionInnerDiv">
+                <button onclick="Entities.initDialog()">Entities extractions</button><br>
+                <button onclick="Thesaurus.initDialog()">Integrate Thesaurus</button>
+                <button onclick="TMA.initDialog()">Text Mining Agent</button>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+    <div id="right">
+        <span id="messageDiv" class="message"></span><img src="images/waitAnimated.gif" id="waitImg" style="display: none;width: 15px">
+        <!--   <button id="showHideLeftPanelButton"><< >></button>-->
+        <div id="mainDiv" class="dataTableDiv">
+
+
+
+
+    </div>
+
+    <div id="dialogDiv"></div>
+    </div>
+</div>
+
+<div id="loginDiv"
+     style="position: absolute;visibility: hidden;display: flex;justify-content:center;align-items: center">
+    <div> login<input id="loginInput">
+        password<input type="password" id="passwordInput" onkeydown="if (event.keyCode == 13)
+                        document.getElementById('loginButton').click()">
+        <button id="loginButton" onclick="authentication.doLogin()">OK</button>
+        <!--   <button id="xxx" onclick="Tablette.updateCotesParTabletteZeros()">TEST boites</button>-->
+
+        <div id="loginMessage"></div>
+    </div>
+</div>
+
+
+
+
+
+
+<div id="dialog-confirm"></div>
+</body>
+</html>

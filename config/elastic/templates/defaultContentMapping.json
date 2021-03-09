@@ -1,0 +1,21 @@
+{
+  "attachment.content": {
+    "type": "text",
+    "index_options": "offsets",
+    "analyzer": "lowercase_asciifolding",
+    "fielddata": true,
+    "fields": {
+      "raw": {
+        "type": "keyword",
+        "ignore_above": 256
+      }
+    }
+  }
+
+}
+
+
+
+
+
+

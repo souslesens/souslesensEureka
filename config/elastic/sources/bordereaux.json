@@ -1,0 +1,89 @@
+{
+  "general": {
+    "description": "index des bordereaux de versement de Baillet",
+    "label": "Bordereaux",
+    "indexName": "bordereaux"
+  },
+  "connector": {
+    "type": "document",
+    "dirPath": "D:\\ATD_Baillet\\versements2018"
+  },
+  "schema": {
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
+    "mappings": {
+      "bordereaux": {
+        "properties": {
+          "attachment.author": {
+            "type": "text",
+            "index": false
+          },
+          "attachment.title": {
+            "type": "text",
+            "index": false
+          },
+          "attachment.date": {
+            "type": "date",
+            "index": false
+          },
+          "attachment.language": {
+            "type": "keyword",
+            "index": false
+          },
+          "title": {
+            "type": "text",
+            "index": false
+          }
+        }
+      }
+    }
+  },
+  "display": [
+    {
+      "attachment.author": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "attachment.title": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "attachment.date": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "attachment.language": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "title": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "attachment.content": {
+        "cssClass": "text"
+      }
+    }
+  ],
+  "thesauri": {
+    "thesaurus_unesco": {
+      "name": "thesaurus_unesco",
+      "skosXmlPath": "D:\\\\NLP\\\\unescothes.rdf",
+      "highlightFields": [
+        "attachment.content"
+      ],
+      "extractedLangages": "en,fr,es",
+      "outputLangage": "fr"
+    }
+  },
+  "indexation": {
+    "elasticUrl": "http://localhost:9200/",
+    "deleteOldIndex": "yes",
+    "applythesauri": "yes"
+  }
+}

@@ -1,0 +1,70 @@
+{
+    "indexDescriptions": {
+        "phototheque": {
+            "type": "mySQL",
+            "mappings": "phototheque",
+            "settings": "ATD",
+            "connOptions": {
+                "host": "localhost",
+                "user": "root",
+                "password": "vi0lon",
+                "database": "phototheque"
+            },
+            "sqlQuery": "select * from phototheque"
+        },
+        "artotheque": {
+            "type": "mySQL",
+            "mappings": "phototheque",
+            "settings": "ATD",
+            "connOptions": {
+                "host": "localhost",
+                "user": "root",
+                "password": "vi0lon",
+                "database": "artotheque"
+            },
+            "sqlQuery": "select * from artotheque"
+        },
+        "audiotheque": {
+            "type": "mySQL",
+            "mappings": "audiotheque",
+            "settings": "ATD",
+            "connOptions": {
+                "host": "localhost",
+                "user": "root",
+                "password": "vi0lon",
+                "database": "audiotheque"
+            },
+            "sqlQuery": "select * from audiotheque"
+        },
+        "videotheque": {
+            "type": "mySQL",
+            "mappings": "default",
+            "settings": "ATD",
+            "connOptions": {
+                "host": "localhost",
+                "user": "root",
+                "password": "vi0lon",
+                "database": "videotheque"
+            },
+            "sqlQuery": "select * from videotheque"
+        },
+        "bordereaux": {
+            "type": "fs",
+            "settings": "ATD",
+            "dirPath": "D:\\ATD_Baillet\\versements2018",
+            "mappings": "officeDocument"
+        },
+        "ocr": {
+            "type": "fs",
+            "settings": "ATD",
+            "dirPath": "H:\\ATD\\ATD_QUART_MONDE_Cde2017_2128_Cde01_BP10_PDF",
+            "mappings": "officeDocument"
+        },
+        "testatd": {
+            "type": "fs",
+            "settings": "ATD",
+            "dirPath": "C:\\Users\\claud\\Downloads\\test",
+            "mappings": "officeDocument"
+        }
+    }
+}

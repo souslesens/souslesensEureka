@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/jquery/jquery-ui.min.js"></script>
+
+    <link  href="./js/others/fotorama/fotorama.css" rel="stylesheet">
+    <script src="./js/others/fotorama/fotorama.js"></script>
+
+
+
+
+
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="fotorama"   data-nav="thumbs"
+     data-auto="false"></div>
+
+
+
+
+</body>
+<script>
+    $('.fotorama').fotorama({
+        data: [
+            { thumb: '/data/photos/IndexPhotos/0073/001/002/0073-001-002_001.jpg'},
+            {thumb: '/data/photos/IndexPhotos/0073/001/002/0073-001-002_002.jpg'},
+            {thumb: '/data/photos/IndexPhotos/0073/001/002/0073-001-002_003.jpg'},
+        ]
+    });
+</script>
+</html>

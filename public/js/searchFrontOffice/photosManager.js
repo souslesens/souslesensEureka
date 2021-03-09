@@ -7,7 +7,7 @@ var PhotosManager=(function(){
 
 
 
-    
+
 
 
 

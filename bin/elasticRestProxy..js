@@ -1,7 +1,9 @@
 const request = require('request');
 
 
-const elasticUrl = "http://localhost:9200/";
+//const elasticUrl = "http://localhost:9200/";
+const elasticUrl = "http://92.222.116.179:7201/";
+
 const debug = true;
 var elasticRestProxy = {
     elasticUrl: elasticUrl,

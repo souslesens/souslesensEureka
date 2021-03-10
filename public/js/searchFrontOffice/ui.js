@@ -27,7 +27,20 @@ var ui = (function () {
     }
 
 
+
     self.showHitDetails = function (hit) {
+        if( hit._index="photos"){
+
+            $("#dialogDiv").load("snippets/detailsPhotos.html");
+            $(".hlt1").css("background-color", " #FFFF00");
+            $(".dialogDiv").css("top", " 100px");
+            $("#dialogDiv").dialog("open")
+            setTimeout(function(){
+                PhotosManager.showData(hit)
+
+            },200)
+return
+        }
         var displayConfig = context.indexConfigs[hit._index].display;
         var indexLabel = context.indexConfigs[hit._index].general.label;
 

@@ -27,16 +27,17 @@ var ui = (function () {
     }
 
 
-
     self.showHitDetails = function (hit) {
-        if( hit._index="photos"){
-
+        if( hit._index=="photos"){
+            $("#dialogDiv").css("max-width","600px");
             $("#dialogDiv").load("snippets/detailsPhotos.html");
-            $(".hlt1").css("background-color", " #FFFF00");
-            $(".dialogDiv").css("top", " 100px");
+
             $("#dialogDiv").dialog("open")
             setTimeout(function(){
                 PhotosManager.showData(hit)
+
+
+
 
             },200)
 return

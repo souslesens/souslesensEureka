@@ -315,7 +315,7 @@ var Entities = (function () {
         }
 
         self.drawJsTree = function (treeDiv, jsTreeData) {
-
+return
             var plugins = [];
             plugins.push("search");
 

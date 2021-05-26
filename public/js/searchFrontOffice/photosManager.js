@@ -1,7 +1,10 @@
 var PhotosManager = (function () {
     var self = {}
-    self.photosDir = "/var/lib/nodejs/souslesensEureka/public/data/photos/IndexPhotos/"
-    self.photosRootUrl = "/data/photos/IndexPhotos/"
+   /* self.photosDir = "/var/lib/nodejs/souslesensEureka/public/data/photos/IndexPhotos/"
+    self.photosRootUrl = "/data/photos/IndexPhotos/"*/
+
+    self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
+    self.photosRootUrl = "/Photo/"
 
     self.showData = function (hit) {
         /* agence: "ATD Quart-Monde"
@@ -30,7 +33,7 @@ var PhotosManager = (function () {
         var html = "<table>"
         leftDivFields.forEach(function (field) {
             html += "<tr>"
-            html += "<td>" + field + "</td>"
+            html += "<td  class='tdBold'>" + field + "</td>"
             var value = ""
             if (data[field])
                 value = data[field]
@@ -44,7 +47,7 @@ var PhotosManager = (function () {
         var html = "<table>"
         rightDivFields.forEach(function (field) {
             html += "<tr>"
-            html += "<td>" + field + "</td>"
+            html += "<td class='tdBold'>" + field + "</td>"
             var value = ""
             if (data[field])
                 value = data[field]
@@ -56,7 +59,7 @@ var PhotosManager = (function () {
 
         if (data.indexCIJW && data.indexCIJW.indexOf("PH") == 0) {
 
-            var photoPath =data.dossier + "/" + data.document + "/" + data.sousdossier+"/";
+            var photoPath =data.dossier + "*/" + data.sousdossier+"*/"+ data.document + "/" ;
             var photosRootUrl = self.photosRootUrl+photoPath
             var payload = {getPhotosFromDir: self.photosDir+photoPath}
             $.ajax({

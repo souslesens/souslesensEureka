@@ -29,7 +29,9 @@ var ui = (function () {
 
     self.showHitDetails = function (hit) {
         if( hit._index=="photos"){
-            $("#dialogDiv").css("max-width","600px");
+            $(".ui-dialog").css("max-width","800px");
+            $("#dialogDiv").css("max-width","800px");
+            $("#dialogDiv").css("max-height","500px");
             $("#dialogDiv").load("snippets/detailsPhotos.html");
 
             $("#dialogDiv").dialog("open")

@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photosManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photosManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/ui.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/snippets/detailsPhotos.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/snippets/detailsPhotos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/PhotosMamanager..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosMamanager..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +62,7 @@
       <recent name="D:\GitHub\souslesensEureka\public\js\searchFrontOffice" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.bin\www">
+  <component name="RunManager" selected="Node.js.PhotosMamanager..js">
     <configuration name="PhotosMamanager..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="PhotosMamanager..js" working-dir="$PROJECT_DIR$/bin">
       <method v="2" />
     </configuration>
@@ -85,7 +87,9 @@
       <workItem from="1615920836162" duration="1774000" />
       <workItem from="1615973852071" duration="1908000" />
       <workItem from="1617024972932" duration="743000" />
-      <workItem from="1622020782114" duration="2519000" />
+      <workItem from="1622020782114" duration="3229000" />
+      <workItem from="1622220087371" duration="4701000" />
+      <workItem from="1622293912538" duration="945000" />
     </task>
     <servers />
   </component>

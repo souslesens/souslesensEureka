@@ -12,6 +12,7 @@
     "csv-parser": "^3.0.0",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "glob": "^7.1.7",
     "html-entities": "^2.1.0",
     "http-errors": "~1.6.3",
     "imap": "^0.8.19",

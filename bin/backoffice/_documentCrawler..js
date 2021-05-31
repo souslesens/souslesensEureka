@@ -7,13 +7,14 @@ var util = require("./util.")
 var fs = require('fs');
 
 
+
 var _documentCrawler = {
     indexSource: function (config, callback) {
         var maxDocSize = 1000 * 1000 * 1000 * 20;
         var rootdir = config.connector.dirPath;
         var index = config.general.indexName;
-        var acceptedExtensions = ["doc", "docx", "xls", "xslx", "pdf", "odt", "ods", "ppt", "pptx", "html", "htm", "txt", "csv"];
-        var base64Extensions = ["doc", "docx", "xls", "xslx", "pdf", "ppt", "pptx", "ods", "odt"];
+        var acceptedExtensions = ["doc", "docx","docm", "xls", "xlsx", "pdf", "odt", "ods", "ppt", "pptx", "html", "htm", "txt", "csv"];
+        var base64Extensions = ["doc", "docx","docm", "xls", "xlsx", "pdf", "ppt", "pptx", "ods", "odt"];
 
         var filesToIndex = [];
         var indexedFilesCount = 0;

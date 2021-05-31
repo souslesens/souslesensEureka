@@ -111,7 +111,7 @@ var indexer = {
                                 //   json.mappings[index].properties[indexSchema.contentField] = {
                                 "type": "text",
                                 //   "index_options": "offsets",
-                                // "term_vector": "with_positions_offsets_payloads",
+                               // "term_vector": "with_positions_offsets_payloads",
                                 "store": false,
                                 "analyzer": config.schema.analyzer,
 

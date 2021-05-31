@@ -137,7 +137,7 @@ var Search = (function () {
                             size: size,
                             _source: context.elasticQuery.source,
                             highlight: context.elasticQuery.highlight,
-                            aggregations: aggregations
+                         //   aggregations: aggregations
 
 
                         }
@@ -158,10 +158,10 @@ var Search = (function () {
                             }
 
 
-                            Entities.showAssociatedWords(result.aggregations.associatedWords)
+                        //    Entities.showAssociatedWords(result.aggregations.associatedWords)
 
 
-                            self.setResultsCountByIndex(result.aggregations.indexesCountDocs);
+                       //     self.setResultsCountByIndex(result.aggregations.indexesCountDocs);
 
                             self.thesauri = {}
                             var jsTreeArray=[]

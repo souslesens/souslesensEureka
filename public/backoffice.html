@@ -357,8 +357,18 @@
 
 
 
-            authentication.init();
+            authentication.init(true,function(err,result) {
 
+                dialog = $("#dialogDiv").dialog({
+                    autoOpen: false,
+                    //  height: mainController.totalDims.h - 100,
+                    maxWidth: 600,
+
+                    modal: true,
+
+
+                })
+            })
 
 
         })

@@ -54,8 +54,9 @@ PhotosMamanager = {
             return callback(dir + " not exists");
         }
         var files = fs.readdirSync(photosPath)
+        var result = {files: files, realPath: photosPath + sep}
 
-        return callback(null, files);
+        return callback(null, result);
 
 
     }

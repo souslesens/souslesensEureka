@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_001.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_002.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_003.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_004.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_005.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/PhotosMamanager..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosMamanager..js" afterDir="false" />
     </list>
@@ -94,7 +89,7 @@
       <workItem from="1622293912538" duration="10448000" />
       <workItem from="1622480985728" duration="725000" />
       <workItem from="1622535299831" duration="611000" />
-      <workItem from="1623596888144" duration="472000" />
+      <workItem from="1623596888144" duration="1657000" />
     </task>
     <servers />
   </component>
@@ -133,15 +128,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/PhotosMamanager..js</url>
-          <line>21</line>
+          <line>58</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/PhotosMamanager..js</url>
-          <line>31</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="41" />
+          <option name="timeStamp" value="45" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

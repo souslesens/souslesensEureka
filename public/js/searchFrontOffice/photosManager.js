@@ -69,8 +69,8 @@ var PhotosManager = (function () {
                 dataType: "json",
                 success: function (data, textStatus, jqXHR) {
                     var array = [];
-                    data.forEach(function (item) {
-                        array.push({"thumb" : photosRootUrl+item})
+                    data.files.forEach(function (item) {
+                        array.push({"thumb" : data.realPath+item})
                     })
                     $('.fotorama').fotorama({
                         data: array

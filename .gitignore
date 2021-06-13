@@ -75,3 +75,4 @@ typings/
 # FuseBox cache
 .fusebox/
 public/data/photos/
+*.jpg

@@ -36,13 +36,13 @@ var ui = (function () {
 
             $("#dialogDiv").dialog("open")
             setTimeout(function(){
-                PhotosManager.showData(hit)
+                PhotosManagerOld.showData(hit)
 
 
 
 
             },200)
-return
+
         }
         var displayConfig = context.indexConfigs[hit._index].display;
         var indexLabel = context.indexConfigs[hit._index].general.label;

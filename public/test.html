@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/entities.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" title="Design" href="js/jquery/jquery-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/default.css">
+    <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/jquery/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <script src="js/others/async.js"></script>
+
+    <script src="js/searchFrontOffice/config.js"></script>
+    <script src="js/searchFrontOffice/context.js"></script>
+    <script src="js/searchFrontOffice/mainController.js"></script>
+    <script src="js/searchFrontOffice/indexes.js"></script>
+    <script src="js/searchFrontOffice/_search.js"></script>
+    <script src="js/searchFrontOffice/ui.js"></script>
+    <script src="js/searchFrontOffice/entities.js"></script>
+    <script src="js/searchFrontOffice/authentification.js"></script>
+    <script src="data/stopwords-fr..js"></script>
+    <script src="js/searchFrontOffice/photosManager.js"></script>
+
+
+    <link href="./js/others/fotorama/fotorama.css" rel="stylesheet">
+    <script src="./js/others/fotorama/fotorama.js"></script>
+    <script>
+        $(function () {})
+    </script>
+</head>
+<body>
+
+</body>
+<div id="dialogDiv"></div>
+
+<script>
+
+
+       $("#dialogDiv").dialog({
+            autoOpen: false,
+          height:600,
+           width: 800,
+
+            modal: true,
+
+        })
+
+
+
+
+    var showHitDetails = function (hit) {
+        if (hit._index == "photos") {
+            //$(".ui-dialog").css("width", "800px");
+            $("#dialogDiv").width(800);
+            $("#dialogDiv").height(500);
+            $("#dialogDiv").load("snippets/detailsPhotos.html");
+
+            $("#dialogDiv").dialog("open")
+            setTimeout(function () {
+                    PhotosManager.showData(hit)
+
+
+            }, 200)
+
+        }
+    }
+
+       var hit = {
+           _id: "R4152803604",
+           _index: "photos",
+           _score: 1,
+           _source: {
+               agence: "ATD Quart-Monde",
+               "attachment.content": " 20391 PH0272002001 0272 002 001 y Luc PRISSET ATD Quart-Monde --- --- Rencontre Elysée:F.Mitterand-G.Anthonioz (21.0I.1983) Geneviève de Gaulle-Anthonioz Fri Jan 21 1983 00:00:00 GMT+0000 (Coordinated Universal Time) Paris (France) Rencontre de Mr Mitterand +conférence de presse sur le perron de l'Elysée.Geneviève Anthonioz De Gaulle. (21/01/1983) --- **** Fri Oct 06 2017 00:00:00 GMT+0000 (Coordinated Universal Time) DB",
+               contenu: "Rencontre Elysée:F.Mitterand-G.Anthonioz (21.0I.1983)",
+               date: "1983-01-21T00:00:00.000Z",
+               dateMaj: "2017-10-06T00:00:00.000Z",
+               description: "Rencontre de Mr Mitterand +conférence de presse sur le perron de l'Elysée.Geneviève Anthonioz De Gaulle. (21/01/1983)",
+               document: "002",
+               dossier: "6021",
+               droit_auteur: "---",
+               droit_image: "---",
+               id: 20391,
+               incrementRecordId: 4152803604,
+               indexCIJW: "PH0272002001",
+               lien: "y",
+               lieu: "Paris (France)",
+               local: "---",
+               photographe: "Luc PRISSET",
+               redacteur: "DB",
+               sousdossier: "003",
+               support: "****",
+               temoin_ref: "Geneviève de Gaulle-Anthonioz"
+           }
+       }
+
+    showHitDetails(hit);
+
+
+</script>
+</html>

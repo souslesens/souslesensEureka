@@ -7,9 +7,6 @@ PhotosMamanager = {
 
 
         var sep = path.sep
-        if(sep=="\\")
-            dir=dir.replace(/\//g,sep)
-
         var dirs = dir.split(sep)
         var photodirs = []
 
@@ -42,22 +39,19 @@ PhotosMamanager = {
             return realDirName
 
         }
-var nSep=1
-/*if(sep=="\\")// moins de slashes dans windows
-    nSep=0*/
-        for (var i = photosDirIndex + 1; i < photodirs.length - nSep; i++) {
+
+
+        for (var i = photosDirIndex + 1; i < photodirs.length; i++) {
+            // photodirs.forEach(function(dir,index){
             var realDirName = getRealDirName(photosPath, photodirs[i])
-            if (!realDirName) {
-                return callback(photodirs[i] + " not exists");
-                break;
-            }
-            var newPath = photosPath + sep + realDirName.replace(/ /g, "\ ")
-            photosPath += sep + realDirName.replace(/ /g, "\ ")
+            if (!realDirName)
+                return callback(photodirs[i] + " not exists")
+            photosPath += sep + realDirName
         }
 
 
         if (!fs.existsSync(photosPath)) {
-            return callback(photosPath + " not exists");
+            return callback(dir + " not exists");
         }
         var files = fs.readdirSync(photosPath)
         var result = {files: files, realPath: photosPath + sep}
@@ -72,4 +66,4 @@ var nSep=1
 
 module.exports = PhotosMamanager
 var x = "D:\\webstorm\\souslesensEureka\\public\\Photo\\6021\\003\\002"
-//PhotosMamanager.getPhotosFromDir(x)
+PhotosMamanager.getPhotosFromDir(x)

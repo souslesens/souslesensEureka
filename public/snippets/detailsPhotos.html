@@ -15,11 +15,15 @@
         flex-direction: column;
         align-items: center;
     }
-    #carrouselDiv{
-        display: block;
+    #carrouselDiv{    display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 90%;
+        width: 100%;
+        background: #898692;
+        padding: 10px;
+    }
+    .fotorama__nav--thumbs{
+        margin:10px
     }
     .tdBold{
         font-weight: bold;
@@ -31,13 +35,24 @@
         margin-right: auto;
         width: 90%;
     }
+
+    #activePhotoDiv {
+        font-size: 12px;
+        color: #1e6ce6;
+        font-weight: bold;
+    }
 </style>
 <div id="photosContainerDiv">
     <div id="carrouselDiv" class="detailedDataDiv" >
-        <div class="fotorama" data-height="300" data-nav="thumbs"
+        <div class="fotorama"
+             data-height="300"
+             data-nav="thumbs"
+             data-arrows="true"
+             data-click="true"
+             data-swipe="false">
              data-auto="false"></div>
     </div>
-
+    <div id='activePhotoDiv'></div>
 
     <div id="datailedDataDiv" style="display: flex;flex-direction: row">
 

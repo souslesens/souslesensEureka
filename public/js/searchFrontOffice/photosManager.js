@@ -4,10 +4,10 @@ var PhotosManager = (function () {
      self.photosRootUrl = "/data/photos/IndexPhotos/"*/
 
     self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
-   var os = navigator.platform;
-    var sep="/"
-    if(os.indexOf("Win")==0) {
-        sep="\\"
+    var os = navigator.platform;
+    var sep = "/"
+    if (os.indexOf("Win") == 0) {
+        sep = "\\"
         self.photosDir = "D:\\webstorm\\souslesensEureka\\public\\Photo\\"
     }
     self.photosRootUrl = "/Photo/"
@@ -15,7 +15,7 @@ var PhotosManager = (function () {
     self.showData = function (hit) {
 
         var leftDivFields = ["date", "lieu", "photographe", "description"]
-        var rightDivFields = ["indexCIJW", "contenu", "droit_auteur", "droit_image"]
+        var rightDivFields = ["indexCIJW", "contenu", "droit_auteur", "droit_image","temoin_ref"]
 
         var data = hit._source
         var html = "<table>"
@@ -23,6 +23,10 @@ var PhotosManager = (function () {
             html += "<tr>"
             html += "<td  class='tdBold'>" + field + "</td>"
             var value = ""
+
+            if(field=="date" && data[field]){
+                data[field]=  data[field].substring(0,4)
+            }
             if (data[field])
                 value = data[field]
             html += "<td>" + value + "</td>"
@@ -51,7 +55,7 @@ var PhotosManager = (function () {
             $('.fotorama').on('fotorama:load', function (e, fotorama) {
                 console.log(e.type, fotorama.activeIndex);
                 var activePhoto = fotorama.data[fotorama.activeIndex].img
-
+                activePhoto = activePhoto.substring(activePhoto.lastIndexOf(sep) + 1)
                 $("#activePhotoDiv").html(activePhoto)
             });
 
@@ -65,7 +69,7 @@ var PhotosManager = (function () {
                 data: payload,
                 dataType: "json",
                 success: function (data, textStatus, jqXHR) {
-                    var index = data.realPath.indexOf(sep+"Photo")
+                    var index = data.realPath.indexOf(sep + "Photo")
                     var path = data.realPath.substring(index);
 
                     data.files.forEach(function (item) {

@@ -165,10 +165,12 @@ var Search = (function () {
 
                             self.thesauri = {}
                             var jsTreeArray=[]
-                           for(var thesaurus in context.allowedThesauri) {
-                               var thesaurusJsTreeArray=Entities.showThesaurusEntities(thesaurus, result.aggregations["entities_" + thesaurus]);
-                               jsTreeArray=jsTreeArray.concat(thesaurusJsTreeArray)
+                            if(false) {
+                                for (var thesaurus in context.allowedThesauri) {
+                                    var thesaurusJsTreeArray = Entities.showThesaurusEntities(thesaurus, result.aggregations["entities_" + thesaurus]);
+                                    jsTreeArray = jsTreeArray.concat(thesaurusJsTreeArray)
 
+                                }
                             }
                             $("#entitiesWrapperDiv").css("visibility", "visible");
                             Entities.drawJsTree("jstreeDiv", jsTreeArray)

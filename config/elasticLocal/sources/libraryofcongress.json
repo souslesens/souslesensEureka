@@ -1,0 +1,56 @@
+{
+  "general": {
+    "description": "LibrayOfCongress",
+    "label": "LibrayOfCongress",
+    "indexName": "libraryofcongress"
+  },
+  "connector": {
+    "type": "csv",
+    "filePath": "D:\\NLP\\LOC\\LOC_raw.txt",
+    "contentField": "attachment.content"
+  },
+  "schema": {
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
+    "mappings": {
+      "libraryofcongress": {
+        "properties": {
+          "name": {
+            "type": "text"
+          },
+          "id": {
+            "type": "keyword"
+          },
+          "parents": {
+            "type": "text"
+          },
+          "children": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  },
+  "display": [
+    {
+      "concept": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "id": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "parents": {
+        "cssClass": "excerpt"
+      }
+    }
+  ],
+  "indexation": {
+    "elasticUrl": "http://localhost:9200/",
+    "deleteOldIndex": "no",
+    "applythesauri": "no"
+  }
+}

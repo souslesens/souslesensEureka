@@ -1,0 +1,40 @@
+{
+  "general": {
+    "description": "onemodel",
+    "label": "onemodel",
+    "indexName": "onemodel"
+  },
+  "connector": {
+    "type": "csv",
+    "filePath": "D:\\NLP\\ontologies\\dictionaries\\readiLabel.csv",
+    "contentField": "attachment.content"
+  },
+  "schema": {
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
+    "mappings": {
+      "onemodel": {
+        "properties": {
+          "label": {
+            "type": "text"
+          },
+          "subject": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  },
+  "display": [
+    {
+      "label": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "subject": {
+        "cssClass": "text"
+      }
+    }
+  ]
+}

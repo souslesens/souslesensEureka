@@ -1,0 +1,20 @@
+{
+  "test1": {
+    "indexes": [
+      "artotheque",
+      "jeanpaul"
+    ],
+    "thesauri": []
+  },
+  "test2": {
+    "indexes": [
+      "testbook",
+      "artotheque"
+    ],
+    "thesauri": []
+  },
+  "ADMIN": {
+    "indexes":"*",
+    "thesauri": ["*"]
+  }
+}

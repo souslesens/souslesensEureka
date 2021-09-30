@@ -4,20 +4,28 @@ const socket = require('../../routes/socket.js');
 const request = require('request');
 const fs = require('fs');
 const csv = require('csv-parser')
+const common=require('./common.')
 
 var csvCrawler = {
+
+
 
     indexSource: function (config, callback) {
         var data = [];
         var headers = [];
         var bulkStr = "";
         var t0 = new Date();
+
+
+        var elacticIdsfromHash=false
+
+
         async.series([
 
 
             // read csv
             function (callbackseries) {
-                csvCrawler.readCsv(config.connector, 50000, function (err, result) {
+                csvCrawler.readCsv(config.connector, 5000000, function (err, result) {
                     if (err)
                         return callbackseries(err);
                     data = result.data;
@@ -49,7 +57,11 @@ var csvCrawler = {
 
                         })
                         record[config.schema.contentField] = lineContent;
-                        var incrementRecordId = util.getStringHash(lineContent);
+                        var incrementRecordId
+                        if(elacticIdsfromHash)
+                       incrementRecordId = util.getStringHash(lineContent);
+                        else
+                            incrementRecordId =common.getRandomHexaId(10)
                         record.incrementRecordId = incrementRecordId;
                         var id = "R" + incrementRecordId;
 
@@ -149,11 +161,16 @@ var csvCrawler = {
     },
 
     readCsv: function (connector, lines, callback) {
-        util.getCsvFileSeparator(connector.filePath, function (separator) {
+        if(!fs.existsSync(connector.filePath))
+            return callback("file does not exists :"+connector.filePath)
+
+      util.getCsvFileSeparator(connector.filePath, function (separator) {
+      //  var separator="\t"
             var headers = [];
             var jsonData = [];
             var jsonDataFetch = [];
             var startId = 100000
+            var linesCount=0
             fs.createReadStream(connector.filePath)
                 .pipe(csv(
                     {
@@ -170,7 +187,8 @@ var csvCrawler = {
                     })
 
                     .on('data', function (data) {
-
+if((linesCount++)%1000==0)
+    console.log(linesCount)
 
                         jsonDataFetch.push(data)
 
@@ -184,7 +202,10 @@ var csvCrawler = {
                     .on('end', function () {
                         jsonData.push(jsonDataFetch);
                         return callback(null, {headers: headers, data: jsonData})
+                    })  .on('error', function (error) {
+                        var x=error
                     })
+
                 );
 
         })

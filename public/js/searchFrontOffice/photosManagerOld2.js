@@ -6,7 +6,7 @@ var PhotosManager = (function () {
     self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
     var os = navigator.platform;
     var sep = "/"
-    if (false && os.indexOf("Win") == 0) {
+    if (os.indexOf("Win") == 0) {
         sep = "\\"
         self.photosDir = "D:\\webstorm\\souslesensEureka\\public\\Photo\\"
     }
@@ -52,16 +52,19 @@ var PhotosManager = (function () {
         if (data.indexCIJW && data.indexCIJW.indexOf("PH") == 0) {
             var photosArray = [];
 
-          $('.fotorama').on('fotorama:load', function (e, fotorama) {
-              self.Fotorama=fotorama
-
-            });
-            $('.fotorama').on('fotorama:show', function (e, fotorama) {
+        /*    $('.fotorama').on('fotorama:load', function (e, fotorama) {
                 console.log(e.type, fotorama.activeIndex);
                 var activePhoto = fotorama.data[fotorama.activeIndex].img
                 activePhoto = activePhoto.substring(activePhoto.lastIndexOf(sep) + 1)
                 $("#activePhotoDiv").html(activePhoto)
             });
+*/
+            $('.fotorama').on('fotorama:show', function (e, fotorama) {
+                console.log(e.type, fotorama.activeIndex);
+                var activePhoto = fotorama.data[fotorama.activeIndex].img
+                activePhoto = activePhoto.substring(activePhoto.lastIndexOf(sep) + 1)
+                $("#activePhotoDiv").html(activePhoto)
+            })
 
 
             var photoPath = data.dossier + "/" + data.sousdossier + "/" + data.document + "/";

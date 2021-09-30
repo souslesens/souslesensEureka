@@ -47,6 +47,11 @@ var common = {
 
     },
 
+    getRandomHexaId: function (length) {
+        const str = Math.floor(Math.random() * Math.pow(16, length)).toString(16);
+        return "0".repeat(length - str.length) + str;
+
+    },
     replaceNonLetterOrNumberChars: function (str, replaceBy) {
         return str.replace(/[^a-zA-Z0-9_.]/g, replaceBy);
 

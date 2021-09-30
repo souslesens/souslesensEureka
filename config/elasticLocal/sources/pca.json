@@ -1,0 +1,40 @@
+{
+  "general": {
+    "description": "pca",
+    "label": "pca",
+    "indexName": "pca"
+  },
+  "connector": {
+    "type": "csv",
+    "filePath": "D:\\NLP\\ontologies\\dictionaries\\PCAlabels.txt",
+    "contentField": "attachment.content"
+  },
+  "schema": {
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
+    "mappings": {
+      "pca": {
+        "properties": {
+          "label": {
+            "type": "text"
+          },
+          "subject": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  },
+  "display": [
+    {
+      "label": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "subject": {
+        "cssClass": "excerpt"
+      }
+    }
+  ]
+}

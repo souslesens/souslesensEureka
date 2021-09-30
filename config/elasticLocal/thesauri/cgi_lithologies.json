@@ -1,0 +1,9 @@
+{
+  "name": "cgi_lithologies",
+  "skosXmlPath": "D:\\NLP\\cgi\\simplelithology.rdf",
+  "highlightFields": [
+    "synonyms"
+  ],
+  "extractedLangages": "en",
+  "outputLangage": "en"
+}

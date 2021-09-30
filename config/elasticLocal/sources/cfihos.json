@@ -1,0 +1,40 @@
+{
+  "general": {
+    "description": "cfihos",
+    "label": "cfihos",
+    "indexName": "cfihos"
+  },
+  "connector": {
+    "type": "csv",
+    "filePath": "D:\\NLP\\ontologies\\dictionaries\\CFIHOS_1.5.txt",
+    "contentField": "attachment.content"
+  },
+  "schema": {
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
+    "mappings": {
+      "cfihos": {
+        "properties": {
+          "label": {
+            "type": "text"
+          },
+          "subject": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  },
+  "display": [
+    {
+      "label": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "subject": {
+        "cssClass": "excerpt"
+      }
+    }
+  ]
+}

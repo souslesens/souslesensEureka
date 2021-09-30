@@ -42,15 +42,19 @@
         font-weight: bold;
     }
 </style>
-<div id="photosContainerDiv">
-    <div id="carrouselDiv" class="detailedDataDiv" >
-        <div class="fotorama"
-             data-height="300"
-             data-nav="thumbs"
-             data-arrows="true"
-             data-click="true"
-             data-swipe="false">
-             data-auto="false"></div>
+<div id="photosContainerDiv" >
+    <div style="display: flex;flex-direction: row;">
+        <button onclick="PhotosManager.Fotorama.show(PhotosManager.Fotorama.activeIndex-1);" ><</button>
+        <div id="carrouselDiv" class="detailedDataDiv" >
+            <div class="fotorama"
+                 data-height="300"
+                 data-nav="thumbs"
+                 data-arrows="true"
+                 data-click="true"
+                 data-swipe="false">
+                data-auto="false"</div>
+        </div>
+        <button onclick="PhotosManager.Fotorama.show(PhotosManager.Fotorama.activeIndex+1);">></button>
     </div>
     <div id='activePhotoDiv'></div>
 

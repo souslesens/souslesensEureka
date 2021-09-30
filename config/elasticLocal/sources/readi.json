@@ -1,0 +1,40 @@
+{
+  "general": {
+    "description": "readi",
+    "label": "readi",
+    "indexName": "readi"
+  },
+  "connector": {
+    "type": "csv",
+    "filePath": "D:\\NLP\\ontologies\\dictionaries\\readiLabel.csv",
+    "contentField": "attachment.content"
+  },
+  "schema": {
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
+    "mappings": {
+      "readi": {
+        "properties": {
+          "label": {
+            "type": "text"
+          },
+          "subject": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  },
+  "display": [
+    {
+      "label": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "subject": {
+        "cssClass": "excerpt"
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "general": {
+    "description": "tepdk_tags",
+    "label": "tepdk_tags",
+    "indexName": "tepdk_tags"
+  },
+  "connector": {
+    "type": "csv",
+    "filePath": "D:\\NLP\\ontologies\\TEPDK\\tags.txt",
+    "contentField": "attachment.content"
+  },
+  "schema": {
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
+    "mappings": {
+      "tepdk_tags": {
+        "properties": {
+          "functionalLocationCode": {
+            "type": "text"
+          },
+          "tagName": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  },
+  "display": [
+    {
+      "functionalLocationCode": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "tagName": {
+        "cssClass": "excerpt"
+      }
+    }
+  ]
+}

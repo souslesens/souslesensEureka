@@ -1,0 +1,69 @@
+{
+  "general": {
+    "description": "bomaftwin",
+    "label": "bomaftwin",
+    "indexName": "bomaftwin"
+  },
+  "connector": {
+    "type": "csv",
+    "filePath": "D:\\NLP\\ontologies\\dictionaries\\bomAFTwin2.csv",
+    "contentField": "attachment.content"
+  },
+  "schema": {
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
+    "mappings": {
+      "bomaftwin": {
+        "properties": {
+          "functionalLocation": {
+            "type": "text"
+          },
+          "materialNumber": {
+            "type": "text"
+          },
+          "materialDescription": {
+            "type": "text"
+          },
+          "equipmentNumber": {
+            "type": "text"
+          },
+          "equipmentDescription": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  },
+  "display": [
+    {
+      "functionalLocation": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "materialNumber": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "materialDescription": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "equipmentNumber": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "equipmentDescription": {
+        "cssClass": "excerpt"
+      }
+    }
+  ],
+  "indexation": {
+    "elasticUrl": "http://vps254642.ovh.net:2009/",
+    "deleteOldIndex": "yes",
+    "applythesauri": "no"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "attachment.content": {
+    "type": "text",
+    "analyzer": "lowercase_asciifolding",
+    "fielddata": true,
+    "fields": {
+      "raw": {
+        "type": "keyword",
+        "ignore_above": 256
+      }
+    }
+  }
+
+}
+
+
+
+
+
+

@@ -36,7 +36,7 @@ var ui = (function () {
 
             $("#dialogDiv").dialog("open")
             setTimeout(function(){
-                PhotosManagerOld.showData(hit)
+                PhotosManager.showData(hit)
 
 
 

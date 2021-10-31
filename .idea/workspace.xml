@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/bin/thumbnailManagerPolytheque..js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/filigranes/ATDQM-blanc-H-fr.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/filigranes/logoseul-transparent.png" afterDir="false" />
+    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="thumbnailManager">
+      <change afterPath="$PROJECT_DIR$/public/js/common.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/myJstree.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/test/photos.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/photos.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/thumbnailManager2..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/thumbnailManager2..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/PhotosMamanager..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosMamanager..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/elasticRestProxy..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/elasticRestProxy..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/thumbnailManagerPolytheque..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/thumbnailManagerPolytheque..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oneModel/dictionaryMatcher..js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/entities.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/entities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photosManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photosManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/ui.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +24,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="JS module" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -49,7 +55,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="14.16.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="14.17.1" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/config/filigranes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/js" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -58,11 +64,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\webstorm\souslesensEureka\public\js" />
+      <recent name="D:\webstorm\souslesensEureka\public\js\others" />
       <recent name="D:\webstorm\souslesensEureka\config\filigranes" />
       <recent name="D:\webstorm\souslesensEureka\bin" />
       <recent name="D:\webstorm\souslesensEureka\public\js\searchFrontOffice" />
-      <recent name="D:\webstorm\souslesensEureka\config\elastic" />
-      <recent name="D:\webstorm\souslesensEureka\public\Photo\6021_dfgdfgdfgdgdgf\003_egfghfghgf" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\webstorm\souslesensEureka\public\Photo\6021_dfgdfgdfgdgdgf\003_egfghfghgf\002_sdgfdsfgg" />
@@ -72,14 +78,14 @@
       <recent name="D:\GitHub\souslesensEureka\public\js\searchFrontOffice" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.thumbnailManagerPolytheque..js">
+  <component name="RunManager" selected="Node.js.photos.js">
     <configuration name="PhotosMamanager..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/PhotosMamanager..js" working-dir="$PROJECT_DIR$/bin">
       <method v="2" />
     </configuration>
     <configuration name="dictionaryMatcher..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/oneModel/dictionaryMatcher..js" working-dir="$PROJECT_DIR$/oneModel">
       <method v="2" />
     </configuration>
-    <configuration name="elasticRestProxy..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/elasticRestProxy..js" working-dir="$PROJECT_DIR$/bin">
+    <configuration name="photos.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/public/js/test/photos.js" working-dir="$PROJECT_DIR$/public/js/test">
       <method v="2" />
     </configuration>
     <configuration name="thumbnailManager2..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/thumbnailManager2..js" working-dir="$PROJECT_DIR$/bin">
@@ -90,11 +96,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.photos.js" />
         <item itemvalue="Node.js.thumbnailManagerPolytheque..js" />
         <item itemvalue="Node.js.thumbnailManager2..js" />
         <item itemvalue="Node.js.PhotosMamanager..js" />
         <item itemvalue="Node.js.dictionaryMatcher..js" />
-        <item itemvalue="Node.js.elasticRestProxy..js" />
       </list>
     </recent_temporary>
   </component>
@@ -144,8 +150,24 @@
       <workItem from="1634128870421" duration="2486000" />
       <workItem from="1634217920872" duration="12010000" />
       <workItem from="1634276652939" duration="406000" />
-      <workItem from="1634301699322" duration="4864000" />
+      <workItem from="1634301699322" duration="22445000" />
+      <workItem from="1634481811539" duration="928000" />
+      <workItem from="1634484945997" duration="53000" />
+      <workItem from="1634881857215" duration="1910000" />
+      <workItem from="1634973115451" duration="5568000" />
+      <workItem from="1635317949834" duration="1264000" />
+      <workItem from="1635342929100" duration="1652000" />
+      <workItem from="1635425848013" duration="635000" />
+      <workItem from="1635675639476" duration="9897000" />
     </task>
+    <task id="LOCAL-00001" summary="thumbnailManager">
+      <created>1634370637737</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1634370637737</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,100 +185,24 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="thumbnailManager" />
+    <option name="LAST_COMMIT_MESSAGE" value="thumbnailManager" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/public/js/searchFrontOffice/config.js</url>
-          <line>10</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/public/js/searchFrontOffice/config.js</url>
-          <line>23</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/backoffice/_documentCrawler..js</url>
-          <line>107</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/PhotosMamanagerOld..js</url>
-          <line>58</line>
-          <option name="timeStamp" value="45" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/httpProxy..js</url>
-          <line>6</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/httpProxy..js</url>
-          <line>40</line>
-          <option name="timeStamp" value="48" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/oneModel/dictionaryMatcher..js</url>
-          <line>168</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/oneModel/dictionaryMatcher..js</url>
-          <line>134</line>
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/oneModel/dictionaryMatcher..js</url>
-          <line>113</line>
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/oneModel/dictionaryMatcher..js</url>
-          <line>115</line>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/thumbnailManager2..js</url>
-          <line>99</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/thumbnailManager2..js</url>
-          <line>157</line>
-          <option name="timeStamp" value="121" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/thumbnailManager2..js</url>
-          <line>201</line>
-          <option name="timeStamp" value="127" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/node_modules/thumbsupply/node_modules/fluent-ffmpeg/lib/ffprobe.js</url>
-          <line>141</line>
-          <option name="timeStamp" value="128" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/node_modules/thumbsupply/node_modules/fluent-ffmpeg/lib/capabilities.js</url>
-          <line>115</line>
-          <option name="timeStamp" value="129" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/node_modules/thumbsupply/node_modules/fluent-ffmpeg/lib/capabilities.js</url>
-          <line>114</line>
-          <option name="timeStamp" value="130" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/node_modules/thumbsupply/node_modules/fluent-ffmpeg/lib/processor.js</url>
-          <line>132</line>
+          <url>file://$PROJECT_DIR$/public/js/test/photos.js</url>
+          <line>307</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="131" />
+          <option name="timeStamp" value="139" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/thumbnailManagerPolytheque..js</url>
-          <line>187</line>
+          <url>file://$PROJECT_DIR$/public/js/test/photos.js</url>
+          <line>304</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="134" />
+          <option name="timeStamp" value="144" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

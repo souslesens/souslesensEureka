@@ -1,7 +1,7 @@
 var Entities = (function () {
         var self = {}
         context.allowedThesauri = {}
-        self.jsTreeNodesMap = {}
+       MyJsTreeNodesMap = {}
 
 
         self.loadUserThesauri = function (userGroups, callback) {
@@ -131,7 +131,7 @@ var Entities = (function () {
 
             for (var key in map) {
                 if (!self.jsTreeNodesMap[key])
-                    self.jsTreeNodesMap[key] = map[key];
+                   MyJsTreeNodesMap[key] = map[key];
             }
 
             return jsTreeArray;
@@ -359,7 +359,7 @@ return
 
                 context.allowedThesauri[node.data.thesaurusName].foundEntities.forEach(function (entity) {
                     // take only leaf children entities
-                    self.jsTreeNodesMap[node.id].data.descendants.forEach(function (descendant) {
+                   MyJsTreeNodesMap[node.id].data.descendants.forEach(function (descendant) {
                         if (self.jsTreeNodesMap[descendant].data.descendants.length == 0)
                             if (leafChildrenEntities.indexOf(descendant) < 0)
                                 leafChildrenEntities.push(descendant)

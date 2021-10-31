@@ -1,3 +1,5 @@
+
+
 var PhotosManager = (function () {
     var self = {}
     /* self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
@@ -49,50 +51,89 @@ var PhotosManager = (function () {
         html += "</html>"
         $("#datailedDataDivRight").html(html)
 
-        if (data.indexCIJW && data.indexCIJW.indexOf("PH") == 0) {
+        if (true || (data.indexCIJW && data.indexCIJW.indexOf("PH") == 0)) {
             var photosArray = [];
 
-          $('.fotorama').on('fotorama:load', function (e, fotorama) {
-              self.Fotorama=fotorama
+
+            $('.fotorama').on('fotorama:load', function (e, fotorama) {
+                self.Fotorama=fotorama
 
             });
             $('.fotorama').on('fotorama:show', function (e, fotorama) {
                 console.log(e.type, fotorama.activeIndex);
-                var activePhoto = fotorama.data[fotorama.activeIndex].img
+                var activePhoto = fotorama.data[fotorama.activeIndex].thumb
                 activePhoto = activePhoto.substring(activePhoto.lastIndexOf(sep) + 1)
                 $("#activePhotoDiv").html(activePhoto)
             });
 
 
-            var photoPath = data.dossier + "/" + data.sousdossier + "/" + data.document + "/";
-            var photosRootUrl = self.photosRootUrl + photoPath
-            var payload = {getPhotosFromDir: self.photosDir + photoPath}
-            $.ajax({
-                type: "POST",
-                url: appConfig.elasticUrl,
-                data: payload,
-                dataType: "json",
-                success: function (data, textStatus, jqXHR) {
-                    var index = data.realPath.indexOf(sep + "Photo")
-                    var path = data.realPath.substring(index);
 
-                    data.files.forEach(function (item) {
-                        photosArray.push({"thumb": path + item})
-                    })
-                    $('.fotorama').fotorama({
-                        data: photosArray
-                    });
-                }
-                , error: function (err) {
-                    console.log(err.responseText)
-                    $('.fotorama').html("no photos found")
-                }
-            });
+            var index = hit._index
+            if (index == "photos") {
+                var photoPath = data.dossier + "/" + data.sousdossier + "/" + data.document + "/";
+                var photosRootUrl = self.photosRootUrl + photoPath
+                var payload = {getPhotosFromDir: self.photosDir + photoPath}
+                $.ajax({
+                    type: "POST",
+                    url: appConfig.elasticUrl,
+                    data: payload,
+                    dataType: "json",
+                    success: function (data, textStatus, jqXHR) {
+                        var index = data.realPath.indexOf(sep + "Photo")
+                        var path = data.realPath.substring(index);
+
+                        data.files.forEach(function (item) {
+                            photosArray.push({"thumb": path + item})
+                        })
+                        $('.fotorama').fotorama({
+                            data: photosArray
+                        });
+                    }
+                    , error: function (err) {
+                        console.log(err.responseText)
+                        $('.fotorama').html("no photos found")
+                    }
+                });
+
+            } else if (index == "bordereaux") {
+
+                var docTitle=hit._source.title;
+                var payload = {getArtothequePhotos:docTitle}
+                $.ajax({
+                    type: "POST",
+                    url: appConfig.elasticUrl,
+                    data: payload,
+                    dataType: "json",
+                    success: function (data, textStatus, jqXHR) {
+
+
+                        data.files.forEach(function (item) {
+                            photosArray.push({"thumb":  item})
+                        })
+                        $('.fotorama').fotorama({
+                            data: photosArray
+                        });
+                    }
+                    , error: function (err) {
+                        console.log(err.responseText)
+                        $('.fotorama').html("no photos found")
+                    }
+                });
+            }
+
 
         }
 
 
+
+
+
+
+
+
     }
+
+
 
 
     return self;

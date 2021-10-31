@@ -6,9 +6,7 @@ var watermark = require('jimp-watermark');
 var Jimp = require('jimp')
 
 
-
 var ThumbnailManagerPolytheque = {
-
 
 
     getDirContent: function (dirPath, options, callback) {
@@ -35,7 +33,7 @@ var ThumbnailManagerPolytheque = {
                 var infos = {lastModified: stats.mtimeMs};//fileInfos.getDirInfos(dir);
 
                 if (stats.isDirectory(fileName)) {
-                    dirFilesMap[fileName + "\\"] = [];
+                    dirFilesMap[fileName + path.sep] = [];
                     dirsArray.push({type: "dir", name: files[i], parent: parent})
                     recurse(fileName)
                 } else {
@@ -59,6 +57,7 @@ var ThumbnailManagerPolytheque = {
                 }
             }
         }
+
         recurse(dirPath);
         return callback(null, dirFilesMap)
     },
@@ -73,9 +72,44 @@ var ThumbnailManagerPolytheque = {
                 return callback(err)
             image.resize(params.width, Jimp.AUTO);
             image.quality(params.quality);
-            if (false && params.mask)
-                image.mask(params.mask, 0, 0,)
-            image.write(thumbnailPath);
+
+            if (params.watermark.image) {
+                var w = image.bitmap.width;
+                var h = image.bitmap.height;
+                var ww = params.watermark.image.bitmap.width;
+                var wh = params.watermark.image.bitmap.height;
+                var x = (w - ww) / 2
+                var y = (h - wh) / 2
+
+                image.composite(params.watermark.image, x, y, [
+                    {
+                        mode: Jimp.BLEND_SCREEN,
+                        //   opacitySource: 1,
+                        //   opacityDest: 0.25
+                    }
+                ]);
+                image.write(thumbnailPath);
+            } else
+                image.write(thumbnailPath);
+
+
+            return callback();
+
+
+            image.getBuffer(Jimp.MIME_JPEG, function (err, buffer) {
+
+                fs.open(thumbnailPath, 'w', function (err, fd) {
+                    if (err) {
+                        throw 'could not open file: ' + err;
+                    }
+                    fs.write(fd, buffer, 0, buffer.length, null, function (err) {
+                        if (err) throw 'error writing file: ' + err;
+                        fs.close(fd, function () {
+                            console.log('wrote the file successfully');
+                        });
+                    });
+                });
+            });
 
             return callback()
         })
@@ -86,14 +120,15 @@ var ThumbnailManagerPolytheque = {
         var watermarkImage
         var filesMap
         var thumbnailsCount = 0
-        var t0=new Date()
+        var t0 = new Date()
         async.series([
             function (callbackSeries) {
                 // load watermark image
                 Jimp.read(params.watermark.path, function (err, image) {
                     if (err)
                         return callbackSeries(err)
-                    image.resize(params.width, Jimp.AUTO);
+                    image.resize(params.width * params.watermark.ratio, Jimp.AUTO);
+                    image.opacity(params.watermark.opacity)
                     watermarkImage = image;
                     callbackSeries()
                 })
@@ -109,64 +144,58 @@ var ThumbnailManagerPolytheque = {
                 })
             },
             function (callbackSeries) {
-            //generate all thumbnails
+                //generate all thumbnails
 
                 async.eachSeries(Object.keys(filesMap), function (dir, callbackDir) {
 
-                    console.log("processing dir :"+dir)
+                    console.log("processing dir :" + dir)
                     var photos = filesMap[dir]
-                    var tempThumbnailPath=targetDir+"temp.jpg"
+
                     async.eachSeries(photos, function (photo, callbackPhoto) {
                         if (!filesMap[dir].hasJPG)
                             return callbackDir();
                         var imgPath = photo.parent + photo.name
 
-                        var thumbnailPath = targetDir + dir.replace(/[\\:]/g, "_") + photo.name
+                        var subdir = dir.replace(sourceDir, "")
+                        var thumbnailPath = targetDir + subdir.replace(/[\\:/]/g, "_") + photo.name
+                        params.watermark.image = watermarkImage
 
-                        ThumbnailManagerPolytheque.generateThumnail(imgPath, tempThumbnailPath, params, function (err, result) {
+                        ThumbnailManagerPolytheque.generateThumnail(imgPath, thumbnailPath, params, function (err, result) {
                             if (err)
                                 console.log(err);
-var watermarkOption=params.watermark;
-watermarkOption.dstPath=thumbnailPath;
-                         //   watermarkOption.dstPath=thumbnailPath.replace(".","_F.")
-
-                            watermark.addWatermark(tempThumbnailPath, params.watermark.path, watermarkOption).then(data => {
-                             //   console.log(data);
-                            }).catch(err => {
-                                callbackPhoto(err)
-                            });
-                            if ((thumbnailsCount++) % 10 == 0)
-                                console.log( "processed "+ thumbnailsCount +" in "+((new Date()- t0)*1000)+" sec.")
+                            thumbnailsCount+=1
+                            if( thumbnailsCount%5==0)
+                                console.log("processed " + thumbnailsCount + " in " + ((new Date() - t0) / 1000) + " sec.")
                             callbackPhoto()
 
                         })
 
                     }, function (err) {
-                        fs.unlinkSync(tempThumbnailPath)
+
                         callbackDir(err)
 
                     })
                 }, function (err) {
-                    return callback(err)
+                    return callbackSeries(err)
                 })
 
-                callbackSeries()
+
             }
 
 
         ], function (err) {
-            return callback(err, "DONE total thumbnails :"+thumbnailsCount)
+            return callback(err, "DONE total thumbnails :" + thumbnailsCount)
         })
 
 
-}
+    }
 }
 
 
 var sourceDir = "\\\\Jungle\\jungle\\Poly\\"
 var targetDir = "\\\\Jungle\\jungle\\Poly\\INDEX\\"
-var watermarkPath =    path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
-watermarkPath= path.resolve(watermarkPath)
+var watermarkPath = path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
+watermarkPath = path.resolve(watermarkPath)
 
 var params = {
     width: 480,
@@ -175,16 +204,20 @@ var params = {
     watermark: {
         path: watermarkPath,
         'ratio': 0.5,// Should be less than one
-        'opacity': 0.25, //Should be less than one
+        'opacity': 0.15, //Should be less than one
     }
 }
 
-var sourceDir = "C:\\Users\\claud\\Pictures\\Menuge2021";
+var sourceDir = "C:\\Users\\claud\\Pictures\\test\\";
 var targetDir = "D:\\photosThumbnails\\"
 
+var sourceDir = "/var/lib/nodejs/souslesensEureka/public/Photos/polytheque/"
+var targetDir = "/var/lib/nodejs/souslesensEureka/public/Photos/INDEXES/polytheque/"
+var watermarkPath =    path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
+watermarkPath= path.resolve(watermarkPath)
 
 ThumbnailManagerPolytheque.buidThumbnails(sourceDir, targetDir, params, function (err, result) {
     if (err)
-        return  console.log(err);
+        return console.log(err);
     console.log(result)
 })

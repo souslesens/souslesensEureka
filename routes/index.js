@@ -196,6 +196,15 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
             })
 
         }
+        if (req.body.getPhotosFromDir) {
+            PhotosMamanager.getArtothequePhotos(req.body.getArtothequePhotos, function (err, result) {
+                processResponse(response, err, result)
+
+            })
+
+        }
+
+
 
 
 

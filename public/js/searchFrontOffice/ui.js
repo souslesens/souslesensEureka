@@ -28,7 +28,8 @@ var ui = (function () {
 
 
     self.showHitDetails = function (hit) {
-        if( hit._index=="photos"){
+        var indexesWithPhotos=["photos","bordereaux","artotheque"]
+        if( indexesWithPhotos.indexOf(hit._index)>-1){
             $(".ui-dialog").css("max-width","800px");
             $("#dialogDiv").css("max-width","800px");
             $("#dialogDiv").css("max-height","500px");
@@ -175,6 +176,61 @@ var ui = (function () {
             html += "<span>"
         }
         return html;
+    }
+
+
+    self.getHitHtml_photo=function(hit) {
+        var leftDivFields = ["date", "lieu", "photographe", "description"]
+        var rightDivFields = ["indexCIJW", "contenu", "droit_auteur", "droit_image", "temoin_ref"]
+
+        var data = hit._source
+        var html = "<table>"
+        leftDivFields.forEach(function (field) {
+            html += "<tr>"
+            html += "<td  class='tdBold'>" + field + "</td>"
+            var value = ""
+
+            if (field == "date" && data[field]) {
+                data[field] = data[field].substring(0, 4)
+            }
+            if (data[field])
+                value = data[field]
+            html += "<td>" + value + "</td>"
+            html += "</tr>"
+        })
+        html += "</html>"
+        $("#datailedDataDivLeft").html(html)
+
+
+        var html = "<table>"
+        rightDivFields.forEach(function (field) {
+            html += "<tr>"
+            html += "<td class='tdBold'>" + field + "</td>"
+            var value = ""
+            if (data[field])
+                value = data[field]
+            html += "<td>" + value + "</td>"
+            html += "</tr>"
+        })
+        html += "</html>"
+        $("#datailedDataDivRight").html(html)
+
+        if (true || (data.indexCIJW && data.indexCIJW.indexOf("PH") == 0)) {
+            var photosArray = [];
+
+
+            $('.fotorama').on('fotorama:load', function (e, fotorama) {
+                self.Fotorama = fotorama
+
+            });
+            $('.fotorama').on('fotorama:show', function (e, fotorama) {
+                console.log(e.type, fotorama.activeIndex);
+                var activePhoto = fotorama.data[fotorama.activeIndex].thumb
+                activePhoto = activePhoto.substring(activePhoto.lastIndexOf(sep) + 1)
+                $("#activePhotoDiv").html(activePhoto)
+            });
+
+        }
     }
 
 

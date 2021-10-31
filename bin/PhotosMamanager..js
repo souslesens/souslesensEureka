@@ -1,103 +1,99 @@
-var PhotosManager = (function () {
-    var self = {}
-    /* self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
-     self.photosRootUrl = "/data/photos/IndexPhotos/"*/
+var fs = require('fs')
+var path = require('path')
+var photosDirName = 'Photo'
+PhotosMamanager = {
 
-    self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
-    var os = navigator.platform;
-    var sep = "/"
-    if (false && os.indexOf("Win") == 0) {
-        sep = "\\"
-        self.photosDir = "D:\\webstorm\\souslesensEureka\\public\\Photo\\"
-    }
-    self.photosRootUrl = "/Photo/"
 
-    self.showData = function (hit) {
+    getArtothequePhotos: function (bordereauTitle, callback) {
 
-        var leftDivFields = ["date", "lieu", "photographe", "description"]
-        var rightDivFields = ["indexCIJW", "contenu", "droit_auteur", "droit_image","temoin_ref"]
+        var bordereauNumber = bordereauTitle.substring(0, 3)
+        var indexDirPath = path.join(__dirname, "../public/Photos/INDEXES/polytheque/")
+        indexDirPath = path.resolve(indexDirPath)
 
-        var data = hit._source
-        var html = "<table>"
-        leftDivFields.forEach(function (field) {
-            html += "<tr>"
-            html += "<td  class='tdBold'>" + field + "</td>"
-            var value = ""
 
-            if(field=="date" && data[field]){
-                data[field]=  data[field].substring(0,4)
+        var photos = []
+        var files = fs.readdirSync(indexDirPath);
+        for (var i = 0; i < files.length; i++) {
+            if (files[i].indexOf(bordereauNumber) == 0) {
+                photos.push(indexDirPath + files[i])
+                if(photos.length>50)
+                    break;
             }
-            if (data[field])
-                value = data[field]
-            html += "<td>" + value + "</td>"
-            html += "</tr>"
+        }
+        var result = {files: photos}
+        callback(null, result);
+
+    },
+
+
+    getPhotosFromDir: function (dir, callback) {
+
+
+        var sep = path.sep
+        if (sep == "\\")
+            dir = dir.replace(/\//g, sep)
+
+        var dirs = dir.split(sep)
+        var photodirs = []
+
+
+        var photosDirIndex;
+        dirs.forEach(function (dir, index) {
+            if (dir == photosDirName)
+                photosDirIndex = index
+            photodirs.push(dir)
         })
-        html += "</html>"
-        $("#datailedDataDivLeft").html(html)
 
+        var photosPath = ""
+        photodirs.forEach(function (dir, index) {
 
-        var html = "<table>"
-        rightDivFields.forEach(function (field) {
-            html += "<tr>"
-            html += "<td class='tdBold'>" + field + "</td>"
-            var value = ""
-            if (data[field])
-                value = data[field]
-            html += "<td>" + value + "</td>"
-            html += "</tr>"
+            if (index > photosDirIndex)
+                return;
+            if (index > 0)
+                photosPath += sep
+            photosPath += dir
         })
-        html += "</html>"
-        $("#datailedDataDivRight").html(html)
-
-        if (data.indexCIJW && data.indexCIJW.indexOf("PH") == 0) {
-            var photosArray = [];
 
 
-            $('.fotorama').on('fotorama:load', function (e, fotorama) {
-                self.Fotorama=fotorama
-
-            });
-            $('.fotorama').on('fotorama:show', function (e, fotorama) {
-                console.log(e.type, fotorama.activeIndex);
-                var activePhoto = fotorama.data[fotorama.activeIndex].thumb
-                activePhoto = activePhoto.substring(activePhoto.lastIndexOf(sep) + 1)
-                $("#activePhotoDiv").html(activePhoto)
-            });
-
-
-            var photoPath = data.dossier + "/" + data.sousdossier + "/" + data.document + "/";
-            var photosRootUrl = self.photosRootUrl + photoPath
-            var payload = {getPhotosFromDir: self.photosDir + photoPath}
-            $.ajax({
-                type: "POST",
-                url: appConfig.elasticUrl,
-                data: payload,
-                dataType: "json",
-                success: function (data, textStatus, jqXHR) {
-                    var index = data.realPath.indexOf(sep + "Photo")
-                    var path = data.realPath.substring(index);
-
-                    data.files.forEach(function (item) {
-                        photosArray.push({"thumb": path + item})
-                    })
-                    $('.fotorama').fotorama({
-                        data: photosArray
-                    });
-                }
-                , error: function (err) {
-                    console.log(err.responseText)
-                    $('.fotorama').html("no photos found")
-                }
-            });
+        function getRealDirName(path, name) {
+            var subDirs = fs.readdirSync(path)
+            var realDirName = null
+            subDirs.forEach(function (subDir) {
+                if (!realDirName && subDir.indexOf(name) == 0)
+                    realDirName = subDir
+            })
+            return realDirName
 
         }
 
+        var nSep = 1
+        /*if(sep=="\\")// moins de slashes dans windows
+            nSep=0*/
+        for (var i = photosDirIndex + 1; i < photodirs.length - nSep; i++) {
+            var realDirName = getRealDirName(photosPath, photodirs[i])
+            if (!realDirName) {
+                return callback(photodirs[i] + " not exists");
+                break;
+            }
+            var newPath = photosPath + sep + realDirName.replace(/ /g, "\ ")
+            photosPath += sep + realDirName.replace(/ /g, "\ ")
+        }
+
+
+        if (!fs.existsSync(photosPath)) {
+            return callback(photosPath + " not exists");
+        }
+        var files = fs.readdirSync(photosPath)
+        var result = {files: files, realPath: photosPath + sep}
+
+        return callback(null, result);
+
 
     }
 
 
-    return self;
+}
 
-
-})()
-
+module.exports = PhotosMamanager
+var x = "D:\\webstorm\\souslesensEureka\\public\\Photo\\6021\\003\\002"
+//PhotosMamanager.getPhotosFromDir(x)

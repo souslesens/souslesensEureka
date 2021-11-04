@@ -27,6 +27,10 @@ var ui = (function () {
     }
 
 
+    self.showHitDetailsXX = function (hit) {
+
+
+    }
     self.showHitDetails = function (hit) {
         var indexesWithPhotos=["photos","bordereaux","artotheque"]
         if( indexesWithPhotos.indexOf(hit._index)>-1){
@@ -38,6 +42,7 @@ var ui = (function () {
             $("#dialogDiv").dialog("open")
             setTimeout(function(){
                 PhotosManager.showData(hit)
+                Photos.showHitDetails();
 
 
 

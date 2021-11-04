@@ -1,6 +1,14 @@
+
+
+<script src="../js/jquery/jquery.min.js"></script>
+<script src="../js/jquery/jquery-ui.min.js"></script>
 <link href="../js/others/fotorama/fotorama.css" rel="stylesheet">
 <script src="../js/others/fotorama/fotorama.js"></script>
-
+<script src="../js/others/jsTree/jstree.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
+<script src="../js/common.js"></script>
+<script src="../js/test/photos.js"></script>
+<script src="../js/myJstree.js"></script>
 <style>
 
     .detailedDataDiv {
@@ -41,9 +49,20 @@
         color: #1e6ce6;
         font-weight: bold;
     }
+    .jstree{
+        font: 12px verdana, sans-serif;
+
+    }
 </style>
 <div id="photosContainerDiv" >
     <div style="display: flex;flex-direction: row;">
+        <div style="width:450px;   height: 400px;overflow: auto;    width: 600px;
+    height: 400px;
+    border: solid 1px brown;
+    background-color: beige;
+    overflow: auto;">
+        <div class="jstree" id="photosTreeDiv"></div>
+        </div>
         <button onclick="PhotosManager.Fotorama.show(PhotosManager.Fotorama.activeIndex-1);" ><</button>
         <div id="carrouselDiv" class="detailedDataDiv" >
             <div class="fotorama"
@@ -58,15 +77,16 @@
     </div>
     <div id='activePhotoDiv'></div>
 
-    <div id="datailedDataDiv" style="display: flex;flex-direction: row">
+    <div id="detailedDataDiv" style="display: flex;flex-direction: row">
 
-        <div class="detailedDataDiv" id="datailedDataDivLeft"></div>
-        <div class="detailedDataDiv" id="datailedDataDivRight">></div>
+        <div class="detailedDataDiv" id="detailedDataDivLeft"></div>
+        <div class="detailedDataDiv" id="detailedDataDivRight">></div>
 
     </div>
 </div>
 
 <script>
+   // TestPhotos.showHitDetails(TestPhotos.hitBordereau, TestPhotos.displayConfig, true)
+
 
 </script>
-

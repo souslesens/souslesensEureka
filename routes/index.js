@@ -15,7 +15,7 @@ var annotator_skos = require("../bin/backoffice/annotator_skos.");
 var skosReader = require("../bin/backoffice/skosReader..js");
 var httpProxy = require("../bin/httpProxy.")
 
-var PhotosMamanager=require("../bin/PhotosMamanager.")
+var PhotosManager=require("../bin/PhotosManager.")
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -190,14 +190,14 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
 
         }
         if (req.body.getPhotosFromDir) {
-            PhotosMamanager.getPhotosFromDir(req.body.getPhotosFromDir, function (err, result) {
+            PhotosManager.getPhotosFromDir(req.body.getPhotosFromDir, function (err, result) {
                 processResponse(response, err, result)
 
             })
 
         }
-        if (req.body.getPhotosFromDir) {
-            PhotosMamanager.getArtothequePhotos(req.body.getArtothequePhotos, function (err, result) {
+        if (req.body.getPolythequePhotos) {
+            PhotosManager.getPolythequePhotos(req.body.getPolythequePhotos, function (err, result) {
                 processResponse(response, err, result)
 
             })

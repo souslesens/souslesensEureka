@@ -98,7 +98,7 @@ var PhotosManager = (function () {
             } else if (index == "bordereaux") {
 
                 var docTitle=hit._source.title;
-                var payload = {getArtothequePhotos:docTitle}
+                var payload = {getPolythequePhotos:docTitle}
                 $.ajax({
                     type: "POST",
                     url: appConfig.elasticUrl,

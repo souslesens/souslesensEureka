@@ -12,6 +12,8 @@
 <link rel="stylesheet" type="text/css"  href="css/default.css">
 <script src="js/jquery/jquery.min.js"></script>
 <script src="js/jquery/jquery-ui.min.js"></script>
+<script src="js/jquery/jqueryFieldSelection.js"></script>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
@@ -36,7 +38,9 @@
 <script src="js/others/jsTree/jstree.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
 <script src="js/common.js"></script>
-<script src="js/photos.js"></script>
+<script src="js/searchFrontOffice/photos.js"></script>
+<script src="js/test/photos.js"></script>
+<script src="js/searchFrontOffice/photos.js"></script>
 <script src="js/myJstree.js"></script>
 
 
@@ -220,7 +224,7 @@
         <div class="searchDiv">
             <img src="icons/clear.png" title="effacer" class="icon" onclick="mainController.resetQuestion()">
             <input id="questionInput"  title="saisissez les mots cherchés  puis tapez entrée"  placeholder="saisissez les mots cherchés  puis tapez entrée ">
-
+<button onclick="ui.showHitDetails(TestPhotos.hitBordereau)">test</button>
         </div>
         <div class="usageDiv" onclick="mainController.hideUsageDiv()">
             <table border="1px">
@@ -261,21 +265,13 @@
 
         </div>
         <div id="paginationDiv"></div>
-     <!--   <div id="thumbnailsDiv" >
-            <button onclick='mainController.onThumbnails("list")'>List</button>
-            <button onclick='mainController.onThumbnails("graph")'>Graph...</button>
-            <button onclick='mainController.onThumbnails("stats")'>Stats...</button>
-            <button onclick='mainController.onThumbnails("entities")'>Entities</button>
-        </div>-->
+
         <div class="resultDiv" id="resultDiv">
          <!--   <textarea id="queryTA" row="20" cols="40"></textarea>-->
         </div>
     </div>
     <div class="rightDiv">
-     <!--   <p align="center" > centre Joseph Wrésinski  moteur de recherche fédéree </p>
-        <div style="display:table-cell; vertical-align:middle; text-align:center">
-            <img src="images/logoATD.png" width="100px">
-        </div>-->
+
         <br>
 
         <div  id="entitiesWrapperDiv">

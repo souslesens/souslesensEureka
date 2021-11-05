@@ -1,7 +1,7 @@
 var fs = require('fs')
 var path = require('path')
 var photosDirName = 'Photo'
-PhotosMamanager = {
+PhotosManager = {
 
     getPhotosFromDir: function (dir, callback) {
 
@@ -70,6 +70,6 @@ var nSep=1
 
 }
 
-module.exports = PhotosMamanager
+module.exports = PhotosManager
 var x = "D:\\webstorm\\souslesensEureka\\public\\Photo\\6021\\003\\002"
-//PhotosMamanager.getPhotosFromDir(x)
+//PhotosManager.getPhotosFromDir(x)

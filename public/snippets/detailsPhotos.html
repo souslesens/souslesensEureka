@@ -18,9 +18,10 @@
     #carrouselDiv{    display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 100%;
+        width: 500px;
         background: #898692;
         padding: 10px;
+        margin:3px
     }
     .fotorama__nav--thumbs{
         margin:10px
@@ -33,7 +34,7 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 90%;
+        width: 100%;
     }
 
     #activePhotoDiv {
@@ -45,17 +46,26 @@
         font: 12px verdana, sans-serif;
 
     }
+    #photoCommentDiv{
+        width:300px;
+        height:100%
+    }
+
+    #attachmentContentTA{
+        width:100%;
+        height: 500px;
+    }
+
 </style>
 <div id="photosContainerDiv" >
     <div style="display: flex;flex-direction: row;">
-        <div style="width:450px;   height: 400px;overflow: auto;    width: 600px;
-    height: 400px;
+        <div style="width:300px;   height: 400px;overflow: auto; margin:3px;
     border: solid 1px brown;
     background-color: beige;
     overflow: auto;">
         <div class="jstree" id="photosTreeDiv"></div>
         </div>
-        <button onclick="PhotosManager.Fotorama.show(PhotosManager.Fotorama.activeIndex-1);" ><</button>
+        <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex-1);" ><</button>
         <div id="carrouselDiv" class="detailedDataDiv" >
             <div class="fotorama"
                  data-height="300"
@@ -65,13 +75,14 @@
                  data-swipe="false">
                 data-auto="false"</div>
         </div>
-        <button onclick="PhotosManager.Fotorama.show(PhotosManager.Fotorama.activeIndex+1);">></button>
+        <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex+1);">></button>
+        <div id="photoCommentDiv"></div>
     </div>
     <div id='activePhotoDiv'></div>
 
-    <div id="detailedDataDiv" style="display: flex;flex-direction: row">
+    <div id="detailedDataDiv" style="display: flex;flex-direction: row;width:100%">
 
-        <div class="detailedDataDiv" id="detailedDataDivLeft"></div>
+        <div class="detailedDataDiv" id="detailedDataDivLeft" style="width:1000px" ></div>
         <div class="detailedDataDiv" id="detailedDataDivRight">></div>
 
     </div>

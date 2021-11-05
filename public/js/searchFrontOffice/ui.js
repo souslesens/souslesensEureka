@@ -34,15 +34,15 @@ var ui = (function () {
     self.showHitDetails = function (hit) {
         var indexesWithPhotos=["photos","bordereaux","artotheque"]
         if( indexesWithPhotos.indexOf(hit._index)>-1){
-            $(".ui-dialog").css("max-width","800px");
-            $("#dialogDiv").css("max-width","800px");
+            $(".ui-dialog").css("max-width","1200px");
+            $("#dialogDiv").css("max-width","1200px");
             $("#dialogDiv").css("max-height","500px");
             $("#dialogDiv").load("snippets/detailsPhotos.html");
 
             $("#dialogDiv").dialog("open")
             setTimeout(function(){
-                PhotosManager.showData(hit)
-                Photos.showHitDetails();
+             //   PhotosManager.showData(hit)
+                Photos.showHitDetails(hit);
 
 
 

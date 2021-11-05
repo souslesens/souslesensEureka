@@ -1,22 +1,22 @@
 var fs = require('fs')
 var path = require('path')
 var photosDirName = 'Photo'
-PhotosMamanager = {
+PhotosManager = {
 
-
-    getArtothequePhotos: function (bordereauTitle, callback) {
+    photosLimit: 10000,
+    getPolythequePhotos: function (bordereauTitle, callback) {
 
         var bordereauNumber = bordereauTitle.substring(0, 3)
         var indexDirPath = path.join(__dirname, "../public/Photos/INDEXES/polytheque/")
-        indexDirPath = path.resolve(indexDirPath)
+        indexDirPath = path.resolve(indexDirPath)+path.sep
 
 
         var photos = []
         var files = fs.readdirSync(indexDirPath);
         for (var i = 0; i < files.length; i++) {
             if (files[i].indexOf(bordereauNumber) == 0) {
-                photos.push(indexDirPath + files[i])
-                if(photos.length>50)
+                photos.push( files[i])
+                if (photos.length > PhotosManager.photosLimit)
                     break;
             }
         }
@@ -94,6 +94,6 @@ PhotosMamanager = {
 
 }
 
-module.exports = PhotosMamanager
+module.exports = PhotosManager
 var x = "D:\\webstorm\\souslesensEureka\\public\\Photo\\6021\\003\\002"
-//PhotosMamanager.getPhotosFromDir(x)
+//PhotosManager.getPhotosFromDir(x)

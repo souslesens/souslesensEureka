@@ -84,6 +84,8 @@ self.initFotorama = function () {
                 var words = self.getQuestionWords(context.question);
             }
             var html = "";
+            var htmlLeft="";
+            var htmlRight="";
             displayConfig.forEach(function (line) {
 
 
@@ -131,12 +133,17 @@ self.initFotorama = function () {
                     cssClass = "";
 
                 if(fieldLabel=="attachment.content"){
+                    var str=fieldValue.replace(/<br>/g,"\r")
                     fieldValue="<textarea id='attachmentContentTA'>"+fieldValue+"</textarea>"
                 }
 
                 if (template == "details") {
                     fieldValue = "<span class='" + template + "'>" + fieldValue + "</span>";
-                    html += "<B>" + fieldLabel + " : </B>" + fieldValue + "<hr>";
+                   var html_= "<B>" + fieldLabel + " : </B>" + fieldValue + "<hr>";
+                    if(fieldLabel=="attachment.content")
+                        htmlLeft+=html_
+                    else
+                        htmlRight+=html_
                 } else {
 
                     fieldValue = "<span class='" + template + " " + cssClass + "'><b>" + fieldValue + "</b></span>";
@@ -154,7 +161,7 @@ self.initFotorama = function () {
                 })
                 html += "<span>"
             }
-            return html
+            return {html:html, htmlLeft:htmlLeft, htmlRight:htmlRight};
 
         }
 
@@ -297,8 +304,9 @@ self.initFotorama = function () {
                 if (hit._index == "photos") {
                     setHtmlContent_photo(hit)
                 } else {
-                    var html = getHtmlContent_generic(hit, displayConfig)
-                    $("#detailedDataDivLeft").html(html)
+                    var htmlObj = getHtmlContent_generic(hit, displayConfig)
+                    $("#detailedDataDivLeft").html(htmlObj.htmlLeft)
+                    $("#detailedDataDivRight").html(htmlObj.htmlRight)
                     var options = {
                         selectTreeNodeFn: Photos.onTreeNodeSelect,
                     }
@@ -319,9 +327,20 @@ self.initFotorama = function () {
     self.onTreeNodeSelect = function (event, obj) {
 
 
-        var textIndex = self.currentHit._source.attachment.content.indexOf(obj.node.data.text)
+       // var textIndex = self.currentHit._source.attachment.content.indexOf(obj.node.data.text)
+        var textarea=document.getElementById("attachmentContentTA")
+        var txt = textarea.value;
+        var textIndex =txt.indexOf(obj.node.data.text)
         if (textIndex > -1) {
-            self.scrollTextareaToPosition("attachmentContentTA", textIndex)
+          //  var textarea=$("#attachmentContentTA")
+
+            scrollTo(textarea, textIndex);
+            textarea.focus();
+            $($("#attachmentContentTA")).highlightTextarea({
+                words: [obj.node.data.text]
+            });
+          //  textarea.setSelectionRange(textIndex, textIndex+100);
+
         }
             var subPath = obj.node.data.path
             var rootUrl = "/Photos/INDEXES/polytheque/"
@@ -351,10 +370,17 @@ self.initFotorama = function () {
         }
 
 
-        self.scrollTextareaToPosition = function (textareaId, position) {
-            var $textarea = $("#" + textareaId)
-            $("#" + textareaId).scrollTop = 99999;
-        }
+
+    function scrollTo(textarea, offset) {
+        const txt = textarea.value;
+        if (offset >= txt.length || offset < 0)
+            return;
+        textarea.scrollTop = 0;  // Important, so that scrollHeight will be adjusted
+        textarea.value = txt.substring(0, offset);
+        const height = textarea.scrollHeight;
+        textarea.value = txt;
+        textarea.scrollTop = height - 40;  // Margin between selection and top of viewport
+    }
 
 
     return self;

@@ -195,6 +195,7 @@ var BordereauxProcessor = {
         var tableArray = null;
         var treeDirJson = null
         var treeDirRoot = {}
+        var treeMap = {}
 
         var colNames = ['n1', 'n2', 'n3', 'contenu', 'auteur', 'remarques', 'x', 'debut', 'fin', 'C', 'P', 'R']
 
@@ -262,21 +263,21 @@ var BordereauxProcessor = {
                         if (item.name.indexOf("1101") == 0)
                             myTree = item
                     })
-                    var treeMap = {}
+
                     myTree.contents.forEach(function (item1) {
                         var str1 = item1.name.split("-")[0]
                         var num1 = parseInt(str1)
-                        treeMap["_" + num1] = {name:item1.name}
+                        treeMap["_" + num1] = {name: item1.name}
                         item1.contents.forEach(function (item2) {
                             var str2 = item2.name.split("-")[0]
                             var num2 = parseInt(str2)
-                            treeMap["_" + num1 + "_" + num2] = {name:item2.name}
+                            treeMap["_" + num1 + "_" + num2] = {name: item2.name}
                             item2.contents.forEach(function (item3) {
                                 var str3 = item3.name.split("-")[0]
                                 var num3 = parseInt(str3)
-                                if( isNaN(str3))
+                                if (isNaN(str3))
                                     console.log(str3)
-                                treeMap["_" + num1 + "_" + num2 + "_" + num3] ={name:item3.name,data: item3.contents}
+                                treeMap["_" + num1 + "_" + num2 + "_" + num3] = {name: item3.name, data: item3.contents}
 
 
                             })
@@ -299,16 +300,47 @@ var BordereauxProcessor = {
 
                         if (str2 != "")
                             num2 = parseInt(str2)
-                        if (treeMap["_" + num1+"_" + num2])
-                            treeMap["_" + num1+"_" + num2].infos = row;
+                        if (treeMap["_" + num1 + "_" + num2])
+                            treeMap["_" + num1 + "_" + num2].infos = row;
                         if (str3 != "")
                             num3 = parseInt(str3)
-                        if (treeMap["_" + num1+"_" + num2+"_" + num3])
-                            treeMap["_" + num1+"_" + num2+"_" + num3].infos = row;
-
+                        if (treeMap["_" + num1 + "_" + num2 + "_" + num3])
+                            treeMap["_" + num1 + "_" + num2 + "_" + num3].infos = row;
 
 
                     })
+
+                    callbackSeries();
+                }
+
+                //make csv
+                , function (callbackSeries) {
+                    var str = "Cle_repertoire\tnom repertoire\tn1\t n2\t n3\t contenu\t auteur\t remarques\t x\t debut\t fin\t C\t P\t R\n"
+
+                    for (var key in treeMap) {
+                        var item = treeMap[key]
+                        str+=key+"\t"+item.name+"\t"
+                        if(item.infos){
+                            item.infos.forEach(function (cell){
+                                if( cell.indexOf("-")==0)// pour excel
+                                    cell=" "+ cell
+                                str+=cell+"\t";
+                            })
+                        }
+
+                        if(item.data){
+                            item.data.forEach(function (obj){
+                                str+=obj.name+"\t";
+                            })
+                        }
+                        str+="\n"
+
+
+
+
+                    }
+                    var str2 =str;// Buffer.from(str, 'Windows-1252')
+                    fs.writeFileSync(treeDirPath+".csv",str2)
 
                     callbackSeries();
                 }

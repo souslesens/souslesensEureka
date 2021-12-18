@@ -2,9 +2,10 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig authType="PASSWORD" id="4341907a-9640-4681-beea-7f397a7846e2" port="22" customName="souslesensFront" nameFormat="CUSTOM">
+      <sshConfig authType="PASSWORD" host="localhost" id="4341907a-9640-4681-beea-7f397a7846e2" port="22" customName="souslesensFront" nameFormat="CUSTOM" useOpenSSHConfig="true">
         <option name="customName" value="souslesensFront" />
       </sshConfig>
+      <sshConfig authType="PASSWORD" host="192.168.2.2" id="40b28fc4-b6d8-4b46-ab11-d3b1b57f4d77" port="22" nameFormat="DESCRIPTIVE" username="claude" useOpenSSHConfig="true" />
     </configs>
   </component>
 </project>

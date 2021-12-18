@@ -6,6 +6,7 @@ var PhotosManager = (function () {
      self.photosRootUrl = "/data/photos/IndexPhotos/"*/
 
     self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
+    self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
     var os = navigator.platform;
     var sep = "/"
     if (false && os.indexOf("Win") == 0) {

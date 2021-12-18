@@ -17,6 +17,7 @@ var ThumbnailManagerPolytheque = {
         var dirsArray = []
         var dirFilesMap = {}
         var rootDirName = path.basename(dirPath)
+        var totalDirs = 0
 
         function recurse(parent) {
             parent = path.normalize(parent);
@@ -52,6 +53,8 @@ var ThumbnailManagerPolytheque = {
                     if (!dirFilesMap[parent])
                         dirFilesMap[parent] = []
                     dirFilesMap[parent].hasJPG = true
+                    if ((totalDirs++) % 10 == 0)
+                        console.log("directories " + totalDirs)
                     dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
                     dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
                 }
@@ -163,8 +166,8 @@ var ThumbnailManagerPolytheque = {
                         ThumbnailManagerPolytheque.generateThumnail(imgPath, thumbnailPath, params, function (err, result) {
                             if (err)
                                 console.log(err);
-                            thumbnailsCount+=1
-                            if( thumbnailsCount%5==0)
+                            thumbnailsCount += 1
+                            if (thumbnailsCount % 5 == 0)
                                 console.log("processed " + thumbnailsCount + " in " + ((new Date() - t0) / 1000) + " sec.")
                             callbackPhoto()
 
@@ -192,10 +195,29 @@ var ThumbnailManagerPolytheque = {
 }
 
 
-var sourceDir = "\\\\Jungle\\jungle\\Poly\\"
+/*var sourceDir = "\\\\Jungle\\jungle\\Poly\\"
 var targetDir = "\\\\Jungle\\jungle\\Poly\\INDEX\\"
 var watermarkPath = path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
 watermarkPath = path.resolve(watermarkPath)
+*/
+
+
+
+
+/*v ar sourceDir = "C:\\Users\\claud\\Pictures\\test\\";
+var targetDir = "D:\\photosThumbnails\\"
+
+var sourceDir = "/var/lib/nodejs/souslesensEureka/public/Photos/polytheque/"
+var targetDir = "/var/lib/nodejs/souslesensEureka/public/Photos/INDEXES/polytheque/"*/
+
+
+sourceDir = "/var/montageJungle/phototheque/FONDS/7000_MOBILISATION_2017"
+targetDir = "/var/miniaturesPhotos/phototheque"
+
+//var watermarkPath = "/var/lib/nodejs/souslesensEureka/config/filigranes/logoseul-transparent.png"
+var watermarkPath = path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
+watermarkPath = path.resolve(watermarkPath)
+
 
 var params = {
     width: 480,
@@ -207,14 +229,9 @@ var params = {
         'opacity': 0.15, //Should be less than one
     }
 }
-
-var sourceDir = "C:\\Users\\claud\\Pictures\\test\\";
-var targetDir = "D:\\photosThumbnails\\"
-
-var sourceDir = "/var/lib/nodejs/souslesensEureka/public/Photos/polytheque/"
-var targetDir = "/var/lib/nodejs/souslesensEureka/public/Photos/INDEXES/polytheque/"
-var watermarkPath =    path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
-watermarkPath= path.resolve(watermarkPath)
+console.log("sourceDir : "+sourceDir)
+console.log("targetDir : "+targetDir)
+console.log("watermarkPath : "+watermarkPath)
 
 ThumbnailManagerPolytheque.buidThumbnails(sourceDir, targetDir, params, function (err, result) {
     if (err)

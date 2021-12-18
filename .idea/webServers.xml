@@ -2,10 +2,10 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="8c4a8151-2026-4be2-ab94-9301abd5d7cf" name="souslesensFront" url="http://51.178.39.209">
-        <fileTransfer accessType="SFTP" host="51.178.39.209" port="22" sshConfigId="40b28fc4-b6d8-4b46-ab11-d3b1b57f4d77" sshConfig="vps254642.ovh.net">
+      <webServer id="8c4a8151-2026-4be2-ab94-9301abd5d7cf" name="serveurNodeJs" url="http://51.178.39.209">
+        <fileTransfer accessType="SFTP" host="192.168.2.2" port="22" sshConfigId="40b28fc4-b6d8-4b46-ab11-d3b1b57f4d77" sshConfig="claude@192.168.2.2:22 password">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>

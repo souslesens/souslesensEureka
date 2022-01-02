@@ -37,3 +37,11 @@ appConfig.elasticQuery = {
     }
 
 }
+
+appConfig.photos={
+    indexPhotosDirsMap:{
+        bordereaux:"polytheque",
+        artotheque:"artotheque",
+        photos:"phototheque"
+    }
+}

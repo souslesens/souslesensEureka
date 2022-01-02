@@ -10,6 +10,12 @@ var globalParams={
             database: 'bailletarchives',
        // database: 'bailletarchives_test'
 
+    },
+
+    photos:{
+
+        miniaturesDirectory:"/var/miniaturesPhotos/",
+
     }
 
 

@@ -1,29 +1,33 @@
 var fs = require('fs')
 var path = require('path')
 var photosDirName = 'Photo'
+var Config=require('./globalParams.')
 PhotosManager = {
 
     photosLimit: 10000,
-    getPolythequePhotos: function (bordereauTitle, callback) {
+    getPhotosList: function (filterStr, photosDir,callback) {
 
-        var bordereauNumber = bordereauTitle.substring(0, 3)
-        var indexDirPath = path.join(__dirname, "../public/Photos/INDEXES/polytheque/")
+
+
+        var indexDirPath =Config.photos.miniaturesDirectory
+        indexDirPath+=photosDir+"/"
         indexDirPath = path.resolve(indexDirPath)+path.sep
 
 
         var photos = []
         var files = fs.readdirSync(indexDirPath);
         for (var i = 0; i < files.length; i++) {
-            if (files[i].indexOf(bordereauNumber) == 0) {
+            if (files[i].indexOf(filterStr) == 0) {
                 photos.push( files[i])
                 if (photos.length > PhotosManager.photosLimit)
                     break;
             }
         }
-        var result = {files: photos}
+        var result = {files: photos,dirPath:indexDirPath}
         callback(null, result);
 
     },
+
 
 
     getPhotosFromDir: function (dir, callback) {

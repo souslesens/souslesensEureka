@@ -196,8 +196,8 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
             })
 
         }
-        if (req.body.getPolythequePhotos) {
-            PhotosManager.getPolythequePhotos(req.body.getPolythequePhotos, function (err, result) {
+        if (req.body.getPhotosList) {
+            PhotosManager.getPhotosList(req.body.getPhotosList, req.body.photosDir,function (err, result) {
                 processResponse(response, err, result)
 
             })

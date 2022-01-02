@@ -171,7 +171,7 @@ var Photos = (function () {
             var filterStr = "";
 
             if (index.indexOf("photos") == 0) {
-                var dossier=hit._source.dossier;
+                var dossier = hit._source.dossier;
                 var filterStr = dossier
             } else if (index == "bordereaux") {
                 var docTitle = hit._source.title;
@@ -182,7 +182,7 @@ var Photos = (function () {
                 return alert("wrong index " + index)
             }
 
-            var photosDir=appConfig.photos.indexPhotosDirsMap[index]
+            var photosDir = appConfig.photos.indexPhotosDirsMap[index]
 
             var docTitle = hit._source.title;
             var payload = {getPhotosList: filterStr, photosDir: photosDir}
@@ -240,7 +240,7 @@ var Photos = (function () {
                 var existingNodes = {}
                 //generate tree
                 photosPaths.forEach(function (path) {
-                    var array = path.split("_")
+                    var array = path.split(/[_|]/)
                     self.currentPhotosRootUrl = array[0]
                     var oldId = "";
                     array.forEach(function (item, index) {
@@ -253,7 +253,7 @@ var Photos = (function () {
                             existingNodes[parent] += 1
                         }
                         var id = parent + "_" + item;//common.getRandomHexaId(8)
-                        var path = id.substring(1).replace(/_/g, "/")
+                        var path = id.substring(1).replace(/[_|]/g, "/")
                         var path = id.substring(1)
                         if (!existingNodes[id]) {
                             existingNodes[id] = 0
@@ -262,7 +262,11 @@ var Photos = (function () {
                                 id: id,
                                 text: item,
                                 parent: parent,
-                                data: {path: path, text: item}
+                                data: {
+                                    path: path,
+                                    text: item,
+                                    theque: appConfig.photos.indexPhotosDirsMap[hit._index]
+                                }
                             })
 
                         } else {
@@ -285,7 +289,7 @@ var Photos = (function () {
                 })
 
                 var displayConfig = context.indexConfigs[hit._index].display;
-                if (hit._index == "photos") {
+                if (false && hit._index == "photos") {
                     setHtmlContent_photo(hit)
                 } else {
                     var htmlObj = getHtmlContent_generic(hit, displayConfig)
@@ -312,7 +316,7 @@ var Photos = (function () {
 
 
         // var textIndex = self.currentHit._source.attachment.content.indexOf(obj.node.data.text)
-        var textarea = document.getElementById("attachmentContentTA")
+      /*  var textarea = document.getElementById("attachmentContentTA")
         var txt = textarea.value;
         var textIndex = txt.indexOf(obj.node.data.text)
         if (textIndex > -1) {
@@ -325,18 +329,33 @@ var Photos = (function () {
             });
             //  textarea.setSelectionRange(textIndex, textIndex+100);
 
-        }
+        }*/
         var subPath = obj.node.data.path
         //   var rootUrl = "/Photos/INDEXES/polytheque/"
-        var rootUrl = "/miniaturesPhotos/polytheque/"
+
+        var theque = obj.node.data.theque
+
+        var rootUrl = ""
+
+        if (theque == "phototheque") {
+            rootUrl = "/mnt/montageJungle/phototheque/INDEX/"
+        } else {
+            rootUrl = "/mnt/miniaturesPhotos/" + theque + "/"
+        }
+
+
         var photosSubset = []
         if (!self.currentDocumentPhotos)
             alert("no  self.currentDocumentPhotos")
         self.currentDocumentPhotos.forEach(function (photo) {
-
-            if (photo.indexOf(subPath) > -1) {
-
-                photosSubset.push({"thumb": rootUrl + photo})
+            if (theque == "phototheque") {
+                photo=photo.replace(/[_|]/g,"/")
+                console.log(rootUrl + photo)
+                photosSubset.push({"thumb": rootUrl +photo})
+            } else {
+                if (photo.indexOf(subPath) > -1) {
+                    photosSubset.push({"thumb": rootUrl +photo})
+                }
             }
         })
 

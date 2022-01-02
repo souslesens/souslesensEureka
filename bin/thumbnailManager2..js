@@ -31,7 +31,7 @@ var ThumbnailManager = {
 
     ,
 
-    getDirContent: function (dirPath, options, callback) {
+    getDirContent: function (dirPath, options, processorFn, callback) {
         if (!options) {
             options = {}
         }
@@ -40,7 +40,7 @@ var ThumbnailManager = {
         var dirFilesMap = {}
         var rootDirName = path.basename(dirPath)
 var totalDirs=0
-        function recurse(parent) {
+        function recurse(parent,level) {
             parent = path.normalize(parent);
             if (!fs.existsSync(parent))
                 return callback("dir doesnt not exist :" + parent)
@@ -49,44 +49,61 @@ var totalDirs=0
 
 
             var files = fs.readdirSync(parent);
-            for (var i = 0; i < files.length; i++) {
-                var fileName = parent + files[i];
+
+            if(files.length==0)
+               ;// return
+
+
+            async.eachSeries(files,function(file,callbackEach){
+           // for (var i = 0; i < files.length; i++) {
+                var fileName = parent + file;
                 var stats = fs.statSync(fileName);
                 var infos = {lastModified: stats.mtimeMs};//fileInfos.getDirInfos(dir);
 
                 if (stats.isDirectory(fileName)) {
-                    dirFilesMap[fileName + "\\"] = [];
+                    dirFilesMap[fileName + "/"] = [];
                  //   dirsArray.push({type: "dir", name: files[i], parent: parent})
-                    recurse(fileName)
+                    recurse(fileName,level+1)
                 } else {
 
                     var p = fileName.lastIndexOf(".");
                     if (p < 0)
-                        continue;
+                        return callbackEach()
                     var extension = fileName.substring(p + 1).toLowerCase();
                     if (options.acceptedExtensions && options.acceptedExtensions.indexOf(extension) < 0) {
-                        continue;
+                        return callbackEach()
                     }
                     if (options.maxDocSize && stats.size > options.maxDocSize) {
                         console.log("!!!!!! " + fileName + " file  too big " + Math.round(stats.size / 1000) + " Ko , not indexed ");
-                        continue;
+                        return callbackEach()
                     }
                     if (!dirFilesMap[parent])
                         dirFilesMap[parent] = []
                     dirFilesMap[parent].hasJPG = true
                     if((totalDirs++)%10==0)
                         console.log("directories "+totalDirs)
-                    dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
-                  //  dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
+                    if(processorFn){
+                        processorFn({parent: parent, name: file})
+                        return callbackEach()
+                    }else {
+                        dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
+                        return callbackEach()
+                    }
+                    return callbackEach()
+                    //  dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
 
                 }
 
 
-            }
+            },function(err){
+                if(err)
+                    console.log(err)
+               // return console.log("ALL DONE")
+            })
 
         }
 
-        recurse(dirPath);
+        recurse(dirPath,0);
         return callback(null, dirFilesMap)
 
     }
@@ -115,15 +132,62 @@ function generateThumnail(imgPath, thumbnailPath, params, callback) {
     })
 }
 
-
-sourceDir = "/var/montageJungle/polytheque/"
-targetDir = "/var/miniaturesPhotos/polytheque"
-
-sourceDir = "/var/montageJungle/phototheque/FONDS/7000_MOBILISATION_2017"
-targetDir = "/var/miniaturesPhotos/phototheque"
+getPhotosIndexList=function(sourceDir,targetDir){
 
 
-if (true) {
+
+    var buffer=[]
+    var bufferSize=100
+    var processor=function(photoObj,callback){
+
+        buffer.push(photoObj)
+        if(buffer.length>bufferSize){
+
+
+        }
+    }
+
+
+
+
+    ThumbnailManager.getDirContent(sourceDir, {acceptedExtensions: ["jpg"]}, processor,function (err, filesMap) {
+
+    })
+
+
+
+}
+
+
+
+
+
+if(true){
+    sourceDir = "/mnt/montageJungle/polytheque/INDEX/"
+    targetDir = "/var/miniaturesPhotos/polytheque"
+    console.log("sourceDir : "+sourceDir)
+    console.log("targetDir : "+targetDir)
+    getPhotosIndexList(sourceDir,targetDir)
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+if (false) {// generate thumbnails
+    sourceDir = "/var/montageJungle/polytheque/"
+    targetDir = "/var/miniaturesPhotos/polytheque"
+
+    sourceDir = "/var/montageJungle/phototheque/FONDS/7000_MOBILISATION_2017"
+    targetDir = "/var/miniaturesPhotos/phototheque"
 
    // var filigranePath = "D:\\ATD_Baillet\\filigrane\\logoseul-transparent.png"
     var filigranePath = "/var/lib/nodejs/souslesensEureka/config/filigranes/logoseul-transparent.png"
@@ -144,7 +208,7 @@ if (true) {
         console.log("targetDir : "+targetDir)
 
 
-        ThumbnailManager.getDirContent(sourceDir, {acceptedExtensions: ["jpg"]}, function (err, filesMap) {
+        ThumbnailManager.getDirContent(sourceDir, {acceptedExtensions: ["jpg"]}, null,function (err, filesMap) {
             var count = 0
             console.log(JSON.stringify(filesMap))
             async.eachSeries(Object.keys(filesMap), function (dir, callbackDir) {

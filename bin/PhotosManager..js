@@ -11,6 +11,9 @@ PhotosManager = {
 
         var indexDirPath =Config.photos.miniaturesDirectory
         indexDirPath+=photosDir+"/"
+
+
+
         indexDirPath = path.resolve(indexDirPath)+path.sep
 
 
@@ -18,9 +21,17 @@ PhotosManager = {
         var files = fs.readdirSync(indexDirPath);
         for (var i = 0; i < files.length; i++) {
             if (files[i].indexOf(filterStr) == 0) {
-                photos.push( files[i])
-                if (photos.length > PhotosManager.photosLimit)
-                    break;
+              if(files[i].indexOf("_indexJungle.json")>-1) {//old minatures phototheque
+                  var photosData=JSON.parse(""+fs.readFileSync(indexDirPath+files[i]))
+                  photos=photos.concat(photosData)
+              }
+              else {
+
+
+                  photos.push(files[i])
+                  if (photos.length > PhotosManager.photosLimit)
+                      break;
+              }
             }
         }
         var result = {files: photos,dirPath:indexDirPath}

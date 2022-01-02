@@ -14,7 +14,7 @@ var ThumbnailManagerPolytheque = {
             options = {}
         }
 
-        var dirsArray = []
+      //  var dirsArray = []
         var dirFilesMap = {}
         var rootDirName = path.basename(dirPath)
         var totalDirs = 0
@@ -35,7 +35,7 @@ var ThumbnailManagerPolytheque = {
 
                 if (stats.isDirectory(fileName)) {
                     dirFilesMap[fileName + path.sep] = [];
-                    dirsArray.push({type: "dir", name: files[i], parent: parent})
+                  //  dirsArray.push({type: "dir", name: files[i], parent: parent})
                     recurse(fileName)
                 } else {
 
@@ -55,8 +55,12 @@ var ThumbnailManagerPolytheque = {
                     dirFilesMap[parent].hasJPG = true
                     if ((totalDirs++) % 10 == 0)
                         console.log("directories " + totalDirs)
-                    dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
-                    dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
+
+
+                        dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
+                    if(options.limit && totalDirs>options.limit )
+                        return callback(null,dirFilesMap)
+                   // dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
                 }
             }
         }

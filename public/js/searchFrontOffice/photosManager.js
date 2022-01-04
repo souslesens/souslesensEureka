@@ -99,6 +99,8 @@ var PhotosManager = (function () {
             } else if (index == "bordereaux") {
 
                 var docTitle=hit._source.title;
+                var options={}
+                options:options
                 var payload = {getPhotosList:docTitle,index}
                 $.ajax({
                     type: "POST",

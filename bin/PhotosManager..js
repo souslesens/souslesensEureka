@@ -5,7 +5,7 @@ var Config=require('./globalParams.')
 PhotosManager = {
 
     photosLimit: 10000,
-    getPhotosList: function (filterStr, photosDir,callback) {
+    getPhotosList: function (filterStr, photosDir,options,callback) {
 
 
 
@@ -22,8 +22,19 @@ PhotosManager = {
         for (var i = 0; i < files.length; i++) {
             if (files[i].indexOf(filterStr) == 0) {
               if(files[i].indexOf("_indexJungle.json")>-1) {//old minatures phototheque
-                  var photosData=JSON.parse(""+fs.readFileSync(indexDirPath+files[i]))
-                  photos=photos.concat(photosData)
+                  var dossierData=JSON.parse(""+fs.readFileSync(indexDirPath+files[i]))
+                  var photosData=[];
+                  dossierData.forEach(function(photo){
+                      var h,p,q;
+                      var x=photo.lastIndexOf("|")
+                      if((h=photo.indexOf(options.photothequeFilter.dossier))>-1 && h<x)
+                      if((p=photo.indexOf(options.photothequeFilter.sousdossier))>-1 && p>h && p<x)
+                          if((q=photo.indexOf(options.photothequeFilter.document))>-1 && q>p && q<x)
+                          photos.push(photo)
+                  })
+
+
+                //  photos=photos.concat(photosData)
               }
               else {
 

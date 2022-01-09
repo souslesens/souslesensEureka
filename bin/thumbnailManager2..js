@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var async = require('async');
 
-const ThumbnailGenerator = require('video-thumbnail-generator').default;
+//const ThumbnailGenerator = require('video-thumbnail-generator').default;
 var Jimp = require('jimp')
 var watermark = require('jimp-watermark');
 var ThumbnailManager = {
@@ -31,7 +31,7 @@ var ThumbnailManager = {
 
     ,
 
-    getDirContent: function (dirPath, options, callback) {
+    getDirContent: function (dirPath, options, processorFn, callback) {
         if (!options) {
             options = {}
         }
@@ -39,8 +39,8 @@ var ThumbnailManager = {
         var dirsArray = []
         var dirFilesMap = {}
         var rootDirName = path.basename(dirPath)
-
-        function recurse(parent) {
+        var totalDirs=0
+        function recurse(parent,level) {
             parent = path.normalize(parent);
             if (!fs.existsSync(parent))
                 return callback("dir doesnt not exist :" + parent)
@@ -49,42 +49,61 @@ var ThumbnailManager = {
 
 
             var files = fs.readdirSync(parent);
-            for (var i = 0; i < files.length; i++) {
-                var fileName = parent + files[i];
+
+            if(files.length==0)
+                ;// return
+
+
+            async.eachSeries(files,function(file,callbackEach){
+                // for (var i = 0; i < files.length; i++) {
+                var fileName = parent + file;
                 var stats = fs.statSync(fileName);
                 var infos = {lastModified: stats.mtimeMs};//fileInfos.getDirInfos(dir);
 
                 if (stats.isDirectory(fileName)) {
-                    dirFilesMap[fileName + "\\"] = [];
-                    dirsArray.push({type: "dir", name: files[i], parent: parent})
-                    recurse(fileName)
+                    dirFilesMap[fileName + "/"] = [];
+                    //   dirsArray.push({type: "dir", name: files[i], parent: parent})
+                    recurse(fileName,level+1)
                 } else {
 
                     var p = fileName.lastIndexOf(".");
                     if (p < 0)
-                        continue;
+                        return callbackEach()
                     var extension = fileName.substring(p + 1).toLowerCase();
                     if (options.acceptedExtensions && options.acceptedExtensions.indexOf(extension) < 0) {
-                        continue;
+                        return callbackEach()
                     }
                     if (options.maxDocSize && stats.size > options.maxDocSize) {
                         console.log("!!!!!! " + fileName + " file  too big " + Math.round(stats.size / 1000) + " Ko , not indexed ");
-                        continue;
+                        return callbackEach()
                     }
                     if (!dirFilesMap[parent])
                         dirFilesMap[parent] = []
                     dirFilesMap[parent].hasJPG = true
-                    dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
-                    dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
+                    if((totalDirs++)%10==0)
+                        console.log("directories "+totalDirs)
+                    if(processorFn){
+                        processorFn({parent: parent, name: file})
+                        return callbackEach()
+                    }else {
+                        dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
+                        return callbackEach()
+                    }
+                    return callbackEach()
+                    //  dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
 
                 }
 
 
-            }
+            },function(err){
+                if(err)
+                    console.log(err)
+                // return console.log("ALL DONE")
+            })
 
         }
 
-        recurse(dirPath);
+        recurse(dirPath,0);
         return callback(null, dirFilesMap)
 
     }
@@ -102,28 +121,77 @@ function generateThumnail(imgPath, thumbnailPath, params, callback) {
         image.quality(params.quality);
         if ( false && params.mask)
             image.mask(params.mask, 0, 0,)
-         /*   image.composite(params.mask, 0, 0, {
-                mode: Jimp.BLEND_MULTIPLY,
-                opacitySource: 0.5,
-                opacityDest: 0.3
-            });*/
+        /*   image.composite(params.mask, 0, 0, {
+               mode: Jimp.BLEND_MULTIPLY,
+               opacitySource: 0.5,
+               opacityDest: 0.3
+           });*/
         image.write(thumbnailPath);
 
         return callback()
     })
 }
 
-
-sourceDir = "\\\\Jungle\\jungle\\Poly\\1101-AFRique-DelReg-2003_2017"
-targetDir = "\\\\Jungle\\jungle\\Poly\\INDEX\\1101-AFRique-DelReg-2003_2017"
+getPhotosIndexList=function(sourceDir,targetDir){
 
 
-var sourceDir = "C:\\Users\\claud\\Pictures\\Menuge2021";
-var targetDir = "D:\\photosThumbnails\\"
 
-if (true) {
+    var buffer=[]
+    var bufferSize=100
+    var processor=function(photoObj,callback){
 
-    var filigranePath = "D:\\ATD_Baillet\\filigrane\\logoseul-transparent.png"
+        buffer.push(photoObj)
+        if(buffer.length>bufferSize){
+
+
+        }
+    }
+
+
+
+
+    ThumbnailManager.getDirContent(sourceDir, {acceptedExtensions: ["jpg"]}, processor,function (err, filesMap) {
+
+    })
+
+
+
+}
+
+
+
+
+
+if(true){
+    sourceDir = "/mnt/montageJungle/polytheque/INDEX/"
+    targetDir = "/var/miniaturesPhotos/polytheque"
+    console.log("sourceDir : "+sourceDir)
+    console.log("targetDir : "+targetDir)
+    getPhotosIndexList(sourceDir,targetDir)
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+if (false) {// generate thumbnails
+    sourceDir = "/var/montageJungle/polytheque/"
+    targetDir = "/var/miniaturesPhotos/polytheque"
+
+    sourceDir = "/var/montageJungle/phototheque/FONDS/7000_MOBILISATION_2017"
+    targetDir = "/var/miniaturesPhotos/phototheque"
+
+    // var filigranePath = "D:\\ATD_Baillet\\filigrane\\logoseul-transparent.png"
+    var filigranePath = "/var/lib/nodejs/souslesensEureka/config/filigranes/logoseul-transparent.png"
+
     Jimp.read(filigranePath, function (err, image) {
         var params = {
             width: 480,
@@ -133,12 +201,16 @@ if (true) {
         if (err)
             return callback(err)
         image.resize(params.width, Jimp.AUTO);
-      //  image.quality(params.quality);
-      //  image.opacity(0.2);
+        //  image.quality(params.quality);
+        //  image.opacity(0.2);
+
+        console.log("sourceDir : "+sourceDir)
+        console.log("targetDir : "+targetDir)
 
 
-        ThumbnailManager.getDirContent(sourceDir, {acceptedExtensions: ["jpg"]}, function (err, filesMap) {
+        ThumbnailManager.getDirContent(sourceDir, {acceptedExtensions: ["jpg"]}, null,function (err, filesMap) {
             var count = 0
+            console.log(JSON.stringify(filesMap))
             async.eachSeries(Object.keys(filesMap), function (dir, callbackDir) {
 
                 console.log("processing ")
@@ -190,77 +262,7 @@ if (true) {
     })
 }
 
-if( false){
-    process.env['ffmpeg'] = 'D:\\apps\\ffmpeg\\bin\\ffmpeg.exe';
-    process.env['FFPROBE_PATH'] = 'D:\\apps\\ffmpeg\\bin\\ffprobe.exe';
 
-    const thumbsupply = require('thumbsupply')
-  var  sourcePath='C:\\Users\\claud\\Pictures\\VID_20210712_212355.mp4';
-    thumbsupply.generateThumbnail(sourcePath)
-        .then(thumb => {
-            // serve thumbnail
-        })
-}
-
-if (false) {
-
-//var  ThumbnailGenerator = require('video-thumbnail-generator');
-
-    const tg = new ThumbnailGenerator({
-        sourcePath: 'C:\\Users\\claud\\Pictures\\VID_20210712_212355.mp4',
-        thumbnailPath: "D:\\photosThumbnails\\test.gif",
-        // tmpDir: '/some/writeable/directory' //only required if you can't write to /tmp/ and you need to generate gifs
-    });
-
-    tg.generate()
-        .then(console.log);
-    // [ 'test-thumbnail-320x240-0001.png',
-    //  'test-thumbnail-320x240-0002.png',
-    //  'test-thumbnail-320x240-0003.png',
-    //  'test-thumbnail-320x240-0004.png',
-    //  'test-thumbnail-320x240-0005.png',
-    //  'test-thumbnail-320x240-0006.png',
-    //  'test-thumbnail-320x240-0007.png',
-    //  'test-thumbnail-320x240-0008.png',
-    //  'test-thumbnail-320x240-0009.png',
-    //  'test-thumbnail-320x240-0010.png' ]
-
-    tg.generateOneByPercent(90)
-        .then(console.log);
-    // 'test-thumbnail-320x240-0001.png'
-
-    tg.generateCb((err, result) => {
-        console.log(result);
-        // [ 'test-thumbnail-320x240-0001.png',
-        //  'test-thumbnail-320x240-0002.png',
-        //  'test-thumbnail-320x240-0003.png',
-        //  'test-thumbnail-320x240-0004.png',
-        //  'test-thumbnail-320x240-0005.png',
-        //  'test-thumbnail-320x240-0006.png',
-        //  'test-thumbnail-320x240-0007.png',
-        //  'test-thumbnail-320x240-0008.png',
-        //  'test-thumbnail-320x240-0009.png',
-        //  'test-thumbnail-320x240-0010.png' ]
-    });
-
-    tg.generateOneByPercentCb(90, (err, result) => {
-        console.log(result);
-        // 'test-thumbnail-320x240-0001.png'
-    });
-
-    tg.generateGif()
-        .then(console.log());
-    // '/full/path/to/video-1493133602092.gif'
-
-    tg.generateGifCb((err, result) => {
-        console.log(result);
-        // '/full/path/to/video-1493133602092.gif'
-    })
-}
-
-
-var imgPath = "C:\\Users\\claud\\Pictures\\IMG_20210716_154119.jpg";
-var thumbnailPath = "C:\\Users\\claud\\Pictures\\INDEX\\test1.jpg"
 
 
 //ThumbnailManager.create("C:\\Users\\claud\\Pictures\\")

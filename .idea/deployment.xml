@@ -5,7 +5,7 @@
       <paths name="souslesensFront">
         <serverdata>
           <mappings>
-            <mapping deploy="/var/lib/nodejs/souslesensEureka" local="$PROJECT_DIR$" web="http:51.178.39.209" />
+            <mapping deploy="/var/lib/nodejs/souslesensEureka" local="$PROJECT_DIR$" web="164.132.110.17" />
           </mappings>
         </serverdata>
       </paths>

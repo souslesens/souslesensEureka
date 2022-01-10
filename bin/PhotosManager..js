@@ -17,30 +17,47 @@ PhotosManager = {
             root:indexDirPath,
 
         }
-        var pattern="/*";
-        options.pattern.forEach(function(item){
-            pattern+="*"
-            pattern+=item
 
-        })
+        var pattern
+        if(photosDir=="phototheque")
+            pattern="/**"+options.pattern[0];
+        else {
+            pattern = "/*";
+            options.pattern.forEach(function (item) {
+                pattern += "*"
+                pattern += item
+
+            })
+        }
+
+
         pattern+="*.*"
+
+        console.log(JSON.stringify(options.pattern))
+
+
 
         glob(pattern, globOptions, function (err, files) {
             if(err)
                 return callback(err)
-            console.log(pattern+" "+files.length)
+            console.log("************  "+pattern+" "+files.length)
             var photos=[]
 
             if(photosDir=="phototheque" && files.length>0){
-                var dossierData=JSON.parse(""+fs.readFileSync(indexDirPath+files[0]))
+                var dossierData=JSON.parse(""+fs.readFileSync(files[0]))
                 var photosData=[];
+
+
                 dossierData.forEach(function(photo){
                     var h,p,q;
                     var x=photo.lastIndexOf("|")
-                    if((h=photo.indexOf(options.photothequeFilter.dossier))>-1 && h<x)
-                        if((p=photo.indexOf(options.photothequeFilter.sousdossier))>-1 && p>h && p<x)
-                            if((q=photo.indexOf(options.photothequeFilter.document))>-1 && q>p && q<x)
+                    if((h=photo.indexOf(options.pattern[0]))>-1 && h<x)
+                        if((p=photo.indexOf(options.pattern[1]))>-1 && p>h && p<x)
+                            if(true || (q=photo.indexOf(options.pattern[2]))>-1 && q>p && q<x)
                                 photos.push(photo)
+
+
+
                 })
 
             }
@@ -56,46 +73,6 @@ PhotosManager = {
         })
 
 
-
-    },
-
-    getPhotosListOld: function (filterStr, photosDir,options,callback) {
-        var indexDirPath =Config.photos.miniaturesDirectory
-        indexDirPath+=photosDir+"/"
-
-        indexDirPath = path.resolve(indexDirPath)+path.sep
-
-
-        var photos = []
-        var files = fs.readdirSync(indexDirPath);
-        for (var i = 0; i < files.length; i++) {
-            if (files[i].indexOf(filterStr) == 0) {
-                if(files[i].indexOf("_indexJungle.json")>-1) {//old minatures phototheque
-                    var dossierData=JSON.parse(""+fs.readFileSync(indexDirPath+files[i]))
-                    var photosData=[];
-                    dossierData.forEach(function(photo){
-                        var h,p,q;
-                        var x=photo.lastIndexOf("|")
-                        if((h=photo.indexOf(options.photothequeFilter.dossier))>-1 && h<x)
-                            if((p=photo.indexOf(options.photothequeFilter.sousdossier))>-1 && p>h && p<x)
-                                if((q=photo.indexOf(options.photothequeFilter.document))>-1 && q>p && q<x)
-                                    photos.push(photo)
-                    })
-
-
-                    //  photos=photos.concat(photosData)
-                }
-                else {
-
-
-                    photos.push(files[i])
-                    if (photos.length > PhotosManager.photosLimit)
-                        break;
-                }
-            }
-        }
-        var result = {files: photos,dirPath:indexDirPath}
-        callback(null, result);
 
     },
 

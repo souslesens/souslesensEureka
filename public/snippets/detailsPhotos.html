@@ -1,6 +1,3 @@
-
-
-
 <style>
 
     .detailedDataDiv {
@@ -15,22 +12,27 @@
         flex-direction: column;
         align-items: center;
     }
-    #carrouselDiv{    display: block;
+
+    #carrouselDiv {
+        display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 500px;
+        width: 400px;
         background: #898692;
         padding: 10px;
-        margin:3px
+        margin: 3px
     }
-    .fotorama__nav--thumbs{
-        margin:10px
+
+    .fotorama__nav--thumbs {
+        margin: 10px
     }
-    .tdBold{
+
+    .tdBold {
         font-weight: bold;
         text-align: right;
     }
-    .fotorama{
+
+    .fotorama {
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -42,54 +44,64 @@
         color: #1e6ce6;
         font-weight: bold;
     }
-    .jstree{
+
+    .jstree {
         font: 12px verdana, sans-serif;
 
     }
-    #photoCommentDiv{
-        width:300px;
-        height:100%
+
+    #photoCommentDiv {
+        width: 300px;
+        height: 100%
     }
 
-    #attachmentContentTA{
-        width:100%;
-        height: 200px;
+    #attachmentContentTA {
+        width: 100%;
+        height: 400px;
+    }
+    .fieldTitle{
+        font: 14px verdana, sans-serif;
+        font-weight: bold;
     }
 
 </style>
-<div id="photosContainerDiv" >
+<div id="photoMessageDiv"    style="font-size:12px ;color:#372806;font-weight: bold;background-color: #bdbdbd">></div>
+<div id="photosContainerDiv" style="display: none">
     <div style="display: flex;flex-direction: row;">
-        <div style="width:300px;   height: 400px;overflow: auto; margin:3px;
-    border: solid 1px brown;
-    background-color: beige;
-    overflow: auto;">
-        <div class="jstree" id="photosTreeDiv"></div>
+
+        <div style="width:250px;   height: 400px;overflow: auto; margin:3px;border: solid 1px brown;background-color: beige; overflow: auto;">
+            <div class="jstree" id="photosTreeDiv"></div>
         </div>
-        <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex-1);" ><</button>
-        <div id="carrouselDiv" class="detailedDataDiv" >
+        <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex-1);"><</button>
+        <div id="carrouselDiv" class="detailedDataDiv">
             <div class="fotorama"
                  data-height="300"
                  data-nav="thumbs"
                  data-arrows="true"
                  data-click="true"
                  data-swipe="false">
-                data-auto="false"</div>
+                data-auto="false"
+            </div>
         </div>
         <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex+1);">></button>
-        <div id="photoCommentDiv"></div>
+
     </div>
-    <div id='activePhotoDiv'></div>
+    <div id="photoCommentDiv"></div>
+</div>
 
-    <div id="detailedDataDiv" style="display: flex;flex-direction: row;width:100%">
 
-        <div class="detailedDataDiv" id="detailedDataDivLeft" style="width:1000px" ></div>
+<!--<div id='activePhotoDiv'></div>-->
+
+ <div id="detailedDataDiv" style="display: flex;flex-direction: row;width:100%">
+
+        <div class="detailedDataDiv" id="detailedDataDivLeft" style="width:1000px"></div>
         <div class="detailedDataDiv" id="detailedDataDivRight">></div>
 
     </div>
 </div>
 
 <script>
-   // TestPhotos.showHitDetails(TestPhotos.hitBordereau, TestPhotos.displayConfig, true)
+    // TestPhotos.showHitDetails(TestPhotos.hitBordereau, TestPhotos.displayConfig, true)
 
 
 </script>

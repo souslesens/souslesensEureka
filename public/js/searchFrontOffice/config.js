@@ -42,6 +42,7 @@ appConfig.photos={
     indexPhotosDirsMap:{
         bordereaux:"polytheque",
         artotheque:"artotheque",
+        art:"artotheque",
         photos:"phototheque"
     }
 }

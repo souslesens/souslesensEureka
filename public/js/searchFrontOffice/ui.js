@@ -27,13 +27,193 @@ var ui = (function () {
     }
 
 
-    self.showHitDetailsXX = function (hit) {
+    self.setHtmlContent_photo = function (hit) {
+        var leftDivFields = ["date", "lieu", "photographe", "description"]
+        var rightDivFields = ["indexCIJW", "contenu", "droit_auteur", "droit_image", "temoin_ref"]
 
+        var data = hit._source
+        var html = "<table>"
+        leftDivFields.forEach(function (field) {
+            html += "<tr>"
+            html += "<td  class='tdBold'>" + field + "</td>"
+            var value = ""
+
+            if (field == "date" && data[field]) {
+                data[field] = data[field].substring(0, 4)
+            }
+            if (data[field])
+                value = data[field]
+            html += "<td>" + value + "</td>"
+            html += "</tr>"
+        })
+        html += "</html>"
+        $("#datailedDataDivLeft").html(html)
+
+        var html = "<table>"
+        rightDivFields.forEach(function (field) {
+            html += "<tr>"
+            html += "<td class='tdBold'>" + field + "</td>"
+            var value = ""
+            if (data[field])
+                value = data[field]
+            html += "<td>" + value + "</td>"
+            html += "</tr>"
+        })
+        html += "</html>"
+        $("#datailedDataDivRight").html(html)
 
     }
+
+    self.getHtmlContent_generic = function (hit, displayConfig) {
+
+        if (!displayConfig || displayConfig.length == 0 && template == "details") {
+            delete hit._source["attachment.content"]
+            return JSON.stringify(hit._source, null, 2).replace(/\n/g, "<br>")
+        }
+        var words = []
+        var appConfig = {}
+        var template = "details"
+        if (false && context !== undefined) {
+            var words = self.getQuestionWords(context.question);
+        }
+        var html = "";
+  
+        var htmlArray=[];
+        var textAreaIndex=false
+        displayConfig.forEach(function (line,indexLine) {
+
+
+            var fieldName = Object.keys(line)[0];
+            var fieldLabel = line[fieldName]["label" + appConfig.locale] || fieldName;
+            var fieldValue;
+            if (fieldName.indexOf(".") > -1) {// when fields are objects (attachment.content...)
+                var subFields = fieldName.split(".")
+                fieldValue = null;
+                subFields.forEach(function (field) {
+                    if (!fieldValue)
+                        fieldValue = hit._source[field];
+                    else
+                        fieldValue = fieldValue[field]
+                })
+
+            } else {
+                fieldValue = hit._source[fieldName];
+            }
+
+
+            fieldValue = fieldValue || "";
+            if (fieldValue.replace) {
+                fieldValue = fieldValue.replace(/\n{2}/gm, "<br>")
+                fieldValue = fieldValue.replace(/\n/gm, "<br>")
+                //format date
+                fieldValue = fieldValue.replace(/(\d{4})-(\d{2})-(\d{2}).*Z/, function (a, year, month, day) {
+                    if (appConfig.locale == "Fr")
+                        return "" + day + "/" + month + "/" + year
+                    return "" + year + "/" + month + "/" + day
+                })
+            }
+            if (false && (template == "details" || [fieldName].highlightWords)) {
+                fieldValue = self.setHighlight(fieldValue, words);
+            }
+
+            if (line[fieldName].hyperlink) {
+                fieldValue = "<a href='" + fieldValue + "'>" + "cliquez ici" + "</a>"
+            }
+
+
+            var cssClass = line[fieldName].cssClass;
+
+            if (!cssClass)
+                cssClass = "";
+
+            if (fieldLabel == "attachment.content") {
+                textAreaIndex=indexLine
+                var str = fieldValue.replace(/<br>/g, "\r")
+                fieldValue = "<textarea id='attachmentContentTA'>" + fieldValue + "</textarea>"
+            }
+
+            if (template == "details") {
+
+                fieldValue = "<span class='" + template + "'>" + fieldValue + "</span>";
+                var html_ = "<span class='fieldTitle'>" + fieldLabel.replace("attachment.","") + " : </span>" + fieldValue + "<hr>";
+                htmlArray.push(html_)
+              
+            } else {
+
+                fieldValue = "<span class='" + template + " " + cssClass + "'><b>" + fieldValue + "</b></span>";
+                html += fieldValue + "&nbsp;&nbsp;";
+            }
+
+
+        })
+        
+        
+        
+        
+        
+        
+        
+        if (hit.highlight) {// traitement special
+            html += "<span class='excerpt'>";
+            hit.highlight[appConfig.contentField].forEach(function (highlight, index) {
+                if (index > 0)
+                    html += "  ...  "
+                html += highlight
+            })
+            html += "<span>"
+        }
+
+
+
+
+        if (template == "details") {
+            var htmlLeft = "";
+            var htmlRight = "";
+         
+            if(textAreaIndex){
+                htmlArray.forEach(function(item,index){
+                    if(index==textAreaIndex)
+                        htmlLeft+=item
+                    else
+                        htmlRight+=item
+                })
+            }else {
+                var half=htmlArray.length/2
+                htmlArray.forEach(function(item,index){
+                    if(index<=half)
+                        htmlLeft+=item
+                    else
+                        htmlRight+=item
+                })
+
+            }
+        }
+        return {html: html, htmlLeft: htmlLeft, htmlRight: htmlRight};
+
+    }
+
+
+
+
     self.showHitDetails = function (hit) {
-        var indexesWithPhotos=["photos","bordereaux","artotheque"]
+        var indexesWithPhotos=["photos","bordereaux","artotheque","arts"]
+
+
+
+
         if( indexesWithPhotos.indexOf(hit._index)>-1){
+
+            $("#detailsDiv").load("snippets/detailsPhotos.html",function(){
+                var displayConfig = context.indexConfigs[hit._index].display;
+                var htmlObj = self.getHtmlContent_generic(hit, displayConfig)
+                $("#detailedDataDivLeft").html(htmlObj.htmlLeft)
+                $("#detailedDataDivRight").html(htmlObj.htmlRight)
+
+                Photos.showHitDetails(hit);
+            });
+
+
+            return
             $(".ui-dialog").css("max-width","1200px");
             $("#dialogDiv").css("max-width","1200px");
             $("#dialogDiv").css("max-height","500px");
@@ -48,6 +228,8 @@ var ui = (function () {
 
 
             },200)
+
+            return;
 
         }
         var displayConfig = context.indexConfigs[hit._index].display;

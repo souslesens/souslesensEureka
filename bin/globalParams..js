@@ -17,6 +17,11 @@ var globalParams={
         miniaturesDirectoryLinux:"/var/miniaturesPhotos/",
         miniaturesDirectory:"Y:\\baillet\\miniaturesPhotos\\",
 
+
+
+        //ln -s /var/miniaturesPhotos /var/lib/nodejs/souslesensEureka/public/miniaturesPhotos
+       // ln -s /var/montageJungle/ /var/lib/nodejs/souslesensEureka/public/montageJungle
+
     }
 
 

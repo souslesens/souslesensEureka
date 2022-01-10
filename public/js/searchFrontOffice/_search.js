@@ -1,11 +1,14 @@
 var Search = (function () {
         var self = {};
 
-        self.queryElastic = function (query, indexes, callback) {
+        self.queryElastic = function (query, indexLabels, callback) {
 
-            if (!indexes)
-                indexes = context.curentSearchIndexes;
-
+            if (!indexLabels)
+                indexLabels = context.curentSearchIndexes;
+            var indexes=[]
+            indexLabels.forEach(function(indexName){
+                indexes.push(context.indexConfigs[indexName].general.indexName)
+            })
 
             console.log(JSON.stringify(indexes, null, 2))
             console.log(JSON.stringify(query, null, 2))

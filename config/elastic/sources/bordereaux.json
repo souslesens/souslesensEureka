@@ -39,31 +39,13 @@
     }
   },
   "display": [
-    {
-      "attachment.author": {
-        "cssClass": "excerpt"
-      }
-    },
+
     {
       "attachment.title": {
         "cssClass": "text"
       }
     },
-    {
-      "attachment.date": {
-        "cssClass": "excerpt"
-      }
-    },
-    {
-      "attachment.language": {
-        "cssClass": "excerpt"
-      }
-    },
-    {
-      "title": {
-        "cssClass": "excerpt"
-      }
-    },
+
     {
       "attachment.content": {
         "cssClass": "text"

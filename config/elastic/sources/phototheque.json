@@ -89,7 +89,6 @@
         "cssClass": "excerpt"
       }
     },
-
     {
       "date": {
         "cssClass": "excerpt"
@@ -98,6 +97,26 @@
     {
       "lieu": {
         "cssClass": "excerpt"
+      }
+    },
+    {
+      "photographe": {
+        "type": "text"
+      }
+    },
+    {
+      "agence": {
+        "type": "text"
+      }
+    },
+    {
+      "description": {
+        "type": "text"
+      }
+    },
+    {
+      "support": {
+        "type": "keyword"
       }
     }
   ],

@@ -98,6 +98,26 @@
       "lieu": {
         "cssClass": "excerpt"
       }
+    },
+    {
+      "photographe": {
+        "type": "text"
+      }
+    },
+    {
+      "agence": {
+        "type": "text"
+      }
+    },
+    {
+      "description": {
+        "type": "text"
+      }
+    },
+    {
+      "support": {
+        "type": "keyword"
+      }
     }
   ],
   "indexation": {

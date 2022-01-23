@@ -6,7 +6,7 @@ var watermark = require('jimp-watermark');
 var Jimp = require('jimp')
 
 
-var ThumbnailManagerPolytheque = {
+var ThumbnailManager = {
 
 
     getDirContent: function (dirPath, options, callback) {
@@ -148,7 +148,7 @@ var ThumbnailManagerPolytheque = {
             },
             // get all photos
             function (callbackSeries) {
-                ThumbnailManagerPolytheque.getDirContent(sourceDir, {acceptedExtensions: params.acceptedExtensions}, function (err, result) {
+                ThumbnailManager.getDirContent(sourceDir, {acceptedExtensions: params.acceptedExtensions}, function (err, result) {
                     if (err)
                         return callbackSeries(err)
                     filesMap = result
@@ -186,7 +186,7 @@ var ThumbnailManagerPolytheque = {
                         var thumbnailPath = targetDir + photoName
                         params.watermark.image = watermarkImage
 
-                        ThumbnailManagerPolytheque.generateThumnail(imgPath, thumbnailPath, params, function (err, result) {
+                        ThumbnailManager.generateThumnail(imgPath, thumbnailPath, params, function (err, result) {
                             if (err)
                                 console.log(err);
                             thumbnailsCount += 1
@@ -254,7 +254,7 @@ var params = {
     watermark: {
         path: watermarkPath,
         'ratio': 0.5,// Should be less than one
-        'opacity': 0.15, //Should be less than one
+        'opacity': 0.25, //Should be less than one
     }
 }
 
@@ -352,7 +352,7 @@ var sourceDirs = ['/var/montageJungle/polytheque/1152-ValDOiseBrigitteBourcier-1
 
 async.eachSeries(sourceDirs, function (sourceDir, callbackEach) {
     console.log("--------------------------processing " + sourceDir + "----------------------------------");
-    ThumbnailManagerPolytheque.buidThumbnails(sourceDir, targetDir, includeParentDirInPhotoName, params, function (err, result) {
+    ThumbnailManager.buidThumbnails(sourceDir, targetDir, includeParentDirInPhotoName, params, function (err, result) {
         if (err)
             return callbackEach(err)
 

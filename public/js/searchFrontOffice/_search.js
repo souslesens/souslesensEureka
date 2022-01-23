@@ -208,7 +208,11 @@ var Search = (function () {
 
         }
 
-        self.searchHitDetails = function (hitId) {
+        self.searchHitDetails = function (hitId,div) {
+
+
+            $(".hit").removeClass("hitSelected")
+           div.addClass("hitSelected")
 
             // on ajoute la question + l'id pour avoir les highlight
             self.analyzeQuestion(context.question, function (err, query) {
@@ -260,7 +264,8 @@ var Search = (function () {
             var query = {
                 "query_string": {
                     "query": question,
-                    "default_field": "attachment.content",
+                //   "default_field": "attachment.content",
+                 //   "default_field": "*",
                     "default_operator": "AND"
                 }
             }

@@ -2,25 +2,25 @@ var fs = require('fs')
 var path = require('path')
 var photosDirName = 'Photo'
 var glob = require("glob")
-var Config=require('./globalParams.')
+var Config = require('./globalParams.')
 PhotosManager = {
 
     photosLimit: 10000,
-    getPhotosList: function (filterStr, photosDir,options,callback) {
+    getPhotosList: function (filterStr, photosDir, options, callback) {
 
-        var indexDirPath =Config.photos.miniaturesDirectory
-        indexDirPath+=photosDir+"/"
+        var indexDirPath = Config.photos.miniaturesDirectory
+        indexDirPath += photosDir + "/"
 
-        indexDirPath = path.resolve(indexDirPath)+path.sep
+        indexDirPath = path.resolve(indexDirPath) + path.sep
 
-        var globOptions={
-            root:indexDirPath,
+        var globOptions = {
+            root: indexDirPath,
 
         }
 
         var pattern
-        if(photosDir=="phototheque")
-            pattern="/**"+options.pattern[0];
+        if (photosDir == "phototheque")
+            pattern = "/**" + options.pattern[0];
         else {
             pattern = "/*";
             options.pattern.forEach(function (item) {
@@ -29,53 +29,75 @@ PhotosManager = {
 
             })
         }
+        var pattern
+        if (photosDir == "phototheque") {
+            pattern = "/**" + options.pattern[0];
+        } else if (photosDir == "polytheque") {
+            pattern += "/**" + options.pattern[0] + "[ -]*_"
+        } else if (photosDir == "artotheque") {
+            pattern = "/*";
+            options.pattern.forEach(function (item) {
+                pattern += "*"
+                pattern += item + ""
+
+            })
+        }
 
 
-        pattern+="*.*"
+        pattern += "*.*"
 
-        console.log(JSON.stringify(options.pattern))
-
+        console.log(JSON.stringify(photosDir + "    " + options.pattern))
 
 
         glob(pattern, globOptions, function (err, files) {
-            if(err)
+            if (err)
                 return callback(err)
-            console.log("************  "+pattern+" "+files.length)
-            var photos=[]
+            console.log("************  " + pattern + " " + files.length)
+            var photos = []
 
-            if(photosDir=="phototheque" && files.length>0){
-                var dossierData=JSON.parse(""+fs.readFileSync(files[0]))
-                var photosData=[];
+            if (photosDir == "phototheque" && files.length > 0) {
+                var dossierData = JSON.parse("" + fs.readFileSync(files[0]))
+                var photosData = [];
 
 
-                dossierData.forEach(function(photo){
-                    var h,p,q;
-                    var x=photo.lastIndexOf("|")
-                    if((h=photo.indexOf(options.pattern[0]))>-1 && h<x)
-                        if((p=photo.indexOf(options.pattern[1]))>-1 && p>h && p<x)
-                            if(true || (q=photo.indexOf(options.pattern[2]))>-1 && q>p && q<x)
+                dossierData.forEach(function (photo) {
+                    var V1 = options.pattern[0];
+                    /*                    var V2=options.pattern[1];
+                                        var V3=options.pattern[2];
+                                var photoPattern=new RegExp(V1+"\-"+V2+"\-"+V3)
+                                //		  var pattern=/${V1}\-${V2}\-{V3}/gm
+                                       // var pattern=/${V1}[. \|]*${V2}[. \|]${V3}/gm
+
+                            console.log(photoPattern);
+                                       if(photo.match(photoPattern)){
+                                            photos.push(photo)
+                                        }
+                    */
+                    var h, p, q;
+                    var x = photo.lastIndexOf("|")
+                    if ((h = photo.indexOf(options.pattern[0])) > -1 && h < x) {
+                        if ((p = photo.substring(h + 1).indexOf("|" + options.pattern[1])) > -1 && p < x) {
+                            if ((q = photo.substring(p + 1).indexOf("|" + options.pattern[2])) > -1 && q < x) {
+                                console.log(h + "  " + p + "  " + q + "  " + x)
                                 photos.push(photo)
-
-
-
+                            }
+                        }
+                    }
                 })
 
-            }
-            else {
+            } else {
                 files.forEach(function (photo) {
                     photos.push(photo.substring(photo.lastIndexOf(path.sep) + 1))
                 })
             }
 
 
-            var result = {files: photos,dirPath:indexDirPath}
+            var result = {files: photos, dirPath: indexDirPath}
             callback(null, result);
         })
 
 
-
     },
-
 
 
     getPhotosFromDir: function (dir, callback) {
@@ -150,17 +172,15 @@ module.exports = PhotosManager
 var x = "D:\\webstorm\\souslesensEureka\\public\\Photo\\6021\\003\\002"
 //PhotosManager.getPhotosFromDir(x)
 
-var options={
-    rootww:"Y:\\baillet\\miniaturesPhotos\\artotheque",
-    rootxx:"D:\\webstorm\\souslesensVocables\\bin",
-    root:"D:\\temp\\artotheque"
+var options = {
+    rootww: "Y:\\baillet\\miniaturesPhotos\\artotheque",
+    rootxx: "D:\\webstorm\\souslesensVocables\\bin",
+    root: "D:\\temp\\artotheque"
 }
 
-if( false) {
+if (false) {
     glob("/**1107**.*", options, function (er, files) {
 
         var x = files
     })
 }
-
-

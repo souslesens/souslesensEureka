@@ -39,6 +39,7 @@ var Photos = (function () {
             var existingNodes = {}
             photosPaths.forEach(function (path) {
                 var array = path.split(sep)
+            //    array.splice(array.length-1,1)// delete photo from tree (keep only parents)
                 self.currentPhotosRootUrl = array[0]
                 var oldId = "";
                 array.forEach(function (item, index) {
@@ -56,18 +57,22 @@ var Photos = (function () {
                     }
 
                     if (!existingNodes[id]) {
-                        existingNodes[id] = 0
-                        item.id = id
-                        jstreeData.push({
-                            id: id,
-                            text: item,
-                            parent: parent,
-                            data: {
-                                path: path,
+                        if(index==array.length-1)
+                            existingNodes[id] = 0
+                        else {
+                            existingNodes[id] = 0
+                            item.id = id
+                            jstreeData.push({
+                                id: id,
                                 text: item,
-                                theque: theque
-                            }
-                        })
+                                parent: parent,
+                                data: {
+                                    path: path,
+                                    text: item,
+                                    theque: theque
+                                }
+                            })
+                        }
 
                     } else {
 
@@ -85,6 +90,7 @@ var Photos = (function () {
             jstreeData.forEach(function (item) {
                 if (existingNodes[item.id] > 0)
                     item.text += " <b>" + existingNodes[item.id] + "</b>"
+                item.data.count=existingNodes[item.id]
 
             })
 
@@ -102,7 +108,12 @@ var Photos = (function () {
 
 
     }
+
     self.onTreeNodeSelect = function (event, obj) {
+
+        if(obj.node.data.count>appConfig.photos.maxPhotosInFotorama && obj.node.children.length>0)
+            return alert("Trop de photos à charger : "+obj.node.data.count+" .Selectionnez un niveau plus bas ")
+
         var subPath = obj.node.data.path
         var theque = obj.node.data.theque
 
@@ -113,6 +124,7 @@ var Photos = (function () {
         var photosSubset = []
         if (!self.currentDocumentPhotos)
             alert("no  self.currentDocumentPhotos")
+
         self.currentDocumentPhotos.forEach(function (photo) {
             if (theque == "phototheque") {
                 photo = photo.replace(/\|/g, "/")
@@ -157,13 +169,20 @@ var Photos = (function () {
         var photosArray = [];
         var options = {}
         if (index.indexOf("photos") == 0) {
-            options.pattern = [hit._source.dossier, hit._source.sousdossier, hit._source.document]
+            //PH0409002009
+            options.pattern =[
+                hit._source.indexCIJW.substring(2,6),
+                hit._source.indexCIJW.substring(6,9),
+                hit._source.indexCIJW.substring(9,12)
+            ]
+
+            //  options.pattern = [hit._source.dossier, hit._source.sousdossier, hit._source.document]
 
         } else if (index == "bordereaux") {
             options.pattern = [hit._source.title.substring(0, 4)]
         } else if (index == "artotheque" || index == "arts") {
-            var niveau2 = hit._source.collection.substring(0, 2)
-            var niveau3 = hit._source.collection.substring(2)
+            var niveau2 = hit._source.collection.substring(0, 3)
+            var niveau3 = hit._source.collection.substring(3)
             options.pattern = [hit._source.fonds, niveau2, niveau3, hit._source.document]
 
         } else {
@@ -212,10 +231,3 @@ var Photos = (function () {
 
 })
 ()
-
-
-
-
-
-
-

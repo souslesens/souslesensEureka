@@ -14,6 +14,9 @@
 <script src="js/jquery/jquery-ui.min.js"></script>
 <script src="js/jquery/jqueryFieldSelection.js"></script>
 
+<script src="js/jquery/splitter/jquery.slider.js"></script>
+<link rel="stylesheet" href="js/jquery/splitter/style.css"/>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
@@ -75,7 +78,7 @@
         display: flex;
         flex-direction: column;
 
-        width: 250px;
+        width: 150px;
         background: #e0dddd;
     }
 
@@ -150,6 +153,10 @@
         padding: 3px;
     }
 
+    .hitSelected{
+        border: brown 3px solid;
+    }
+
     .excerpt {
         font-size: 10px;
         font-style: italic;
@@ -191,7 +198,7 @@
     }
 
     #indexesDiv {
-        width: 250px;
+        width: 200px;
         min-height: 300px;
         overflow: auto;
         font-size: 12px;
@@ -235,67 +242,72 @@
         <div id="associatedWordsDiv" style="width:90%;padding:3px; font-size:12px"></div>
         <div id="associatedWordsEntitiesDiv" style="width:90%;padding:3px"></div>
 
-        <div class="usageDiv" onclick="mainController.hideUsageDiv()">
-            <table border="1px">
-                <tr style="font-weight: bold">
-                    <td>syntaxe</td>
-                    <td>recherche les documents qui contiennent :</td>
-                </tr>
-                <tr>
-                    <td>mot1 mot2 mot3</td>
-                    <td>les 3 mots (quelque soit l'écart)</td>
-                </tr>
-                <tr>
-                    <td>"mot1 mot2 mot3"</td>
-                    <td> la phrase exacte</td>
-                </tr>
-                <tr>
-                    <td>"mot1 mot2 mot3"X</td>
-                    <td>les 3 mots au plus distants de X</td>
-                </tr>
 
-
-                <tr>
-                    <td>mot1/mot2 mot3</td>
-                    <td> (mot1 ou mot2) et le mot 3</td>
-                </tr>
-
-                <tr>
-                    <td>mot1* mot3</td>
-                    <td> les mots qui commencent par mot1 et le mot 3</td>
-                </tr>
-                <tr>
-                    <td>*mot1 mot3</td>
-                    <td> les mots qui finisent par mot1 et le mot 3</td>
-                </tr>
-
-            </table>
-
-
-        </div>
     </div>
 
 
-    <div style="width:calc(100% - 200px); display: flex;flex-direction: row">
+   <div style="width:calc(100% - 200px); display: flex;flex-direction: row">
 
 
-        <div class="centerDiv">
+
+      <div class="centerDiv panel one">
+
             <div class="searchDiv">
                 <img src="icons/clear.png" title="effacer" class="icon" onclick="mainController.resetQuestion()">
                 <input id="questionInput" title="saisissez les mots cherchés  puis tapez entrée"
-                       placeholder="saisissez les mots cherchés  puis tapez entrée " value="pologne">
+                       placeholder="saisissez les mots cherchés  puis tapez entrée " value="">
                 <!--   <button onclick="ui.showHitDetails(TestPhotos.hitBordereau)">test</button>-->
             </div>
+          <div class="usageDiv" onclick="mainController.hideUsageDiv()">
+              <table border="1px">
+                  <tr style="font-weight: bold">
+                      <td>syntaxe</td>
+                      <td>recherche les documents qui contiennent :</td>
+                  </tr>
+                  <tr>
+                      <td>mot1 mot2 mot3</td>
+                      <td>les 3 mots (quelque soit l'écart)</td>
+                  </tr>
+                  <tr>
+                      <td>"mot1 mot2 mot3"</td>
+                      <td> la phrase exacte</td>
+                  </tr>
+                  <tr>
+                      <td>"mot1 mot2 mot3"X</td>
+                      <td>les 3 mots au plus distants de X</td>
+                  </tr>
+
+
+                  <tr>
+                      <td>mot1/mot2 mot3</td>
+                      <td> (mot1 ou mot2) et le mot 3</td>
+                  </tr>
+
+                  <tr>
+                      <td>mot1* mot3</td>
+                      <td> les mots qui commencent par mot1 et le mot 3</td>
+                  </tr>
+                  <tr>
+                      <td>*mot1 mot3</td>
+                      <td> les mots qui finisent par mot1 et le mot 3</td>
+                  </tr>
+
+              </table>
+
+
+          </div>
 
             <div id="paginationDiv"></div>
 
             <div class="resultDiv" id="resultDiv">
                 <!--   <textarea id="queryTA" row="20" cols="40"></textarea>-->
             </div>
+          <span class="slider"></span>
         </div>
 
 
-        <div class="rightDiv">
+
+      <div class="rightDiv panel two">
             <div id="detailsDiv"></div>
 
             <!--     <br>
@@ -307,7 +319,11 @@
                  </div>
 
              </div>-->
-        </div>
+
+
+
+      </div>
+
 
     </div>
 

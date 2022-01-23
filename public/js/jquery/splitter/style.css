@@ -1,0 +1,45 @@
+.slider {
+
+  z-index: 999999;
+
+  display: block;
+
+  position: absolute;
+
+  width: 5px;
+
+  background-color: #1ABC9C;
+
+  left: 0;
+
+  top: 0;
+
+  bottom: 0;
+
+  overflow: visible;
+
+  user-select: none;
+
+}
+
+
+
+.slider::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0.25rem;
+
+  top: 50%;
+
+  height: 1.5rem;
+
+  width: 0.5rem;
+
+  background-color: #1ABC9C;
+
+  cursor: col-resize;
+
+}

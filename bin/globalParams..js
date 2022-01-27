@@ -4,17 +4,23 @@
 var globalParams={
 
     mysqlConnection:{
-            host: "localhost",
-            user: "root",
-            password: "vi0lon",
-            database: 'bailletarchives',
-       // database: 'bailletarchives_test'
+        host: "localhost",
+        user: "root",
+        password: "vi0lon",
+        database: 'bailletarchives',
+        // database: 'bailletarchives_test'
 
     },
 
     photos:{
 
         miniaturesDirectory:"/var/miniaturesPhotos/",
+        miniaturesDirectoryWindows:"Y:\\baillet\\miniaturesPhotos\\",
+
+
+
+        //ln -s /var/miniaturesPhotos /var/lib/nodejs/souslesensEureka/public/miniaturesPhotos
+       // ln -s /var/montageJungle/ /var/lib/nodejs/souslesensEureka/public/montageJungle
 
     }
 

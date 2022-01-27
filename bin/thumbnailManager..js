@@ -6,7 +6,7 @@ var watermark = require('jimp-watermark');
 var Jimp = require('jimp')
 
 
-var ThumbnailManagerPolytheque = {
+var ThumbnailManager = {
 
 
     getDirContent: function (dirPath, options, callback) {
@@ -14,7 +14,7 @@ var ThumbnailManagerPolytheque = {
             options = {}
         }
 
-      //  var dirsArray = []
+        //  var dirsArray = []
         var dirFilesMap = {}
         var rootDirName = path.basename(dirPath)
         var totalDirs = 0
@@ -35,7 +35,7 @@ var ThumbnailManagerPolytheque = {
 
                 if (stats.isDirectory(fileName)) {
                     dirFilesMap[fileName + path.sep] = [];
-                  //  dirsArray.push({type: "dir", name: files[i], parent: parent})
+                    //  dirsArray.push({type: "dir", name: files[i], parent: parent})
                     recurse(fileName)
                 } else {
 
@@ -57,10 +57,10 @@ var ThumbnailManagerPolytheque = {
                         console.log("directories " + totalDirs)
 
 
-                        dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
+                    dirFilesMap[parent].push({type: "file", parent: parent, name: files[i], infos: infos})
                     if(options.limit && totalDirs>options.limit )
                         return callback(null,dirFilesMap)
-                   // dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
+                    // dirsArray.push({type: "file", parent: parent, name: files[i], infos: infos})
                 }
             }
         }
@@ -148,7 +148,7 @@ var ThumbnailManagerPolytheque = {
             },
             // get all photos
             function (callbackSeries) {
-                ThumbnailManagerPolytheque.getDirContent(sourceDir, {acceptedExtensions: params.acceptedExtensions}, function (err, result) {
+                ThumbnailManager.getDirContent(sourceDir, {acceptedExtensions: params.acceptedExtensions}, function (err, result) {
                     if (err)
                         return callbackSeries(err)
                     filesMap = result
@@ -186,7 +186,7 @@ var ThumbnailManagerPolytheque = {
                         var thumbnailPath = targetDir + photoName
                         params.watermark.image = watermarkImage
 
-                        ThumbnailManagerPolytheque.generateThumnail(imgPath, thumbnailPath, params, function (err, result) {
+                        ThumbnailManager.generateThumnail(imgPath, thumbnailPath, params, function (err, result) {
                             if (err)
                                 console.log(err);
                             thumbnailsCount += 1
@@ -254,7 +254,7 @@ var params = {
     watermark: {
         path: watermarkPath,
         'ratio': 0.5,// Should be less than one
-        'opacity': 0.15, //Should be less than one
+        'opacity': 0.25, //Should be less than one
     }
 }
 
@@ -291,12 +291,12 @@ var sourceDirs = [//'/var/montageJungle/polytheque/1017-FRA-Biblioth??quesRue-Pa
     '/var/montageJungle/polytheque/1097-FRA_PoleFormationEngagements_DN--2012_2017_VersementNumerique',
     '/var/montageJungle/polytheque/1098-EUR-Mobilisation2017-RassemblementJeunesseWhije',
     '/var/montageJungle/polytheque/1101-AFRique-DelReg-2003_2017',
-    ]
+]
 
 var sourceDirs = [/*'/var/montageJungle/polytheque/1103-INT-Benkadi-2015_2017',
     '/var/montageJungle/polytheque/1104-INT-PoleExpressionsPubliquesPEPS-2009_2015',
     '/var/montageJungle/polytheque/1107-PAEFI-MailsPaulMarechal-2008_2017',*/
- //!!!!!!!!!!!!!   '/var/montageJungle/polytheque/1110-TaporiInternational', stop a /var/montageJungle/polytheque/1110-TaporiInternational/087N/1110_87_04/
+    //!!!!!!!!!!!!!   '/var/montageJungle/polytheque/1110-TaporiInternational', stop a /var/montageJungle/polytheque/1110-TaporiInternational/087N/1110_87_04/
     '/var/montageJungle/polytheque/1111-FRAnce-DelegNationale-2003-2013',
     '/var/montageJungle/polytheque/1112-FRA-FRC-LaBise',
     '/var/montageJungle/polytheque/1115-CINT-ArrierePays-2016_2018',
@@ -317,7 +317,7 @@ var sourceDirs = [/*'/var/montageJungle/polytheque/1103-INT-Benkadi-2015_2017',
     '/var/montageJungle/polytheque/1142-EUR-BEL-EuropeEtBelgique-JeanPierrePinet-2013_2019',
     '/var/montageJungle/polytheque/1146-OCDE-MesurePauvrete-Mai2019',
     '/var/montageJungle/polytheque/1148_03-Alternative114-Champeaux-ClaudeFerrand-1973_2008',
-    ]
+]
 
 
 var sourceDirs = ['/var/montageJungle/polytheque/1152-ValDOiseBrigitteBourcier-1976_2019',
@@ -342,17 +342,17 @@ var sourceDirs = ['/var/montageJungle/polytheque/1152-ValDOiseBrigitteBourcier-1
     '/var/montageJungle/polytheque/1190-Suisse-MarieRose-Blunschi-1973_2011',
     '/var/montageJungle/polytheque/1191-Pays-Bas-ChristineBehain-2001_2020',
     '/var/montageJungle/polytheque/1207-DimensionsCacheesPauvrete-Consolini-2016_2021',
-   // '/var/montageJungle/polytheque/Guatemala-2014_2018',
-  //  '/var/montageJungle/polytheque/Guatemala-FAIT',
-   // '/var/montageJungle/polytheque/Philippines-PhotosVideos-Mai-2018',
-   // '/var/montageJungle/polytheque/archivage_UPQMidf'
-    ]
+    // '/var/montageJungle/polytheque/Guatemala-2014_2018',
+    //  '/var/montageJungle/polytheque/Guatemala-FAIT',
+    // '/var/montageJungle/polytheque/Philippines-PhotosVideos-Mai-2018',
+    // '/var/montageJungle/polytheque/archivage_UPQMidf'
+]
 
 
 
 async.eachSeries(sourceDirs, function (sourceDir, callbackEach) {
     console.log("--------------------------processing " + sourceDir + "----------------------------------");
-    ThumbnailManagerPolytheque.buidThumbnails(sourceDir, targetDir, includeParentDirInPhotoName, params, function (err, result) {
+    ThumbnailManager.buidThumbnails(sourceDir, targetDir, includeParentDirInPhotoName, params, function (err, result) {
         if (err)
             return callbackEach(err)
 

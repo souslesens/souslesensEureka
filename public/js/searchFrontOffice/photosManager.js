@@ -6,7 +6,6 @@ var PhotosManager = (function () {
      self.photosRootUrl = "/data/photos/IndexPhotos/"*/
 
     self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
-    self.photosDir = "/var/lib/nodejs/souslesensEureka/public/Photo/"
     var os = navigator.platform;
     var sep = "/"
     if (false && os.indexOf("Win") == 0) {
@@ -99,9 +98,7 @@ var PhotosManager = (function () {
             } else if (index == "bordereaux") {
 
                 var docTitle=hit._source.title;
-                var options={}
-                options:options
-                var payload = {getPhotosList:docTitle,index}
+                var payload = {getPolythequePhotos:docTitle}
                 $.ajax({
                     type: "POST",
                     url: appConfig.elasticUrl,

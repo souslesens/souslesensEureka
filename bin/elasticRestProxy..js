@@ -5,7 +5,6 @@ const request = require('request');
 //const elasticUrl = "http://92.222.116.179:7201/";
 var  elasticUrl = "http://51.178.39.209:2009/";
 //var elasticUrl = "http://164.132.194.227:2009/";
-var elasticUrl = "http://92.222.116.179:7201/";
 var elasticUrl = "http://192.168.2.3:7201/";
 
 //var elasticUrl = "http://vps254642.ovh.net:2009/"

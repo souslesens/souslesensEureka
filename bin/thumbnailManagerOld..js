@@ -39,7 +39,7 @@ var ThumbnailManager = {
         var dirsArray = []
         var dirFilesMap = {}
         var rootDirName = path.basename(dirPath)
-var totalDirs=0
+        var totalDirs=0
         function recurse(parent,level) {
             parent = path.normalize(parent);
             if (!fs.existsSync(parent))
@@ -51,18 +51,18 @@ var totalDirs=0
             var files = fs.readdirSync(parent);
 
             if(files.length==0)
-               ;// return
+                ;// return
 
 
             async.eachSeries(files,function(file,callbackEach){
-           // for (var i = 0; i < files.length; i++) {
+                // for (var i = 0; i < files.length; i++) {
                 var fileName = parent + file;
                 var stats = fs.statSync(fileName);
                 var infos = {lastModified: stats.mtimeMs};//fileInfos.getDirInfos(dir);
 
                 if (stats.isDirectory(fileName)) {
                     dirFilesMap[fileName + "/"] = [];
-                 //   dirsArray.push({type: "dir", name: files[i], parent: parent})
+                    //   dirsArray.push({type: "dir", name: files[i], parent: parent})
                     recurse(fileName,level+1)
                 } else {
 
@@ -98,7 +98,7 @@ var totalDirs=0
             },function(err){
                 if(err)
                     console.log(err)
-               // return console.log("ALL DONE")
+                // return console.log("ALL DONE")
             })
 
         }
@@ -121,11 +121,11 @@ function generateThumnail(imgPath, thumbnailPath, params, callback) {
         image.quality(params.quality);
         if ( false && params.mask)
             image.mask(params.mask, 0, 0,)
-         /*   image.composite(params.mask, 0, 0, {
-                mode: Jimp.BLEND_MULTIPLY,
-                opacitySource: 0.5,
-                opacityDest: 0.3
-            });*/
+        /*   image.composite(params.mask, 0, 0, {
+               mode: Jimp.BLEND_MULTIPLY,
+               opacitySource: 0.5,
+               opacityDest: 0.3
+           });*/
         image.write(thumbnailPath);
 
         return callback()
@@ -189,7 +189,7 @@ if (false) {// generate thumbnails
     sourceDir = "/var/montageJungle/phototheque/FONDS/7000_MOBILISATION_2017"
     targetDir = "/var/miniaturesPhotos/phototheque"
 
-   // var filigranePath = "D:\\ATD_Baillet\\filigrane\\logoseul-transparent.png"
+    // var filigranePath = "D:\\ATD_Baillet\\filigrane\\logoseul-transparent.png"
     var filigranePath = "/var/lib/nodejs/souslesensEureka/config/filigranes/logoseul-transparent.png"
 
     Jimp.read(filigranePath, function (err, image) {
@@ -201,8 +201,8 @@ if (false) {// generate thumbnails
         if (err)
             return callback(err)
         image.resize(params.width, Jimp.AUTO);
-      //  image.quality(params.quality);
-      //  image.opacity(0.2);
+        //  image.quality(params.quality);
+        //  image.opacity(0.2);
 
         console.log("sourceDir : "+sourceDir)
         console.log("targetDir : "+targetDir)

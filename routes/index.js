@@ -15,7 +15,7 @@ var annotator_skos = require("../bin/backoffice/annotator_skos.");
 var skosReader = require("../bin/backoffice/skosReader..js");
 var httpProxy = require("../bin/httpProxy.")
 
-var PhotosManager=require("../bin/PhotosManager.")
+var PhotosManager=require("../bin/PhotosManager2.")
 
 /* GET home page. */
 router.get('/', function (req, res, next) {

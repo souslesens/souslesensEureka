@@ -30,7 +30,7 @@ var Photos = (function () {
                 $("#photoMessageDiv").html("Aucune  photos trouvées")
                 $("#photosContainerDiv").css("display", "none")
                 //$("#detailedDataPdfIframe").height('800px');
-                   $("#detailedDataPdfIframe").css("height","95vh");
+                $("#detailedDataPdfIframe").css("height", "95vh");
                 return;
             }
             $("#photosContainerDiv").css("display", "block")
@@ -39,8 +39,22 @@ var Photos = (function () {
             var jstreeData = [];
             var existingNodes = {}
             photosPaths.forEach(function (path) {
+                var path=""
+                for(var i=0;i<10;i++){
+                    var dir=path["dir"+(i+1)]
+                    if(!dir)
+                        break;
+                    path+=dir+"/"
+
+
+                }
+
+
+
+
+
                 var array = path.split(sep)
-            //    array.splice(array.length-1,1)// delete photo from tree (keep only parents)
+                //    array.splice(array.length-1,1)// delete photo from tree (keep only parents)
                 self.currentPhotosRootUrl = array[0]
                 var oldId = "";
                 array.forEach(function (item, index) {
@@ -58,7 +72,7 @@ var Photos = (function () {
                     }
 
                     if (!existingNodes[id]) {
-                        if(index==array.length-1)
+                        if (index == array.length - 1)
                             existingNodes[id] = 0
                         else {
                             existingNodes[id] = 0
@@ -91,7 +105,7 @@ var Photos = (function () {
             jstreeData.forEach(function (item) {
                 if (existingNodes[item.id] > 0)
                     item.text += " <b>" + existingNodes[item.id] + "</b>"
-                item.data.count=existingNodes[item.id]
+                item.data.count = existingNodes[item.id]
 
             })
 
@@ -112,12 +126,12 @@ var Photos = (function () {
 
     self.onTreeNodeSelect = function (event, obj) {
 
-        if(obj.node.data.count>appConfig.photos.maxPhotosInFotorama && obj.node.children.length>0)
-            return alert("Trop de photos à charger : "+obj.node.data.count+" .Selectionnez un niveau plus bas ")
+        if (obj.node.data.count > appConfig.photos.maxPhotosInFotorama && obj.node.children.length > 0)
+            return alert("Trop de photos à charger : " + obj.node.data.count + " .Selectionnez un niveau plus bas ")
 
         var subPath = obj.node.data.path
         var theque = obj.node.data.theque
-        self.currentTheque=theque
+        self.currentTheque = theque
 
         var rootUrl = ""
         var sep;
@@ -167,8 +181,7 @@ var Photos = (function () {
     }
 
 
-
-   self.setActivePhotoInfos = function (photoPath) {
+    self.setActivePhotoInfos = function (photoPath) {
         if (self.currentTheque == "phototheque") {
             var url = photoPath.replace("INDEX", "FONDS")
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
@@ -201,8 +214,7 @@ var Photos = (function () {
     }
 
 
-
-  self.setActivePhotoInfosXX = function (photoPath) {
+    self.setActivePhotoInfosXX = function (photoPath) {
         if (self.currentTheque == "phototheque") {
             var url = photoPath.replace("INDEX", "FONDS")
             var html = "<a href='" + url + "' target='photos'>" + photoPath + "</a>"
@@ -230,23 +242,16 @@ var Photos = (function () {
     }
 
 
-
-
-
-
-
-
-
     self.getPhotos = function (hit, callback) {
         var index = hit._index
         var photosArray = [];
         var options = {}
         if (index.indexOf("photos") == 0) {
             //PH0409002009
-            options.pattern =[
-                hit._source.indexCIJW.substring(2,6),
-                hit._source.indexCIJW.substring(6,9),
-                hit._source.indexCIJW.substring(9,12)
+            options.pattern = [
+                hit._source.indexCIJW.substring(2, 6),
+                hit._source.indexCIJW.substring(6, 9),
+                hit._source.indexCIJW.substring(9, 12)
             ]
 
             //  options.pattern = [hit._source.dossier, hit._source.sousdossier, hit._source.document]
@@ -263,7 +268,7 @@ var Photos = (function () {
         }
 
         var photosDir = appConfig.photos.indexPhotosDirsMap[index]
-
+        options.maxFiles = 10000
         var docTitle = hit._source.title;
         var payload = {getPhotosList: 1, options: JSON.stringify(options), photosDir: photosDir}
         $.ajax({
@@ -274,6 +279,8 @@ var Photos = (function () {
             success: function (data, textStatus, jqXHR) {
 
                 photosArray = data.files;
+                if (maxFiles <= photosArray.length)
+                    return alert("trop de photos : >" + options.maxFiles)
                 photosArray.dirPath = data.dirPath
                 self.currentPhotosDirPath = data.dirPath
 

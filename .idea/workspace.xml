@@ -4,53 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="corrections pas fini">
-      <change afterPath="$PROJECT_DIR$/bin/PhotosDiffCheck..js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/snippets/detailsPhotos0.html" afterDir="false" />
+    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="version alpha 2 correcte sauf photos bordereaux">
+      <change afterPath="$PROJECT_DIR$/bin/PhotosScanner..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/PhotosMamanagerOld..js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/PhotosMamanagerOld2..js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/PhotosManager..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosManager..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/PhotothequeLister..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotothequeLister..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/backoffice/indexer..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/indexer..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/elasticRestProxy..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/elasticRestProxy..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/globalParams..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/globalParams..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/thumbnailManager2..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/thumbnailManagerOld..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/thumbnailManagerPolytheque..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/thumbnailManager..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/www" beforeDir="false" afterPath="$PROJECT_DIR$/bin/www" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/corpuscgi.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/errr.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/flat_thesaurus.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/flat_thesaurus2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/gm_mec_paragraphs.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/gmail_cf.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/gmec.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/gmec_par.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/gmec_par2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/libraryofcongress.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/nopd.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/ocr.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/rex.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/ss.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/telanthropia.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/termscience_all.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/testbook.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/testcsv.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/testdocs.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/testimap.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/testjsonobject.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/testjsonsimple.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/testsql4.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/thesaurus_tulsa.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/total_gm_mec.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/units.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photos.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photosManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photosManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/ui.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/test/photos.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/test/photos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/snippets/detailsPhotos.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/snippets/detailsPhotos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,8 +52,8 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="javascript.nodejs.core.library.configured.version" value="10.19.0" />
-    <property name="javascript.nodejs.core.library.typings.version" value="10.17.60" />
+    <property name="javascript.nodejs.core.library.configured.version" value="17.2.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="17.0.12" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
     <property name="nodejs_interpreter_path" value="/usr/local/n/versions/node/17.2.0/bin/node" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -109,21 +69,21 @@
       <recent name="D:\webstorm\souslesensEureka\public\js\others" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/bin" />
       <recent name="D:\webstorm\souslesensEureka\public\snippets" />
       <recent name="D:\webstorm\souslesensEureka\public\Photo\6021_dfgdfgdfgdgdgf\003_egfghfghgf\002_sdgfdsfgg" />
       <recent name="D:\GitHub\souslesensEureka\public\data\photos\IndexPhotos\0073\001" />
       <recent name="D:\GitHub\souslesensEureka\public\data\photos\IndexPhotos\0073" />
-      <recent name="D:\GitHub\souslesensEureka\bin" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.bin\www">
+  <component name="RunManager" selected="Node.js.PhotosScanner..js">
+    <configuration name="PhotosScanner..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/PhotosScanner..js" working-dir="$PROJECT_DIR$/bin">
+      <method v="2" />
+    </configuration>
     <configuration name="PhotothequeLister..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/PhotothequeLister..js" working-dir="$PROJECT_DIR$/bin">
       <method v="2" />
     </configuration>
-    <configuration name="bordereauxProcessor..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/bordereauxProcessor..js" working-dir="$PROJECT_DIR$/bin">
-      <method v="2" />
-    </configuration>
-    <configuration name="test2.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/backoffice/test2.js" working-dir="$PROJECT_DIR$/bin/backoffice">
+    <configuration name="indexer..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/backoffice/indexer..js" working-dir="$PROJECT_DIR$/bin/backoffice">
       <method v="2" />
     </configuration>
     <configuration name="thumbnailManagerOld..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/thumbnailManagerOld..js" working-dir="$PROJECT_DIR$/bin">
@@ -134,11 +94,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.PhotosScanner..js" />
+        <item itemvalue="Node.js.indexer..js" />
         <item itemvalue="Node.js.PhotothequeLister..js" />
         <item itemvalue="Node.js.thumbnailManagerOld..js" />
         <item itemvalue="Node.js.thumbnailManager..js" />
-        <item itemvalue="Node.js.test2.js" />
-        <item itemvalue="Node.js.bordereauxProcessor..js" />
       </list>
     </recent_temporary>
   </component>
@@ -222,7 +182,8 @@
       <workItem from="1641283929270" duration="11155000" />
       <workItem from="1642960487426" duration="195000" />
       <workItem from="1642961591413" duration="1605000" />
-      <workItem from="1643277341262" duration="2600000" />
+      <workItem from="1643277341262" duration="28006000" />
+      <workItem from="1643453745030" duration="7176000" />
     </task>
     <task id="LOCAL-00001" summary="thumbnailManager">
       <created>1634370637737</created>
@@ -301,7 +262,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641315480000</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="version alpha 2 correcte sauf photos bordereaux">
+      <created>1643283779577</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1643283779577</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,7 +291,40 @@
     <MESSAGE value="Photos" />
     <MESSAGE value="thumbnailManagerPolytheque..js debug on server Baillet" />
     <MESSAGE value="corrections pas fini" />
-    <option name="LAST_COMMIT_MESSAGE" value="corrections pas fini" />
+    <MESSAGE value="version alpha 2 correcte sauf photos bordereaux" />
+    <option name="LAST_COMMIT_MESSAGE" value="version alpha 2 correcte sauf photos bordereaux" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/backoffice/indexer..js</url>
+          <line>363</line>
+          <option name="timeStamp" value="271" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/backoffice/indexer..js</url>
+          <line>362</line>
+          <option name="timeStamp" value="272" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/backoffice/indexer..js</url>
+          <line>367</line>
+          <option name="timeStamp" value="276" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/elasticRestProxy..js</url>
+          <line>23</line>
+          <option name="timeStamp" value="289" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
+          <line>145</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="333" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

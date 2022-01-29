@@ -22,8 +22,8 @@ var indexer = {
         var index = config.general.indexName;
         var elasticUrl = config.indexation.elasticUrl;
         var connector = config.connector;
-        if(config.indexation.deleteOldIndex=="no")
-            config.indexation.deleteOldIndex=false
+        if (config.indexation.deleteOldIndex == "no")
+            config.indexation.deleteOldIndex = false
 
 
         var indexExists = false;
@@ -134,7 +134,7 @@ var indexer = {
                     var options = {
                         method: 'PUT',
                         description: "create index",
-                        url: elasticUrl + index ,
+                        url: elasticUrl + index,
                         json: json
                     };
 
@@ -237,7 +237,7 @@ var indexer = {
                     } else
                         return callbackSeries("no valid connector type declared");
 
-                    var message = " indexation running on index :" + index+" using connector "+connector.type+" <br><b>WAIT ...<b></b>"
+                    var message = " indexation running on index :" + index + " using connector " + connector.type + " <br><b>WAIT ...<b></b>"
                     socket.message(message);
 
                 },
@@ -249,11 +249,11 @@ var indexer = {
                         return callbackSeries();
 
                     var thesauri = Object.keys(config.thesauri);
-                    var i=0;
+                    var i = 0;
                     async.eachSeries(thesauri, function (thesaurus, callbackEach2) {
 
                         var thesaurusConfig = config.thesauri[thesaurus];
-                        annotator_skos.annotateCorpusFromRDFfile(thesaurusConfig, index,elasticUrl, function (err, result) {
+                        annotator_skos.annotateCorpusFromRDFfile(thesaurusConfig, index, elasticUrl, function (err, result) {
                             if (err)
                                 return callbackEach2(err);
                             callbackEach2()
@@ -298,7 +298,7 @@ var indexer = {
                     headers: {
                         'content-type': 'application/json'
                     },
-                    url: elasticUrl + index+"/"
+                    url: elasticUrl + index + "/"
                 };
                 request(options, function (error, response, body) {
                     if (error)
@@ -334,6 +334,63 @@ var indexer = {
         ], function (err) {
             callback(err);
         })
+    }
+    ,
+    indexObjects: function (objects, indexName, elasticUrl, callback) {
+
+        async.series([
+            function (callbackSeries) {
+                if (!elasticUrl)
+                    elasticUrl = elasticRestProxy.getElasticUrl()
+
+                var bulkStr = ""
+                objects.forEach(function (item) {
+                    bulkStr += JSON.stringify({index: {_index: indexName, _type: indexName, _id: item.id}}) + "\r\n"
+                    bulkStr += JSON.stringify(item) + "\r\n";
+
+                })
+
+                var options = {
+                    method: 'POST',
+                    body: bulkStr,
+                    encoding: null,
+                   // timeout: 1000 * 3600 * 24 * 3, //3 days //Set your timeout value in milliseconds or 0 for unlimited
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    url: elasticUrl + "_bulk?refresh=wait_for"
+                };
+                request(options, function (error, response, body) {
+                    if (error) {
+                        return callbackSeries(error)
+
+                    }
+                    elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
+                        if (err)
+                            return callbackSeries(err);
+                        var message = "indexed " + objects.length + " records ";
+                        socket.message(message);
+                        setTimeout(function () {
+                            elasticRestProxy.refreshIndex(config, function (err, result) {
+                                if (err)
+                                    return callbackSeries(err);
+                                return callbackSeries()
+                            });
+                        }, 500)
+
+
+                    })
+
+
+                })
+            }
+            ]
+            , function (err) {
+                callback(err);
+            }
+        )
+
+
     }
 }
 

@@ -13,6 +13,9 @@ var elasticUrl = "http://192.168.2.3:7201/";
 const debug = true;
 var elasticRestProxy = {
     elasticUrl: elasticUrl,
+    getElasticUrl:function(){
+        return elasticUrl;
+    },
 
     executePostQuery: function (url, query, callback) {
 

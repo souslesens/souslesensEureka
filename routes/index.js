@@ -92,6 +92,15 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
 
         }
 
+        if (req.body.indexObjects) {
+            elasticProxy.indexObjects(JSON.parse(req.body.objects),req.body.indexName, function (error, result) {
+                processResponse(response, error, result)
+            });
+
+        }
+
+
+
         if (req.body && req.body.getTemplates) {
             configLoader.getTemplates(function (error, result) {
                 processResponse(response, error, result)

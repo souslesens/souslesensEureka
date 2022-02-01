@@ -85,6 +85,7 @@ PhotosManager = {
 
 
         ], function (err) {
+            data=data.slice(0,100)
             var result = {files: data, dirPath: indexDirPath}
             return callback(err, result)
         })

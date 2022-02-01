@@ -6,6 +6,8 @@ const elasticRestProxy = require("./elasticRestProxy.");
 const socket = require("../routes/socket");
 var util = require('./backoffice/util.')
 var indexer = require('./backoffice/indexer.')
+var thumbnailManager = require('./thumbnailManager.')
+const Jimp = require("jimp");
 
 var PhotosScanner = {
 
@@ -15,7 +17,7 @@ var PhotosScanner = {
             options = {}
         }
         var dirPath = options.topDir
-        var dirPathOffest = dirPath.length + 1
+        var dirPathOffest = dirPath.length
         //  var dirsArray = []
         var dirFilesMap = {}
         var rootDirName = path.basename(dirPath)
@@ -24,15 +26,20 @@ var PhotosScanner = {
 
         function recurse(parent, level) {
 
+
             parent = path.normalize(parent);
             if (!fs.existsSync(parent))
                 return callback("dir doesnt not exist :" + parent)
+
+            var stats = fs.statSync(parent);
+            if (!stats.isDirectory(parent)) {
+                return
+            }
             if (parent.charAt(parent.length - 1) != path.sep)
                 parent += path.sep;
 
 
             var files = fs.readdirSync(parent);
-
             for (var i = 0; i < files.length; i++) {
                 var fileName = parent + files[i];
                 var stats = fs.statSync(fileName);
@@ -58,8 +65,9 @@ var PhotosScanner = {
                         continue;
                     }
                     if (!dirFilesMap[parent]) {
-                        var obj = {id: parent, files: []}
                         var parentDir = parent.substring(dirPathOffest)
+                        var obj = {id: parentDir, files: []}
+
                         var parentsArray = parentDir.split('/')
                         for (var j = 0; j < parentsArray.length; j++) {
                             if (parentsArray[j] != "")
@@ -80,15 +88,20 @@ var PhotosScanner = {
         var dirs1 = fs.readdirSync(dirPath);
         var totalFilesIndexed = 0
         var totalDirsIndexed = 0
-        var index=0
-        var t1=new Date()
+        var index = 0
+        var t1 = new Date()
+        var journal=""
         async.eachSeries(dirs1, function (dir1, callbackEach) {
+            if(dir1.indexOf("1")!=0)
+                return callbackEach()
+
+
             recurse(dirPath + "/" + dir1, 0);
             if (Object.keys(dirFilesMap).length == 0)
                 return callbackEach()
 
 
-            if(options.processor=="indexPhotosCatalog") {
+            if (options.processor == "indexPhotosCatalog") {
                 if ((index++) == 0)
                     options.deleteOldIndex = true
                 else
@@ -96,16 +109,27 @@ var PhotosScanner = {
                 PhotosScanner.indexPhotosCatalog(dirFilesMap, options, function (err, result) {
                     dirFilesMap = {}
                     totalFilesIndexed += result.files;
-                    totalDirsIndexed += result.dirs
-                    var duration = Math.round(( new Date() -t1) / 1000)
-                    console.log(""+index+"/"+ dirs1.length+"  processed "+ dir1);
-                    console.log(" Total  indexed : leaf directories  " + totalDirsIndexed + " ,files " + totalFilesIndexed + " in sec. " + duration)
+                    totalDirsIndexed += result.dirs;
+                    var duration = Math.round((new Date() - t1) / 1000)
+                    var message="" + index + "/" + dirs1.length + "  processed " + dir1;
+                    console.log("" + index + "/" + dirs1.length + "  processed " + dir1);
+                    journal+=message+"\n"
+                    message=" Total  indexed : leaf directories  " + totalDirsIndexed + " ,files " + totalFilesIndexed + " in sec. " + duration
+                    journal+=message+"\n"
+                    message=" Total  thumbnails  " + result.thumbnails.count + " in sec. " + result.thumbnails.duration
+                    journal+=message+"\n"
+
+
                     callbackEach();
+
                 })
             }
 
+
         }, function (err) {
-          console.log(" ALL DONE")
+            var journalPath=options.journalDir+options.indexName+"_"+new Date()+".txt"
+            fs.writeFileSync(journalPath,journal)
+            console.log(" ALL DONE")
         })
         //  return callback(null, dirFilesMap)
     },
@@ -119,8 +143,9 @@ var PhotosScanner = {
 
 
         var sliceSize = 100
-
-
+      var thumbnailJournal=""
+        var t0=new Date()
+        var index1=0;
         console.log(Object.keys(photosMap).length)
         var totalFiles = 0
         var elasticObjs = []
@@ -130,10 +155,10 @@ var PhotosScanner = {
         }
 
         async.series([
-            function (callbackSeries) {
-                if (!options.deleteOldIndex) {
-                    return callbackSeries()
-                }
+                function (callbackSeries) {
+                    if (!options.deleteOldIndex) {
+                        return callbackSeries()
+                    }
                     var config = {
                         general: {indexName: options.indexName},
                         indexation: {
@@ -146,50 +171,117 @@ var PhotosScanner = {
                         return callbackSeries(err)
                     })
 
-            },
-            function (callbackSeries) {
-                var slices = util.sliceArray(elasticObjs, sliceSize)
-                async.eachSeries(slices, function (slice, callbackEach) {
+                },
+                function (callbackSeries) {
+                    if (false)
+                        return callbackSeries();
+                    var slices = util.sliceArray(elasticObjs, sliceSize)
+                    async.eachSeries(slices, function (slice, callbackEach) {
 
-                    var bulkStr = ""
-                    slice.forEach(function (item) {
-                        totalFiles += item.files.length
-                        bulkStr += JSON.stringify({index: {_index: indexName, _type: indexName, _id: item.id}}) + "\r\n"
-                        bulkStr += JSON.stringify(item) + "\r\n";
-
-                    })
-
-
-                    var requestOptions = {
-                        method: 'POST',
-                        body: bulkStr,
-                        encoding: null,
-                        // timeout: 1000 * 3600 * 24 * 3, //3 days //Set your timeout value in milliseconds or 0 for unlimited
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        url: options.elasticUrl + "_bulk?refresh=wait_for"
-                    };
-
-
-                    request(requestOptions, function (error, response, body) {
-                        if (error) {
-                            return callbackEach(error)
-
-                        }
-                        elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
-                            if (err)
-                                return callbackEach(err);
-                            callbackEach(error)
+                        var bulkStr = ""
+                        slice.forEach(function (item) {
+                            totalFiles += item.files.length
+                            bulkStr += JSON.stringify({index: {_index: indexName, _type: indexName, _id: item.id}}) + "\r\n"
+                            bulkStr += JSON.stringify(item) + "\r\n";
 
                         })
+
+                      //  console.log("indexing " + item.id);
+                        var requestOptions = {
+                            method: 'POST',
+                            body: bulkStr,
+                            encoding: null,
+                            // timeout: 1000 * 3600 * 24 * 3, //3 days //Set your timeout value in milliseconds or 0 for unlimited
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            url: options.elasticUrl + "_bulk?refresh=wait_for"
+                        };
+
+
+                        request(requestOptions, function (error, response, body) {
+                            if (error) {
+                                return callbackEach(error)
+
+                            }
+                            elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
+                                if (err)
+                                    return callbackEach(err);
+                                callbackEach(error)
+
+                            })
+                        })
+                    }, function (err) {
+                        console.log("indexed " + totalFiles +" jpg files");
+                        return callbackSeries(err)
                     })
-                }, function (err) {
-                    return callbackSeries(err)
-                })
-            }], function (err) {
-            return callback(err, {dirs: elasticObjs.length, files: totalFiles})
-        })
+                },
+                //generate thumbnail
+                function (callbackSeries) {
+                    if (!options.generateThumbnails)
+                        return callbackSeries();
+                    if(elasticObjs.length==0)
+                        return callbackSeries();
+
+                    thumbnailManager.getWaterMarkImage(options.thumbnailParams,function(err,result){
+                        if (err)
+                            return callbackSeries(err)
+                        options.thumbnailParams.watermark.image=result;
+                        callbackSeries(err)
+                    })
+
+                }
+                , function (callbackSeries) {
+                    if (!options.generateThumbnails)
+                        return callbackSeries();
+                    var index1=0;
+
+
+                    async.eachSeries(elasticObjs, function (item, callbackEach1) {
+                        index2=0;
+
+                        if (item.files.length == 0)
+                            return callbackEach1();
+var t1=new Date()
+                        console.log("generating thumbnails for "+ item.id );
+
+                        async.eachSeries(item.files, function (file, callbackEach2) {
+                            index1+=1
+                            index2+=1
+                            var imgPath = item.id + file
+                            var thumbnailPath = options.thumbnailParams.targetDir + imgPath.replace(/\//g, "|_|")
+
+
+                            imgPath = options.topDir + imgPath
+                            thumbnailManager.generateThumnail(imgPath, thumbnailPath, options.thumbnailParams, function (err, result) {
+                                if (err)
+                                    return callbackEach2(err)
+                                return callbackEach2()
+                            })
+                        }, function (err) {
+                            var duration=Math.round((new Date()-t1)/1000)
+                            var message=" generated thumbnails " + index2+ " in sec. " + duration
+
+                            console.log(message)
+                            return callbackEach1()
+                        })
+
+                    }, function (err) {
+
+                        return callbackSeries()
+                    })
+
+
+                }
+
+
+            ],
+
+            function (err) {
+               var duration=Math.round((new Date()-t0)/1000)
+                return callback(err, {dirs: elasticObjs.length, files: totalFiles,thumbnails:{count:index1,duration:duration}})
+            }
+        )
 
 
     }
@@ -199,19 +291,52 @@ var PhotosScanner = {
 module.exports = PhotosScanner
 
 
-var options = {
-    topDir: "/var/montageJungle/Poly",
-    processor: "indexPhotosCatalog",
-    acceptedExtensions: ["jpg", "JPG", "JPEG", "jpeg", "odt", "ods", "ODT", "ODS"],
-    elasticUrl: elasticRestProxy.getElasticUrl(),
-    indexName: "photos-catalog-polytheque",
-    deleteOldIndex: true
+if (true
+) {
+
+    var options = {
+        topDir: "/var/montageJungle/Photo/FONDS/",
+        processor: "indexPhotosCatalog",
+        acceptedExtensions: ["jpg", "JPG", "JPEG", "jpeg"],// "odt", "ods", "ODT", "ODS"],
+        elasticUrl: elasticRestProxy.getElasticUrl(),
+        indexName: "photos-catalog-phototheque",
+        deleteOldIndex: false
 
 
+    }
+    var options = {
+        topDir: "/var/montageJungle/Poly/",
+        processor: "indexPhotosCatalog",
+        acceptedExtensions: ["jpg", "JPG", "JPEG", "jpeg"],//, "odt", "ods", "ODT", "ODS"],
+        elasticUrl: elasticRestProxy.getElasticUrl(),
+        indexName: "photos-catalog-polytheque",
+        deleteOldIndex: true,
+        generateThumbnails: true,
+        journalDir:"home/claude/"
+
+
+    }
+    var watermarkPath = path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
+    watermarkPath = path.resolve(watermarkPath)
+
+
+    var thumbnailParams = {
+        targetDir: "/var/miniaturesPhotos2/polytheque/",
+        width: 480,
+        quality: 80,
+        acceptedExtensions: ["jpg"],
+        watermark: {
+             path: watermarkPath,
+            'ratio': 0.5,// Should be less than one
+            'opacity': 0.20, //Should be less than one
+        }
+    }
+    options.thumbnailParams = thumbnailParams
+
+    PhotosScanner.getDirContent(options, function (err, result) {
+        if (err)
+            return console.log(err)
+
+        // fs.writeFileSync("/home/claude/poltythequeTest.json",JSON.stringify(result,null,2))
+    })
 }
-PhotosScanner.getDirContent(options, function (err, result) {
-    if (err)
-        return console.log(err)
-
-    // fs.writeFileSync("/home/claude/poltythequeTest.json",JSON.stringify(result,null,2))
-})

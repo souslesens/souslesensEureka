@@ -6,6 +6,8 @@ var watermark = require('jimp-watermark');
 var Jimp = require('jimp')
 
 
+
+
 var ThumbnailManager = {
 
 
@@ -126,6 +128,18 @@ var ThumbnailManager = {
         })
     },
 
+    getWaterMarkImage:function(params,callback){
+        if (!fs.existsSync(params.watermark.path))
+            return callback("not exists")
+        Jimp.read(params.watermark.path, function (err, image) {
+            if (err)
+                return callback(err)
+            image.resize(params.width * params.watermark.ratio, Jimp.AUTO);
+            image.opacity(params.watermark.opacity)
+            watermarkImage = image;
+            callback(null,watermarkImage)
+        })
+    },
 
     buidThumbnails: function (sourceDir, targetDir, includeParentDirInPhotoName, params, callback) {
         var watermarkImage
@@ -179,7 +193,7 @@ var ThumbnailManager = {
                         if (includeParentDirInPhotoName) {
                             var array = sourceDir.split(path.sep)
                             var lastDir = array[array.length - 1]
-                            photoName = lastDir + "_" + subdir.replace(/[\\:/]/g, "_") + photo.name
+                            photoName = lastDir + "|" + subdir.replace(/\//g, "|") + photo.name
 
                         }
 
@@ -216,6 +230,9 @@ var ThumbnailManager = {
 
     }
 }
+
+
+module.exports=ThumbnailManager
 
 
 /*var sourceDir = "\\\\Jungle\\jungle\\Poly\\"
@@ -349,18 +366,21 @@ var sourceDirs = ['/var/montageJungle/polytheque/1152-ValDOiseBrigitteBourcier-1
 ]
 
 
+if (false) {
+    async.eachSeries(sourceDirs, function (sourceDir, callbackEach) {
+        sourceDir = sourceDir.replace("polytheque", "Poly")
+        console.log("--------------------------processing " + sourceDir + "----------------------------------");
+        ThumbnailManager.buidThumbnails(sourceDir, targetDir, includeParentDirInPhotoName, params, function (err, result) {
+            if (err)
+                return callbackEach(err)
 
-async.eachSeries(sourceDirs, function (sourceDir, callbackEach) {
-    console.log("--------------------------processing " + sourceDir + "----------------------------------");
-    ThumbnailManager.buidThumbnails(sourceDir, targetDir, includeParentDirInPhotoName, params, function (err, result) {
+            callbackEach()
+        })
+    }, function (err) {
         if (err)
-            return callbackEach(err)
+            return console.log(err);
 
-        callbackEach()
+        console.log("ALL DONE")
     })
-}, function (err) {
-    if (err)
-        return console.log(err);
 
-    console.log("ALL DONE")
-})
+}

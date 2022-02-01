@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="version alpha 2 correcte sauf photos bordereaux">
-      <change afterPath="$PROJECT_DIR$/bin/PhotosManager2..js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/PhotosCatalogCorrector.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/PhotosDiffCheck..js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/PhotosManager2..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosManager2..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/PhotosScanner..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosScanner..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/thumbnailManager..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/thumbnailManager..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photos.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +44,18 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/bin/thumbnailManager..js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/bin/www" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/bin/PhotosManager2..js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/public/js/searchFrontOffice/photos.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/bin/backoffice/indexer..js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/routes/index.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/bin/PhotosScanner..js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -56,21 +71,21 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="javascript.nodejs.core.library.configured.version" value="10.19.0" />
-    <property name="javascript.nodejs.core.library.typings.version" value="10.17.60" />
+    <property name="javascript.nodejs.core.library.configured.version" value="17.2.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="17.0.13" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/bin" />
     <property name="nodejs_interpreter_path" value="/usr/local/n/versions/node/17.2.0/bin/node" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="advanced.settings" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bin" />
+      <recent name="$PROJECT_DIR$/public/js/searchFrontOffice" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$" />
       <recent name="D:\webstorm\souslesensEureka\public\js\searchFrontOffice" />
-      <recent name="D:\webstorm\souslesensEureka\public\js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/bin" />
@@ -80,7 +95,7 @@
       <recent name="D:\GitHub\souslesensEureka\public\data\photos\IndexPhotos\0073" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.bin\www">
+  <component name="RunManager" selected="Node.js.PhotosScanner..js">
     <configuration name="PhotosScanner..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/PhotosScanner..js" working-dir="$PROJECT_DIR$/bin">
       <method v="2" />
     </configuration>
@@ -90,7 +105,7 @@
     <configuration name="indexer..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/backoffice/indexer..js" working-dir="$PROJECT_DIR$/bin/backoffice">
       <method v="2" />
     </configuration>
-    <configuration name="thumbnailManagerOld..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/thumbnailManagerOld..js" working-dir="$PROJECT_DIR$/bin">
+    <configuration name="photos2.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" working-dir="$PROJECT_DIR$/public/js/searchFrontOffice">
       <method v="2" />
     </configuration>
     <configuration name="thumbnailManager..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/thumbnailManager..js" working-dir="$PROJECT_DIR$/bin">
@@ -99,10 +114,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Node.js.PhotosScanner..js" />
+        <item itemvalue="Node.js.thumbnailManager..js" />
+        <item itemvalue="Node.js.photos2.js" />
         <item itemvalue="Node.js.indexer..js" />
         <item itemvalue="Node.js.PhotothequeLister..js" />
-        <item itemvalue="Node.js.thumbnailManagerOld..js" />
-        <item itemvalue="Node.js.thumbnailManager..js" />
       </list>
     </recent_temporary>
   </component>
@@ -187,7 +202,10 @@
       <workItem from="1642960487426" duration="195000" />
       <workItem from="1642961591413" duration="1605000" />
       <workItem from="1643277341262" duration="28006000" />
-      <workItem from="1643453745030" duration="11921000" />
+      <workItem from="1643453745030" duration="27697000" />
+      <workItem from="1643556472379" duration="19653000" />
+      <workItem from="1643694730936" duration="694000" />
+      <workItem from="1643702862900" duration="448000" />
     </task>
     <task id="LOCAL-00001" summary="thumbnailManager">
       <created>1634370637737</created>
@@ -280,7 +298,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643479807597</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="version alpha 2 correcte sauf photos bordereaux">
+      <created>1643484720288</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1643484720288</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -324,34 +349,39 @@
           <option name="timeStamp" value="276" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/thumbnailManager..js</url>
+          <line>202</line>
+          <option name="timeStamp" value="361" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/thumbnailManager..js</url>
+          <line>195</line>
+          <option name="timeStamp" value="363" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/thumbnailManager..js</url>
+          <line>173</line>
+          <option name="timeStamp" value="365" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
-          <line>145</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="333" />
+          <line>255</line>
+          <option name="timeStamp" value="369" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/routes/index.js</url>
-          <line>209</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="352" />
+          <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
+          <line>256</line>
+          <option name="timeStamp" value="375" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/routes/index.js</url>
-          <line>338</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="354" />
+          <url>file://$PROJECT_DIR$/bin/thumbnailManager..js</url>
+          <line>117</line>
+          <option name="timeStamp" value="395" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/routes/index.js</url>
-          <line>354</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="356" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/PhotosManager2..js</url>
-          <line>92</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="357" />
+          <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
+          <line>153</line>
+          <option name="timeStamp" value="397" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

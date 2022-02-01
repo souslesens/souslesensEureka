@@ -1,4 +1,4 @@
-var PhotosX = (function () {
+var Photos = (function () {
     var self = {}
 
     self.hitPhoto = {}
@@ -14,43 +14,40 @@ var PhotosX = (function () {
 
 
         var theque = appConfig.photos.indexPhotosDirsMap[hit._index]
+        self.currentTheque = theque
         var sep = "_"
         if (theque == "phototheque")
             sep = "|"
         var regexSep = new RegExp("/" + sep + "/", "g")
 
         $("#photoMessageDiv").html("recherche des photos en cours...")
-        self.getPhotos(hit, function (err, photosPaths) {
-
+        self.getPhotosTree(hit, function (err, jstreeData) {
 
             if (err)
                 return alert(err)
 
-            if (photosPaths.length == 0) {
-                $("#photoMessageDiv").html("Aucune  photos trouvées")
+            if (jstreeData.length == 0) {
+                $("#photoMessageDiv").html("Aucune  photo trouvée")
                 $("#photosContainerDiv").css("display", "none")
                 //$("#detailedDataPdfIframe").height('800px');
                 $("#detailedDataPdfIframe").css("height", "95vh");
                 return;
             }
             $("#photosContainerDiv").css("display", "block")
-            $("#photoMessageDiv").html(photosPaths.length + " photos trouvées ")
+            $("#photoMessageDiv").html(jstreeData.length + " photos trouvées ")
 
-            var jstreeData = [];
+         /*   var jstreeData = [];
             var existingNodes = {}
             photosPaths.forEach(function (path) {
-                var path=""
-                for(var i=0;i<10;i++){
-                    var dir=path["dir"+(i+1)]
-                    if(!dir)
+                var path = ""
+                for (var i = 0; i < 10; i++) {
+                    var dir = path["dir" + (i + 1)]
+                    if (!dir)
                         break;
-                    path+=dir+"/"
+                    path += dir + "/"
 
 
                 }
-
-
-
 
 
                 var array = path.split(sep)
@@ -107,7 +104,7 @@ var PhotosX = (function () {
                     item.text += " <b>" + existingNodes[item.id] + "</b>"
                 item.data.count = existingNodes[item.id]
 
-            })
+            })*/
 
 
             var options = {
@@ -125,43 +122,38 @@ var PhotosX = (function () {
     }
 
     self.onTreeNodeSelect = function (event, obj) {
+        var treePath=obj.node.id
+        var files=obj.node.data.files;
+        var rootPath="/montageJungle/"
+        var photoPaths=[]
+        if(self.currentTheque=="phototheque"){
+            files.forEach(function(file){
+                ///var/montageJungle/phototheque/INDEX/
+                photoPaths.push({"thumb":rootPath+"phototheque/"+"INDEX/"+treePath+file})
+            })
 
-        if (obj.node.data.count > appConfig.photos.maxPhotosInFotorama && obj.node.children.length > 0)
-            return alert("Trop de photos à charger : " + obj.node.data.count + " .Selectionnez un niveau plus bas ")
+        }
+        else{
 
-        var subPath = obj.node.data.path
-        var theque = obj.node.data.theque
-        self.currentTheque = theque
+            files.forEach(function(file){
+                var rootPath="/miniaturesPhotos2/"
+               var treePath2=(treePath).replace(/\//g,"|_|");//coding for pathSep
 
-        var rootUrl = ""
-        var sep;
+                photoPaths.push({"thumb":rootPath+self.currentTheque+"/"+treePath2+file})
+            })
+        }
+
+console.log(JSON.stringify(photoPaths,null,2))
 
 
-        var photosSubset = []
-        if (!self.currentDocumentPhotos)
-            alert("no  self.currentDocumentPhotos")
 
-        self.currentDocumentPhotos.forEach(function (photo) {
-            if (theque == "phototheque") {
-                photo = photo.replace(/\|/g, "/")
-                rootUrl = "/montageJungle/phototheque/INDEX/"
-                photosSubset.push({"thumb": rootUrl + photo})
-            } else {
-
-                if (photo.indexOf(subPath) > -1) {
-                    rootUrl = "/miniaturesPhotos/" + theque + "/"
-                    photosSubset.push({"thumb": rootUrl + photo})
-                }
-            }
-        })
-        //  console.log( JSON.stringify(photosSubset,null,2))
         var fr = $('.fotorama').fotorama();
         var fotorama = fr.data('fotorama');
         if (fotorama) {
-            fotorama.load(photosSubset);
+            fotorama.load(photoPaths);
             fotorama.show(0);
         } else {
-            $('.fotorama').fotorama({data: photosSubset});
+            $('.fotorama').fotorama({data: photoPaths});
         }
     }
     self.initFotorama = function () {
@@ -182,6 +174,7 @@ var PhotosX = (function () {
 
 
     self.setActivePhotoInfos = function (photoPath) {
+
         if (self.currentTheque == "phototheque") {
             var url = photoPath.replace("INDEX", "FONDS")
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
@@ -201,8 +194,8 @@ var PhotosX = (function () {
             var p = photoPath.indexOf("polytheque")
             if (p > -1) {
                 p += 10
-                photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
-                var url = "/montageJungle/" + self.currentTheque + photoPath
+                photoPath = photoPath.substring(p + 1).replace(/\|_\|/g, "/")
+                var url = "/montageJungle/" + "Poly/" + photoPath
                 var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
                 console.log(html);
             } else {
@@ -214,35 +207,10 @@ var PhotosX = (function () {
     }
 
 
-    self.setActivePhotoInfosXX = function (photoPath) {
-        if (self.currentTheque == "phototheque") {
-            var url = photoPath.replace("INDEX", "FONDS")
-            var html = "<a href='" + url + "' target='photos'>" + photoPath + "</a>"
-            console.log(html);
-            $("#activePhotoDiv").html(html)
-            return;
-        }
-        var p = photoPath.indexOf("INDEX")//artotheque
-        if (p > -1) {
-            p += 5
-            photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
-        } else {
-            var p = photoPath.indexOf("polytheque")
-            if (p > -1) {
-                p += 10
-                photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
-            } else {
-                $("#activePhotoDiv").html(photoPath)
-            }
-        }
-        var url = "/montageJungle/" + self.currentTheque + "/FONDS/" + photoPath
-        var html = "<a href='" + url + "' target='photos'>" + photoPath + "</a>"
-        console.log(html);
-        $("#activePhotoDiv").html(html)
-    }
 
 
-    self.getPhotos = function (hit, callback) {
+
+    self.getPhotosTree = function (hit, callback) {
         var index = hit._index
         var photosArray = [];
         var options = {}
@@ -267,33 +235,120 @@ var PhotosX = (function () {
             return callback(0, [])
         }
 
-        var photosDir = appConfig.photos.indexPhotosDirsMap[index]
-        options.maxFiles = 10000
-        var docTitle = hit._source.title;
-        var payload = {getPhotosList: 1, options: JSON.stringify(options), photosDir: photosDir}
-        $.ajax({
-            type: "POST",
-            url: appConfig.elasticUrl,
-            data: payload,
-            dataType: "json",
-            success: function (data, textStatus, jqXHR) {
 
-                photosArray = data.files;
-                if (maxFiles <= photosArray.length)
-                    return alert("trop de photos : >" + options.maxFiles)
-                photosArray.dirPath = data.dirPath
-                self.currentPhotosDirPath = data.dirPath
+        var data = []
+        var offset = 0;
+        var size = 500;
+        var mustArray = []
+        options.pattern.forEach(function (item, index) {
+            mustArray.push({
+                "match": {
+                    ["dir" + (index + 1)]: item
+                }
+            })
+        })
+        var query = {
+            "query": {
+                "bool": {
+                    "must": mustArray
+                }
+            }, "_source": {
+                "excludes": [
+                    "attachment.content"
+                ]
+            }
+        }
+        var resultSize = 1;
+        var maxFiles = 2000
+        var jstreeData = [];
+        var existingNodes = {};
+        async.whilst(
+            function (callbackTest) {//test
+                return resultSize > 0 && data.length < maxFiles;
+            },
 
-                self.currentDocumentPhotos = photosArray
-                return callback(null, photosArray)
-            }
-            , error: function (err) {
-                console.log(err.responseText)
-                //  $('.fotorama').html("no photos found")
-                return callback(err);
-            }
-        });
+            function (callbackWhilst) {
+                query.from = offset;
+                query.size = size
+
+                var strQuery = JSON.stringify(query);
+                console.log(strQuery)
+                var payload = {
+                    executeQuery: strQuery,
+                    indexes: JSON.stringify(["photos-catalog-" + self.currentTheque])
+
+                }
+                $.ajax({
+                    type: "POST",
+                    url: appConfig.elasticUrl,
+                    data: payload,
+                    dataType: "json",
+                    success: function (result, textStatus, jqXHR) {
+                        var hits = result.hits.hits;
+                        resultSize = hits.length
+                        offset += size;
+
+                        hits.forEach(function (hit) {
+                            var item = hit._source;
+                            if (item.files && item.files.length > 0) {
+                                var id = ""
+                                var parent = ""
+                                var label = ""
+                                var previousId="#"
+                                for (var i = 0; i < 10; i++) {
+                                    var dir = item["dir" + (i + 1)]
+                                    if (!dir)
+                                        break;
+                                    parent=previousId
+                                    id += dir + "/"
+                                    if (i > 0){
+                                        previousId=id
+                                    }else{
+                                        previousId="#"
+                                    }
+
+                                    label = dir
+
+                                label += " (" + item.files.length + ")"
+                                if (!existingNodes[id]) {
+                                    existingNodes[id] = 1
+                                    jstreeData.push({
+                                        id: id,
+                                        parent: parent,
+                                        text: label,
+                                        data: item
+
+
+                                    })
+                                }
+                                }
+                                //  data.push(hit._source)
+                            }
+                        })
+
+                        callbackWhilst()
+                    },
+                    error: function (err, textStatus, jqXHR) {
+                        callbackWhilst(err)
+                    }
+                })
+
+
+                /*   photosArray.dirPath = data.dirPath
+                   self.currentPhotosDirPath = data.dirPath
+
+                   self.currentDocumentPhotos = photosArray*/
+
+
+            }, function (err) {
+
+                return callback(null, jstreeData)
+
+            })
+
+
     }
+
 
     function scrollTo(textarea, offset) {
         const txt = textarea.value;

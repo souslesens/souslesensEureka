@@ -36,75 +36,75 @@ var Photos = (function () {
             $("#photosContainerDiv").css("display", "block")
             $("#photoMessageDiv").html(jstreeData.length + " photos trouvées ")
 
-         /*   var jstreeData = [];
-            var existingNodes = {}
-            photosPaths.forEach(function (path) {
-                var path = ""
-                for (var i = 0; i < 10; i++) {
-                    var dir = path["dir" + (i + 1)]
-                    if (!dir)
-                        break;
-                    path += dir + "/"
+            /*   var jstreeData = [];
+               var existingNodes = {}
+               photosPaths.forEach(function (path) {
+                   var path = ""
+                   for (var i = 0; i < 10; i++) {
+                       var dir = path["dir" + (i + 1)]
+                       if (!dir)
+                           break;
+                       path += dir + "/"
 
 
-                }
+                   }
 
 
-                var array = path.split(sep)
-                //    array.splice(array.length-1,1)// delete photo from tree (keep only parents)
-                self.currentPhotosRootUrl = array[0]
-                var oldId = "";
-                array.forEach(function (item, index) {
-                    if (false && index == 0)
-                        return;
-                    var parent = "#"
-                    if (index > 0) {
-                        parent = oldId
-                        existingNodes[parent] += 1
-                    }
-                    var id = parent + "_" + item;
-                    var path = "";
-                    if (true || index > 0) {
-                        var path = id.substring(2)
-                    }
+                   var array = path.split(sep)
+                   //    array.splice(array.length-1,1)// delete photo from tree (keep only parents)
+                   self.currentPhotosRootUrl = array[0]
+                   var oldId = "";
+                   array.forEach(function (item, index) {
+                       if (false && index == 0)
+                           return;
+                       var parent = "#"
+                       if (index > 0) {
+                           parent = oldId
+                           existingNodes[parent] += 1
+                       }
+                       var id = parent + "_" + item;
+                       var path = "";
+                       if (true || index > 0) {
+                           var path = id.substring(2)
+                       }
 
-                    if (!existingNodes[id]) {
-                        if (index == array.length - 1)
-                            existingNodes[id] = 0
-                        else {
-                            existingNodes[id] = 0
-                            item.id = id
-                            jstreeData.push({
-                                id: id,
-                                text: item,
-                                parent: parent,
-                                data: {
-                                    path: path,
-                                    text: item,
-                                    theque: theque
-                                }
-                            })
-                        }
+                       if (!existingNodes[id]) {
+                           if (index == array.length - 1)
+                               existingNodes[id] = 0
+                           else {
+                               existingNodes[id] = 0
+                               item.id = id
+                               jstreeData.push({
+                                   id: id,
+                                   text: item,
+                                   parent: parent,
+                                   data: {
+                                       path: path,
+                                       text: item,
+                                       theque: theque
+                                   }
+                               })
+                           }
 
-                    } else {
+                       } else {
 
-                    }
-                    oldId = id
-
-
-                })
+                       }
+                       oldId = id
 
 
-            })
+                   })
 
-            var x = jstreeData;
 
-            jstreeData.forEach(function (item) {
-                if (existingNodes[item.id] > 0)
-                    item.text += " <b>" + existingNodes[item.id] + "</b>"
-                item.data.count = existingNodes[item.id]
+               })
 
-            })*/
+               var x = jstreeData;
+
+               jstreeData.forEach(function (item) {
+                   if (existingNodes[item.id] > 0)
+                       item.text += " <b>" + existingNodes[item.id] + "</b>"
+                   item.data.count = existingNodes[item.id]
+
+               })*/
 
 
             var options = {
@@ -122,29 +122,37 @@ var Photos = (function () {
     }
 
     self.onTreeNodeSelect = function (event, obj) {
-        var treePath=obj.node.id
-        var files=obj.node.data.files;
-        var rootPath="/montageJungle/"
-        var photoPaths=[]
-        if(self.currentTheque=="phototheque"){
-            files.forEach(function(file){
+        var treePath = obj.node.id
+        var files = obj.node.data.files;
+        var rootPath = "/montageJungle/MiniaturesPhotos/"
+        var photoPaths = []
+        if (self.currentTheque == "phototheque") {
+            files.forEach(function (file) {
                 ///var/montageJungle/phototheque/INDEX/
-                photoPaths.push({"thumb":rootPath+"phototheque/"+"INDEX/"+treePath+file})
+                var treePath2= treePath.replace(/\//g,"*/")
+                photoPaths.push({"thumb": rootPath + "phototheque/" + "INDEX/" + treePath2 + file})
             })
 
-        }
-        else{
+        } else if (self.currentTheque == "polytheque") {
 
-            files.forEach(function(file){
-                var rootPath="/miniaturesPhotos2/"
-               var treePath2=(treePath).replace(/\//g,"|_|");//coding for pathSep
+            files.forEach(function (file) {
 
-                photoPaths.push({"thumb":rootPath+self.currentTheque+"/"+treePath2+file})
+                var rootPath = "/montageJungle/MiniaturesPhotos/"
+                var treePath2 = (treePath).replace(/\//g, "|_|");//coding for pathSep
+
+                photoPaths.push({"thumb": rootPath + "polytheque2" + "/" + treePath2 + file})
+            })
+        } else {
+
+            files.forEach(function (file) {
+                var rootPath = "/montageJungle/MiniaturesPhotos/"
+                var treePath2 = (treePath).replace(/\//g, "|_|");//coding for pathSep
+
+                photoPaths.push({"thumb": rootPath + self.currentTheque + "/_INDEX_" + treePath2 + file})
             })
         }
 
-console.log(JSON.stringify(photoPaths,null,2))
-
+        console.log(JSON.stringify(photoPaths, null, 2))
 
 
         var fr = $('.fotorama').fotorama();
@@ -186,7 +194,7 @@ console.log(JSON.stringify(photoPaths,null,2))
         if (p > -1) {
             p += 5
             photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
-            var url = "/montageJungle/" + self.currentTheque + "/FONDS/" + photoPath
+            var url = "/montageJungle/" + "Arto" + "/FONDS/" + photoPath
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
             console.log(html);
 
@@ -205,9 +213,6 @@ console.log(JSON.stringify(photoPaths,null,2))
 
         $("#activePhotoDiv").html(html)
     }
-
-
-
 
 
     self.getPhotosTree = function (hit, callback) {
@@ -294,33 +299,33 @@ console.log(JSON.stringify(photoPaths,null,2))
                                 var id = ""
                                 var parent = ""
                                 var label = ""
-                                var previousId="#"
+                                var previousId = "#"
                                 for (var i = 0; i < 10; i++) {
                                     var dir = item["dir" + (i + 1)]
                                     if (!dir)
                                         break;
-                                    parent=previousId
+                                    parent = previousId
                                     id += dir + "/"
-                                    if (i > 0){
-                                        previousId=id
-                                    }else{
-                                        previousId="#"
+                                    if (i > 0) {
+                                        previousId = id
+                                    } else {
+                                        previousId = "#"
                                     }
 
                                     label = dir
 
-                                label += " (" + item.files.length + ")"
-                                if (!existingNodes[id]) {
-                                    existingNodes[id] = 1
-                                    jstreeData.push({
-                                        id: id,
-                                        parent: parent,
-                                        text: label,
-                                        data: item
+                                    label += " (" + item.files.length + ")"
+                                    if (!existingNodes[id]) {
+                                        existingNodes[id] = 1
+                                        jstreeData.push({
+                                            id: id,
+                                            parent: parent,
+                                            text: label,
+                                            data: item
 
 
-                                    })
-                                }
+                                        })
+                                    }
                                 }
                                 //  data.push(hit._source)
                             }

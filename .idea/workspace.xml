@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="version alpha 2 correcte sauf photos bordereaux">
-      <change afterPath="$PROJECT_DIR$/bin/PhotosCatalogCorrector.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" afterDir="false" />
+    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="Photo Scannner and photos index">
+      <change afterPath="$PROJECT_DIR$/bin/fileCopyer..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/PhotosManager2..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosManager2..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/PhotosScanner..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosScanner..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/thumbnailManager..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/thumbnailManager..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photos.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,7 +203,9 @@
       <workItem from="1643453745030" duration="27697000" />
       <workItem from="1643556472379" duration="19653000" />
       <workItem from="1643694730936" duration="694000" />
-      <workItem from="1643702862900" duration="448000" />
+      <workItem from="1643702862900" duration="1194000" />
+      <workItem from="1643704120490" duration="2372000" />
+      <workItem from="1643709476865" duration="16003000" />
     </task>
     <task id="LOCAL-00001" summary="thumbnailManager">
       <created>1634370637737</created>
@@ -305,7 +305,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643484720288</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="PhotoSannner and photos index">
+      <created>1643703380758</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1643703380758</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -328,7 +335,8 @@
     <MESSAGE value="thumbnailManagerPolytheque..js debug on server Baillet" />
     <MESSAGE value="corrections pas fini" />
     <MESSAGE value="version alpha 2 correcte sauf photos bordereaux" />
-    <option name="LAST_COMMIT_MESSAGE" value="version alpha 2 correcte sauf photos bordereaux" />
+    <MESSAGE value="PhotoSannner and photos index" />
+    <option name="LAST_COMMIT_MESSAGE" value="PhotoSannner and photos index" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -365,23 +373,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
-          <line>255</line>
+          <line>272</line>
           <option name="timeStamp" value="369" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
-          <line>256</line>
+          <line>273</line>
           <option name="timeStamp" value="375" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/thumbnailManager..js</url>
           <line>117</line>
           <option name="timeStamp" value="395" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
-          <line>153</line>
-          <option name="timeStamp" value="397" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

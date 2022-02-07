@@ -22,8 +22,8 @@ var indexer = {
         var index = config.general.indexName;
         var elasticUrl = config.indexation.elasticUrl;
         var connector = config.connector;
-        if(config.indexation.deleteOldIndex=="no")
-            config.indexation.deleteOldIndex=false
+        if (config.indexation.deleteOldIndex == "no")
+            config.indexation.deleteOldIndex = false
 
 
         var indexExists = false;
@@ -134,7 +134,7 @@ var indexer = {
                     var options = {
                         method: 'PUT',
                         description: "create index",
-                        url: elasticUrl + index ,
+                        url: elasticUrl + index,
                         json: json
                     };
 
@@ -237,7 +237,7 @@ var indexer = {
                     } else
                         return callbackSeries("no valid connector type declared");
 
-                    var message = " indexation running on index :" + index+" using connector "+connector.type+" <br><b>WAIT ...<b></b>"
+                    var message = " indexation running on index :" + index + " using connector " + connector.type + " <br><b>WAIT ...<b></b>"
                     socket.message(message);
 
                 },
@@ -249,11 +249,11 @@ var indexer = {
                         return callbackSeries();
 
                     var thesauri = Object.keys(config.thesauri);
-                    var i=0;
+                    var i = 0;
                     async.eachSeries(thesauri, function (thesaurus, callbackEach2) {
 
                         var thesaurusConfig = config.thesauri[thesaurus];
-                        annotator_skos.annotateCorpusFromRDFfile(thesaurusConfig, index,elasticUrl, function (err, result) {
+                        annotator_skos.annotateCorpusFromRDFfile(thesaurusConfig, index, elasticUrl, function (err, result) {
                             if (err)
                                 return callbackEach2(err);
                             callbackEach2()
@@ -298,7 +298,7 @@ var indexer = {
                     headers: {
                         'content-type': 'application/json'
                     },
-                    url: elasticUrl + index+"/"
+                    url: elasticUrl + index + "/"
                 };
                 request(options, function (error, response, body) {
                     if (error)
@@ -335,6 +335,8 @@ var indexer = {
             callback(err);
         })
     }
+
+
 }
 
 

@@ -15,7 +15,7 @@ var annotator_skos = require("../bin/backoffice/annotator_skos.");
 var skosReader = require("../bin/backoffice/skosReader..js");
 var httpProxy = require("../bin/httpProxy.")
 
-var PhotosManager=require("../bin/PhotosManager.")
+var PhotosManager = require("../bin/PhotosManager.")
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -197,16 +197,12 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
 
         }
         if (req.body.getPhotosList) {
-            PhotosManager.getPhotosList(req.body.getPhotosList, req.body.photosDir,JSON.parse(req.body.options),function (err, result) {
+            PhotosManager.getPhotosList(req.body.getPhotosList, req.body.photosDir, JSON.parse(req.body.options), function (err, result) {
                 processResponse(response, err, result)
 
             })
 
         }
-
-
-
-
 
 
         if (req.body.rdfToEditor) {
@@ -277,22 +273,21 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
             })
         }
         if (req.body.getWikimediaPageNonThesaurusWords) {
-            var mediawikiTaggger=require("../bin/others/mediawiki/mediawikiTagger.")
-            mediawikiTaggger.getWikimediaPageNonThesaurusWords(req.body.elasticUrl,req.body.indexName,req.body.pageName,req.body.graphIri,req.body.pageCategoryThesaurusWords,function (err, result) {
+            var mediawikiTaggger = require("../bin/others/mediawiki/mediawikiTagger.")
+            mediawikiTaggger.getWikimediaPageNonThesaurusWords(req.body.elasticUrl, req.body.indexName, req.body.pageName, req.body.graphIri, req.body.pageCategoryThesaurusWords, function (err, result) {
                 processResponse(response, err, result)
 
             })
         }
 
         if (req.body.annotateLive) {
-            var annotatorLive=require("../bin/annotatorLive.")
-            var sources=JSON.parse(req.body.sources)
-            annotatorLive.annotate(req.body.text,sources,function (err, result) {
+            var annotatorLive = require("../bin/annotatorLive.")
+            var sources = JSON.parse(req.body.sources)
+            annotatorLive.annotate(req.body.text, sources, function (err, result) {
                 processResponse(response, err, result)
 
             })
         }
-
 
 
     },
@@ -309,6 +304,19 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
 
         httpProxy.get(req.query, function (err, result) {
             processResponse(res, err, result)
+        })
+    }),
+
+
+    router.get('/getFile', function (req, res, next) {
+
+        var FilerProxy = require('../bin/filerProxy.')
+        FilerProxy.getFile(req.query.file, function (err, result) {
+          //  res.setHeader("Content-Type", req.query.mime);
+            res.setHeader("Content-Type","application/pdf");
+
+            processResponse(res, err, result)
+
         })
     })
 )

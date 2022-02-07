@@ -46,7 +46,7 @@ PhotosManager = {
 
         pattern += "*.*"
 
-        console.log(JSON.stringify(photosDir + "    " + options.pattern))
+      //  console.log(JSON.stringify(photosDir + "    " + options.pattern))
 
 
         glob(pattern, globOptions, function (err, files) {
@@ -54,25 +54,16 @@ PhotosManager = {
                 return callback(err)
             console.log("************  " + pattern + " " + files.length)
             var photos = []
-
+            var firstLevelPhotosDir;
             if (photosDir == "phototheque" && files.length > 0) {
+                 firstLevelPhotosDir=files[0]
                 var dossierData = JSON.parse("" + fs.readFileSync(files[0]))
                 var photosData = [];
 
 
                 dossierData.forEach(function (photo) {
                     var V1 = options.pattern[0];
-                    /*                    var V2=options.pattern[1];
-                                        var V3=options.pattern[2];
-                                var photoPattern=new RegExp(V1+"\-"+V2+"\-"+V3)
-                                //		  var pattern=/${V1}\-${V2}\-{V3}/gm
-                                       // var pattern=/${V1}[. \|]*${V2}[. \|]${V3}/gm
 
-                            console.log(photoPattern);
-                                       if(photo.match(photoPattern)){
-                                            photos.push(photo)
-                                        }
-                    */
                     var h, p, q;
                     var x = photo.lastIndexOf("|")
                     if ((h = photo.indexOf(options.pattern[0])) > -1 && h < x) {
@@ -92,7 +83,7 @@ PhotosManager = {
             }
 
 
-            var result = {files: photos, dirPath: indexDirPath}
+            var result = {files: photos, dirPath: indexDirPath,firstLevelPhotosDir:firstLevelPhotosDir}
             callback(null, result);
         })
 

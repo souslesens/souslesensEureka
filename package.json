@@ -25,6 +25,7 @@
     "mysql": "^2.18.1",
     "ndjson": "^2.0.0",
     "node-schedule": "^2.0.0",
+    "open": "^8.4.0",
     "pdfjs-dist": "^2.6.347",
     "pug": "2.0.0-beta11",
     "request": "^2.88.2",

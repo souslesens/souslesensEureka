@@ -178,29 +178,28 @@ var ui = (function () {
 
             $("#detailsDiv").load("snippets/detailsPhotos.html",function(){
                 var displayConfig = context.indexConfigs[hit._index].display;
-                var htmlObj = self.getDetailHtmlContent_generic(hit, displayConfig)
-                $("#detailedDataDivLeft").html(htmlObj.htmlLeft)
-                $("#detailedDataDivRight").html(htmlObj.htmlRight)
 
-                Photos.showHitDetails(hit);
+                if(hit._index=="bordereaux"){
+
+                    var p=hit._source.title.lastIndexOf(".")
+                    var title=hit._source.title.substring(0,p)+".pdf"
+                    title=title.replace("-DS","")
+                    var url="/montageBordereauxPdfs/"+title
+                    $("#detailedDataPdfIframe").width( $("#detailedDataPdfIframe").parent().width());
+                   // $("#detailedDataPdfIframe").height( $("#detailedDataPdfIframe").parent().height());
+                    $("#detailedDataPdfIframe").css("display","block");
+                    $("#detailedDataPdfIframe").attr('src',url);
+
+
+
+                }else {
+                    var htmlObj = self.getDetailHtmlContent_generic(hit,displayConfig)
+                    $("#detailedDataDivLeft").html(htmlObj.htmlLeft)
+                    $("#detailedDataDivRight").html(htmlObj.htmlRight)
+                }
+
+                Photos.showPhotos(hit);
             });
-
-
-            return
-            $(".ui-dialog").css("max-width","1200px");
-            $("#dialogDiv").css("max-width","1200px");
-            $("#dialogDiv").css("max-height","500px");
-            $("#dialogDiv").load("snippets/detailsPhotos.html");
-
-            $("#dialogDiv").dialog("open")
-            setTimeout(function(){
-             //   PhotosManager.showData(hit)
-                Photos.showHitDetails(hit);
-
-
-
-
-            },200)
 
             return;
 
@@ -229,6 +228,8 @@ var ui = (function () {
 
 
     }
+
+
 
     self.setHighlight = function (text, highlightedWords) {
         if (highlightedWords.length > 2)

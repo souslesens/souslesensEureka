@@ -63,7 +63,8 @@ var PhotosManager = (function () {
                 console.log(e.type, fotorama.activeIndex);
                 var activePhoto = fotorama.data[fotorama.activeIndex].thumb
                 activePhoto = activePhoto.substring(activePhoto.lastIndexOf(sep) + 1)
-                $("#activePhotoDiv").html(activePhoto)
+                Photos.setActivePhotoInfos(activePhoto)
+               // $("#activePhotoDiv").html(activePhoto)
             });
 
 

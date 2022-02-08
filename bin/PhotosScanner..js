@@ -48,7 +48,7 @@ var PhotosScanner = {
 
                 if (stats.isDirectory(fileName)) {
 
-                    if (options.filterDirs && options.filterDirs["" + level+1]) {
+                    if (options.filterDirs && options.filterDirs["" + level + 1]) {
                         var p = i
                         if (p < options.filterDirs["" + level].start || p > options.filterDirs["" + level].end)
                             return
@@ -58,7 +58,7 @@ var PhotosScanner = {
 
                     recurse(fileName, level + 1);
                     if ((totalDirs++) % 200 == 0)
-                        console.log("directories " + totalDirs)
+                      ;//  console.log("directories " + totalDirs)
 
                 } else {
 
@@ -101,6 +101,7 @@ var PhotosScanner = {
         var t1 = new Date()
         var journal = ""
         var i = -1;
+
         async.eachSeries(dirs1, function (dir1, callbackEach) {
             i++;
             if (options.filterDirs && options.filterDirs["0"]) {
@@ -127,19 +128,44 @@ var PhotosScanner = {
                     totalDirsIndexed += result.dirs;
                     var duration = Math.round((new Date() - t1) / 1000)
                     var message = "" + index + "/" + dirs1.length + "  processed " + dir1;
-                    console.log("" + index + "/" + dirs1.length + "  processed " + dir1);
+
                     journal += message + "\n"
                     message = " Total  indexed : leaf directories  " + totalDirsIndexed + " ,files " + totalFilesIndexed + " in sec. " + duration
                     journal += message + "\n"
                     message = " Total  thumbnails  " + result.thumbnails.count + " in sec. " + result.thumbnails.duration
                     journal += message + "\n"
+                    console.log(message);
 
 
                     callbackEach();
 
                 })
-            }
+            } else if (options.processor == "getComparisonLog") {
+                PhotosScanner.getComparisonLog(dirFilesMap, options, function (err, result) {
+                    if(err)
+                        return callbackEach(err)
+                        journal += dir1+"\t"+result
 
+                    if(i%10==0){
+                        console.log("***"+i)
+                        var header="totalPhotosFond\tdirsFonds\tmissingIndexDirs\tmissingIndexPhotos\tsupppressIndexPhotos\n"
+                        journal=header+journal
+                        var journalPath = options.journalDir + options.indexName + "_" + i + ".txt"
+                        fs.writeFileSync(journalPath, journal)
+                        journal=""
+
+                    }
+                        return callbackEach()
+                    return callbackEach()
+                    var message = "added " + result.added+"/"+ result.ok+ "  miniatures from " + dir1;
+
+
+                    journal += message + "\n"
+                    console.log(message);
+
+                })
+
+            }
 
         }, function (err) {
             var journalPath = options.journalDir + options.indexName + "_" + new Date() + ".txt"
@@ -147,6 +173,184 @@ var PhotosScanner = {
             console.log(" ALL DONE")
         })
         //  return callback(null, dirFilesMap)
+    },
+
+    getComparisonLog: function (photosMap, options, callback) {
+        console.log(Object.keys(photosMap).length)
+        var totalFiles = 0
+        var elasticObjs = []
+
+
+        var infos=""
+        var photosFonds=0
+        var dirsFonds=0
+        var missingIndexDirs=0
+        var missingIndexPhotos=0
+        var supppressIndexPhotos=0
+        for (var key in photosMap) {
+            dirsFonds+=1
+          var filesFonds=fs.readdirSync(key)
+            photosFonds+=filesFonds.length
+            var indexDirPath=key.replace("FONDS","INDEX")
+            if(fs.existsSync(indexDirPath)) {
+                var filesIndex = fs.readdirSync(indexDirPath)
+                var delta = filesFonds.length - filesIndex.length
+                if( delta>0)
+                    missingIndexPhotos+=1
+                if( delta<0)
+                    supppressIndexPhotos
+            //    infos+=indexDirPath+"\t"+delta+"\n"
+
+            }else{
+                missingIndexDirs+=1
+             //   infos+=indexDirPath+"\t"+"NA"+"\n"
+
+            }
+
+           // console.log(infos)
+
+
+        }
+
+var infos=photosFonds+"\t"+dirsFonds+"\t"+missingIndexDirs+"\t"+missingIndexPhotos+"\t"+supppressIndexPhotos+"\n"
+
+
+        return callback(null, infos);
+        for (var key in photosMap) {
+            var photos = photosMap[key];
+            elasticObjs.push(photosMap[key])
+        }
+
+
+        var slices = util.sliceArray(elasticObjs, 100)
+        var allResults = []
+        var totalMiniaturesAdded= 0
+        var totalMiniaturesOK= 0
+        async.eachSeries(slices, function (slice, callbackEach) {
+            var bulQueryStr = "";
+            var allPhotoPaths = []
+            var photosToIndex = []
+
+            async.series([
+                //search missing photos in elastic
+                function (callbackSeries) {
+                    slice.forEach(function (obj) {
+                        if (!obj)
+                            return;
+
+                        var array = obj.id.split("/")
+                        var mustArray = []
+                        array.forEach(function (item, index) {
+                            if (item) {
+                                mustArray.push({
+                                    "term": {
+                                        ["dir" + (index + 1) + ".keyword"]: item
+                                    }
+                                })
+                            }
+                        })
+
+
+                        var header = {index: options.indexName}
+
+
+                        obj.files.forEach(function (photo) {
+                            allPhotoPaths.push(obj.id + photo)
+                            var queryPhoto = {
+                                "query": {
+                                    "bool": {
+                                        "must": mustArray
+                                    }
+                                }
+                            }
+
+
+                            queryPhoto.query.bool.must.push({
+                                "match": {
+                                    "files.keyword": photo
+                                }
+                            })
+
+                            var queryStr = JSON.stringify(header) + "\r\n" + JSON.stringify(queryPhoto) + "\r\n";
+
+                            bulQueryStr += queryStr;
+                        })
+                    })
+
+                    elasticRestProxy.executeMsearch(bulQueryStr, function (err, result) {
+                        if (err)
+                            return callbackSeries(err)
+                        var x = result
+                        result.forEach(function (item, index) {
+                            if (item.hits.total == 0) {
+                                photosToIndex.push(allPhotoPaths[index])
+                            } else {
+                                totalMiniaturesOK+=1
+
+                            }
+                        })
+                        callbackSeries()
+                    })
+                },
+
+                //indexMissingPhotos
+                function (callbackSeries) {
+                    totalMiniaturesAdded+=photosToIndex.length
+                if(photosToIndex.length==0){
+                    return callbackSeries()
+                }
+                    return callbackSeries()
+                    photosToIndex.forEach(function(path){
+
+
+                    })
+                   return callbackSeries()
+                    var bulkStr = ""
+                    slice.forEach(function (item) {
+                        totalFiles += item.files.length
+                        bulkStr += JSON.stringify({
+                            index: {
+                                _index: indexName,
+                                _type: indexName,
+                                _id: item.id
+                            }
+                        }) + "\r\n"
+                        bulkStr += JSON.stringify(item) + "\r\n";
+
+                    })
+
+                    //  console.log("indexing " + item.id);
+                    var requestOptions = {
+                        method: 'POST',
+                        body: bulkStr,
+                        encoding: null,
+                        // timeout: 1000 * 3600 * 24 * 3, //3 days //Set your timeout value in milliseconds or 0 for unlimited
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        url: options.elasticUrl + "_bulk?refresh=wait_for"
+                    };
+
+
+                    request(requestOptions, function (error, response, body) {
+                        if (error) {
+                            return callbackEach(error)
+                        }
+                        elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
+                            if (err)
+                                return callbackEach(err);
+                            callbackSeries(error)
+
+                        })
+                    })
+                }
+            ], function (err) {
+                return callbackEach(err)
+            })
+
+        }, function (err) {
+            callback(err,{added:totalMiniaturesAdded,ok:totalMiniaturesOK})
+        })
     },
 
 
@@ -170,6 +374,7 @@ var PhotosScanner = {
         }
 
         async.series([
+                //delete index
                 function (callbackSeries) {
                     if (!options.deleteOldIndex) {
                         return callbackSeries()
@@ -181,16 +386,71 @@ var PhotosScanner = {
                             deleteOldIndex: options.deleteOldIndex
                         },
                     };
-
+console.log(" deleting index "+options.indexName)
                     indexer.deleteIndex(config, function (err, result) {
                         return callbackSeries(err)
                     })
 
                 },
+                //set mappings
+                function (callbackSeries) {
+                    if (!options.deleteOldIndex) {
+                        return callbackSeries()
+                    }
+                    var properties = {}
+                    for (var i = 1; i < 10; i++) {
+                        properties["dir" + i] = {
+                            type: "text",
+                            fields: {
+                                keyword: {
+                                    type: "keyword",
+                                    ignore_above: 256,
+                                },
+                            },
+                        }
+                    }
+
+                    properties.files = {
+                        type: "text",
+                        fields: {
+                            keyword: {
+                                type: "keyword",
+                                ignore_above: 256,
+                            },
+                        },
+                    }
+
+                    var mappings = {
+                        mappings: {
+                            [options.indexName]: {
+                                properties: properties
+                            }
+                        }
+                    }
+                    var optionsMapping = {
+                        method: "PUT",
+                        json: mappings,
+                        encoding: null,
+                        timeout: 1000 * 3600 * 24 * 3, //3 days //Set your timeout value in milliseconds or 0 for unlimited
+                        headers: {
+                            "content-type": "application/json",
+                        },
+                        url: elasticRestProxy.getElasticUrl() + options.indexName,
+                    };
+                    console.log(" creating mappings for index "+options.indexName)
+                    request(optionsMapping, function (error, response, body) {
+                        if (error) {
+                            return callbackSeries(error);
+                        }
+                        return callbackSeries();
+                    });
+                },
+
                 function (callbackSeries) {
                     if (false)
                         return callbackSeries();
                     var slices = util.sliceArray(elasticObjs, sliceSize)
+                    var totalIndexed
                     async.eachSeries(slices, function (slice, callbackEach) {
 
                         var bulkStr = ""
@@ -222,6 +482,8 @@ var PhotosScanner = {
                             elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
                                 if (err)
                                     return callbackEach(err);
+
+                                console.log("  indexed "+(totalIndexed++) +"in current top dir")
                                 callbackEach(error)
 
                             })
@@ -450,20 +712,21 @@ if (true) {
 
 
     var options = {
-      /*  filterDirs: {
-            "0": {start: 2, end: 10},
-          //  "1": {start: 28, end: 82}
+        /*  filterDirs: {
+              "0": {start: 2, end: 10},
+            //  "1": {start: 28, end: 82}
 
-        },*/
-   //   topDir: "/var/montageJungle/polytheque/",
-      // topDir: "/var/montageJungle/artotheque/FONDS/",
-      topDir: "/var/montageJungle/Arto/FONDS/",
-        processor: "indexPhotosCatalog",
+          },*/
+        //   topDir: "/var/montageJungle/Poly/",
+        topDir: "/var/montageJungle/Arto/FONDS/",
+       topDir: "/var/montageJungle/Photo/FONDS/",
+      // processor: "indexPhotosCatalog",
+       processor: "getComparisonLog",
         acceptedExtensions: ["jpg", "JPG", "JPEG", "jpeg"],//, "odt", "ods", "ODT", "ODS"],
         elasticUrl: elasticRestProxy.getElasticUrl(),
-        indexName: "photos-catalog-artotheque",
+        indexName: "photos-catalog-phototheque",
         deleteOldIndex: true,
-       // generateThumbnails: true,
+        // generateThumbnails: true,
         journalDir: "/home/claude/"
 
 

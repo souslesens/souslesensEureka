@@ -59,10 +59,10 @@ var elasticRestProxy = {
             headers: {
                 'content-type': 'application/json'
             },
-            url: baseUrl + "/_msearch"
+            url: elasticUrl + "/_msearch"
         };
 
-        console.log(ndjson)
+       // console.log(ndjson)
         request(options, function (error, response, body) {
             if (error)
                 return callback(error);

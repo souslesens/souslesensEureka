@@ -127,10 +127,13 @@ var Photos = (function () {
         var rootPath = "/montageJungle/MiniaturesPhotos/"
         var photoPaths = []
         if (self.currentTheque == "phototheque") {
+            rootPath = "/montageJungle/"
             files.forEach(function (file) {
                 ///var/montageJungle/phototheque/INDEX/
-                var treePath2= treePath.replace(/\//g,"*/")
-                photoPaths.push({"thumb": rootPath + "phototheque/" + "INDEX/" + treePath2 + file})
+              // var treePath2= treePath.replace(/\//g,"*/")
+               var treePath2= treePath
+                photoPaths.push({"thumb": rootPath + "Photo/" + "FONDS/" + treePath2 + file})
+             //   photoPaths.push({"thumb": rootPath + "phototheque/" + "FONDS/" + treePath2 + file})
             })
 
         } else if (self.currentTheque == "polytheque") {
@@ -232,6 +235,7 @@ var Photos = (function () {
         } else if (index == "bordereaux") {
             options.pattern = [hit._source.title.substring(0, 4)]
         } else if (index == "artotheque" || index == "arts") {
+
             var niveau2 = hit._source.collection.substring(0, 3)
             var niveau3 = hit._source.collection.substring(3)
             options.pattern = [hit._source.fonds, niveau2, niveau3, hit._source.document]
@@ -246,11 +250,19 @@ var Photos = (function () {
         var size = 500;
         var mustArray = []
         options.pattern.forEach(function (item, index) {
-            mustArray.push({
-                "match": {
-                    ["dir" + (index + 1)]: item
-                }
-            })
+            if(false) {
+                mustArray.push({
+                    "term": {
+                        ["dir" + (index + 1) + ".keyword"]: item
+                    }
+                })
+            }else{
+                mustArray.push({
+                    "match": {
+                        ["dir" + (index + 1)]: item
+                    }
+                })
+            }
         })
         var query = {
             "query": {
@@ -276,7 +288,7 @@ var Photos = (function () {
                 query.from = offset;
                 query.size = size
 
-                var strQuery = JSON.stringify(query);
+                var strQuery = JSON.stringify(query,null,2);
                 console.log(strQuery)
                 var payload = {
                     executeQuery: strQuery,

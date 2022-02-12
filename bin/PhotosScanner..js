@@ -16,7 +16,7 @@ var PhotosScanner = {
         if (!options) {
             options = {}
         }
-        var dirPath = options.topDir
+        var dirPath = options.photosDir
         var dirPathOffest = dirPath.length
         //  var dirsArray = []
         var dirFilesMap = {}
@@ -58,7 +58,7 @@ var PhotosScanner = {
 
                     recurse(fileName, level + 1);
                     if ((totalDirs++) % 200 == 0)
-                      ;//  console.log("directories " + totalDirs)
+                        ;//  console.log("directories " + totalDirs)
 
                 } else {
 
@@ -98,16 +98,18 @@ var PhotosScanner = {
         var totalFilesIndexed = 0
         var totalDirsIndexed = 0
         var index = 0
+        var dirsDone=""
         var t1 = new Date()
-        var journal = ""
-        var i = -1;
 
+        var i = -1;
+        var journal = ""+new Date()+"\n"
+        PhotosScanner.writeJournal(options.journalFilePath,journal,true)
         async.eachSeries(dirs1, function (dir1, callbackEach) {
             i++;
             if (options.filterDirs && options.filterDirs["0"]) {
-                // var p = options.filterDirs[0].list.indexOf(dir1)
+
                 var p = i;
-                if (p < options.filterDirs["0"].start || p > options.filterDirs["0"].end)
+                if (p < options.filterDirs["0"].fromDirIndex || p > options.filterDirs["0"].toDirIndex)
                     return callbackEach();
 
             }
@@ -116,13 +118,9 @@ var PhotosScanner = {
             if (Object.keys(dirFilesMap).length == 0)
                 return callbackEach()
 
+            if (options.processor == "generateThumbnails") {
 
-            if (options.processor == "indexPhotosCatalog") {
-                if ((index++) == 0)
-                    options.deleteOldIndex = true
-                else
-                    options.deleteOldIndex = false
-                PhotosScanner.indexPhotosCatalog(dirFilesMap, options, function (err, result) {
+                PhotosScanner.generateThumbnails(dirFilesMap, options, function (err, result) {
                     dirFilesMap = {}
                     totalFilesIndexed += result.files;
                     totalDirsIndexed += result.dirs;
@@ -130,38 +128,56 @@ var PhotosScanner = {
                     var message = "" + index + "/" + dirs1.length + "  processed " + dir1;
 
                     journal += message + "\n"
-                    message = " Total  indexed : leaf directories  " + totalDirsIndexed + " ,files " + totalFilesIndexed + " in sec. " + duration
-                    journal += message + "\n"
                     message = " Total  thumbnails  " + result.thumbnails.count + " in sec. " + result.thumbnails.duration
                     journal += message + "\n"
+                    PhotosScanner.writeJournal(options.journalFilePath,journal)
                     console.log(message);
 
 
                     callbackEach();
 
                 })
-            } else if (options.processor == "getComparisonLog") {
-                PhotosScanner.getComparisonLog(dirFilesMap, options, function (err, result) {
-                    if(err)
+            } else if (options.processor == "indexPhotosCatalog") {
+                if ((index++) == 0) {
+                    options.deleteOldIndex = true
+                    var  message =  "dir\ttotalDirsIndexed\tfiles\telasticDocs\tduration sec. \n"
+                    PhotosScanner.writeJournal(options.journalFilePath,message)
+
+                }else
+                    options.deleteOldIndex = false
+                PhotosScanner.indexPhotosCatalog(dirFilesMap, options, function (err, result) {
+                    dirFilesMap = {}
+                    totalFilesIndexed += result.files;
+                    totalDirsIndexed += result.dirs;
+
+                  var  message =  dir1+"\t"+result.dirs+"\t"+result.files +"\t"+  result.elasticDocs+"\t"+ result.duration+"\n"
+
+                        PhotosScanner.writeJournal(options.journalFilePath,message)
+                        journal = ""
+                    if(index%10==0)
+                         console.log(totalFilesIndexed+" files  in  dirs  "+totalDirsIndexed);
+                    callbackEach();
+
+                })
+            } else if (options.processor == "synchronizeThumbnails") {
+                PhotosScanner.synchronizeThumbnails(dirFilesMap, options, function (err, result) {
+                    if (err)
                         return callbackEach(err)
-                        journal += dir1+"\t"+result
-
-                    if(i%10==0){
-                        console.log("***"+i)
-                        var header="totalPhotosFond\tdirsFonds\tmissingIndexDirs\tmissingIndexPhotos\tsupppressIndexPhotos\n"
-                        journal=header+journal
-                        var journalPath = options.journalDir + options.indexName + "_" + i + ".txt"
-                        fs.writeFileSync(journalPath, journal)
-                        journal=""
-
+                    if ((index++) == 0) {
+                        var header = "dir\ttotalPhotosFond\tdirsFonds\tmissingIndexDirs\tmissingIndexPhotos\tsupppressIndexPhotos\n"
                     }
-                        return callbackEach()
+                    journal += dir1 + "\t" + result
+                    dirFilesMap = {}
+
+
+                        PhotosScanner.writeJournal(options.journalFilePath,journal)
+                        journal = ""
+                    dirsDone+=dir1+", "
+                    if (i % 10 == 0) {
+                        console.log(dirsDone+ "  "+i)
+                    }
+
                     return callbackEach()
-                    var message = "added " + result.added+"/"+ result.ok+ "  miniatures from " + dir1;
-
-
-                    journal += message + "\n"
-                    console.log(message);
 
                 })
 
@@ -169,63 +185,63 @@ var PhotosScanner = {
 
         }, function (err) {
             var journalPath = options.journalDir + options.indexName + "_" + new Date() + ".txt"
-            fs.writeFileSync(journalPath, journal)
+            PhotosScanner.writeJournal(journalPath, journal)
             console.log(" ALL DONE")
         })
         //  return callback(null, dirFilesMap)
     },
 
-    getComparisonLog: function (photosMap, options, callback) {
-        console.log(Object.keys(photosMap).length)
+    writeJournal: function (filePath, message, init) {
+        if (init) {
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath)
+            }
+            fs.writeFileSync(filePath, message)
+        } else {
+            fs.appendFileSync(filePath,message)
+        }
+    },
+
+
+    synchronizeThumbnails: function (photosMap, options, callback) {
+        //  console.log(Object.keys(photosMap).length)
         var totalFiles = 0
         var elasticObjs = []
 
 
-        var infos=""
-        var photosFonds=0
-        var dirsFonds=0
-        var missingIndexDirs=0
-        var missingIndexPhotos=0
-        var supppressIndexPhotos=0
+        var infos = ""
+        var photosFonds = 0
+        var dirsFonds = 0
+        var missingIndexDirs = 0
+        var missingIndexPhotos = 0
+        var supppressIndexPhotos = 0
         for (var key in photosMap) {
-            dirsFonds+=1
-          var filesFonds=fs.readdirSync(key)
-            photosFonds+=filesFonds.length
-            var indexDirPath=key.replace("FONDS","INDEX")
-            if(fs.existsSync(indexDirPath)) {
+            dirsFonds += 1
+            var filesFonds = fs.readdirSync(key)
+            photosFonds += filesFonds.length
+            var indexDirPath =options.targetDir;// key.replace("FONDS", "INDEX")
+            if (fs.existsSync(indexDirPath)) {
                 var filesIndex = fs.readdirSync(indexDirPath)
                 var delta = filesFonds.length - filesIndex.length
-                if( delta>0)
-                    missingIndexPhotos+=1
-                if( delta<0)
+                if (delta > 0)
+                    missingIndexPhotos += 1
+                if (delta < 0)
                     supppressIndexPhotos
-            //    infos+=indexDirPath+"\t"+delta+"\n"
-
-            }else{
-                missingIndexDirs+=1
-             //   infos+=indexDirPath+"\t"+"NA"+"\n"
-
+            } else {
+                missingIndexDirs += 1
             }
 
-           // console.log(infos)
-
-
         }
-
-var infos=photosFonds+"\t"+dirsFonds+"\t"+missingIndexDirs+"\t"+missingIndexPhotos+"\t"+supppressIndexPhotos+"\n"
-
-
+        var infos = photosFonds + "\t" + dirsFonds + "\t" + missingIndexDirs + "\t" + missingIndexPhotos + "\t" + supppressIndexPhotos + "\n"
         return callback(null, infos);
         for (var key in photosMap) {
             var photos = photosMap[key];
             elasticObjs.push(photosMap[key])
         }
-
-
         var slices = util.sliceArray(elasticObjs, 100)
         var allResults = []
-        var totalMiniaturesAdded= 0
-        var totalMiniaturesOK= 0
+        var totalMiniaturesAdded = 0
+        var totalMiniaturesOK = 0
         async.eachSeries(slices, function (slice, callbackEach) {
             var bulQueryStr = "";
             var allPhotoPaths = []
@@ -285,7 +301,7 @@ var infos=photosFonds+"\t"+dirsFonds+"\t"+missingIndexDirs+"\t"+missingIndexPhot
                             if (item.hits.total == 0) {
                                 photosToIndex.push(allPhotoPaths[index])
                             } else {
-                                totalMiniaturesOK+=1
+                                totalMiniaturesOK += 1
 
                             }
                         })
@@ -295,16 +311,16 @@ var infos=photosFonds+"\t"+dirsFonds+"\t"+missingIndexDirs+"\t"+missingIndexPhot
 
                 //indexMissingPhotos
                 function (callbackSeries) {
-                    totalMiniaturesAdded+=photosToIndex.length
-                if(photosToIndex.length==0){
+                    totalMiniaturesAdded += photosToIndex.length
+                    if (photosToIndex.length == 0) {
+                        return callbackSeries()
+                    }
                     return callbackSeries()
-                }
-                    return callbackSeries()
-                    photosToIndex.forEach(function(path){
+                    photosToIndex.forEach(function (path) {
 
 
                     })
-                   return callbackSeries()
+                    return callbackSeries()
                     var bulkStr = ""
                     slice.forEach(function (item) {
                         totalFiles += item.files.length
@@ -349,10 +365,102 @@ var infos=photosFonds+"\t"+dirsFonds+"\t"+missingIndexDirs+"\t"+missingIndexPhot
             })
 
         }, function (err) {
-            callback(err,{added:totalMiniaturesAdded,ok:totalMiniaturesOK})
+            callback(err, {added: totalMiniaturesAdded, ok: totalMiniaturesOK})
         })
     },
 
+
+    generateThumbnails: function (photosMap, options, callback) {
+
+        var sliceSize = 100
+        var thumbnailJournal = ""
+        var t0 = new Date()
+        var index1 = 0;
+        //  console.log(Object.keys(photosMap).length)
+        var totalFiles = 0
+        var elasticObjs = []
+        for (var key in photosMap) {
+            var photos = photosMap[key];
+            elasticObjs.push(photosMap[key])
+        }
+
+        async.series([
+                //generate thumbnail
+                function (callbackSeries) {
+
+                    if (elasticObjs.length == 0)
+                        return callbackSeries();
+
+                    thumbnailManager.getWaterMarkImage(options.thumbnailParams, function (err, result) {
+                        if (err)
+                            return callbackSeries(err)
+                        options.thumbnailParams.watermark.image = result;
+                        callbackSeries(err)
+                    })
+
+                }
+                , function (callbackSeries) {
+                    var index1 = 0;
+
+
+                    async.eachSeries(elasticObjs, function (item, callbackEach1) {
+                        var index2 = 0;
+
+                        if (item.files.length == 0)
+                            return callbackEach1();
+                        var t1 = new Date()
+
+
+                        console.log("generating thumbnails for " + item.id);
+
+                        async.eachSeries(item.files, function (file, callbackEach2) {
+                            index1 += 1
+                            index2 += 1
+                            var imgPath = options.photosDir+item.id + file
+                            var thumbnailPath = options.thumbnailsDir+ item.id + file.replace(/\//g, "|_|")
+
+
+                           // imgPath = options.topDir + imgPath
+                            thumbnailManager.generateThumnail(imgPath, thumbnailPath, options.thumbnailParams, function (err, result) {
+                                if (err)
+                                    return callbackEach2(err)
+                                return callbackEach2()
+                            })
+                        }, function (err) {
+                            var message="";
+                            var duration = Math.round((new Date() - t1) / 1000)
+                            if(err)
+                                message=err
+                            else
+                               message = " generated thumbnails " + index2 + " in sec. " + duration
+
+                            console.log(message)
+                            return callbackEach1()
+                        })
+
+                    }, function (err) {
+
+                        return callbackSeries()
+                    })
+
+
+                }
+
+
+            ],
+
+            function (err) {
+                var duration = Math.round((new Date() - t0) / 1000)
+                return callback(err, {
+                    dirs: elasticObjs.length,
+                    files: totalFiles,
+                    thumbnails: {count: index1, duration: duration}
+                })
+            }
+        )
+
+
+    },
 
     indexPhotosCatalog: function (photosMap, options, callback) {
 
@@ -365,9 +473,10 @@ var infos=photosFonds+"\t"+dirsFonds+"\t"+missingIndexDirs+"\t"+missingIndexPhot
         var thumbnailJournal = ""
         var t0 = new Date()
         var index1 = 0;
-        console.log(Object.keys(photosMap).length)
+     //   console.log(Object.keys(photosMap).length)
         var totalFiles = 0
         var elasticObjs = []
+        var elasticDocs=0
         for (var key in photosMap) {
             var photos = photosMap[key];
             elasticObjs.push(photosMap[key])
@@ -386,7 +495,7 @@ var infos=photosFonds+"\t"+dirsFonds+"\t"+missingIndexDirs+"\t"+missingIndexPhot
                             deleteOldIndex: options.deleteOldIndex
                         },
                     };
-console.log(" deleting index "+options.indexName)
+                    console.log(" deleting index " + options.indexName)
                     indexer.deleteIndex(config, function (err, result) {
                         return callbackSeries(err)
                     })
@@ -437,7 +546,7 @@ console.log(" deleting index "+options.indexName)
                         },
                         url: elasticRestProxy.getElasticUrl() + options.indexName,
                     };
-                    console.log(" creating mappings for index "+options.indexName)
+                    console.log(" creating mappings for index " + options.indexName)
                     request(optionsMapping, function (error, response, body) {
                         if (error) {
                             return callbackSeries(error);
@@ -447,10 +556,10 @@ console.log(" deleting index "+options.indexName)
                 },
 
                 function (callbackSeries) {
-                    if (false)
-                        return callbackSeries();
+
                     var slices = util.sliceArray(elasticObjs, sliceSize)
-                    var totalIndexed
+                    var totalIndexed=0
+
                     async.eachSeries(slices, function (slice, callbackEach) {
 
                         var bulkStr = ""
@@ -482,76 +591,19 @@ console.log(" deleting index "+options.indexName)
                             elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
                                 if (err)
                                     return callbackEach(err);
-
-                                console.log("  indexed "+(totalIndexed++) +"in current top dir")
-                                callbackEach(error)
+                                elasticDocs+=result
+                            //    console.log("  indexed " + (totalIndexed++) + "in current top dir")
+                                callbackEach(null,result)
 
                             })
                         })
                     }, function (err) {
-                        console.log("indexed " + totalFiles + " jpg files");
+                        if( err)
+                            return callbackSeries(err)
+                      //  console.log("indexed " + totalFiles + " jpg files");
                         return callbackSeries(err)
                     })
                 },
-                //generate thumbnail
-                function (callbackSeries) {
-                    if (!options.generateThumbnails)
-                        return callbackSeries();
-                    if (elasticObjs.length == 0)
-                        return callbackSeries();
-
-                    thumbnailManager.getWaterMarkImage(options.thumbnailParams, function (err, result) {
-                        if (err)
-                            return callbackSeries(err)
-                        options.thumbnailParams.watermark.image = result;
-                        callbackSeries(err)
-                    })
-
-                }
-                , function (callbackSeries) {
-                    if (!options.generateThumbnails)
-                        return callbackSeries();
-                    var index1 = 0;
-
-
-                    async.eachSeries(elasticObjs, function (item, callbackEach1) {
-                        index2 = 0;
-
-                        if (item.files.length == 0)
-                            return callbackEach1();
-                        var t1 = new Date()
-
-
-                        console.log("generating thumbnails for " + item.id);
-
-                        async.eachSeries(item.files, function (file, callbackEach2) {
-                            index1 += 1
-                            index2 += 1
-                            var imgPath = item.id + file
-                            var thumbnailPath = options.thumbnailParams.targetDir + imgPath.replace(/\//g, "|_|")
-
-
-                            imgPath = options.topDir + imgPath
-                            thumbnailManager.generateThumnail(imgPath, thumbnailPath, options.thumbnailParams, function (err, result) {
-                                if (err)
-                                    return callbackEach2(err)
-                                return callbackEach2()
-                            })
-                        }, function (err) {
-                            var duration = Math.round((new Date() - t1) / 1000)
-                            var message = " generated thumbnails " + index2 + " in sec. " + duration
-
-                            console.log(message)
-                            return callbackEach1()
-                        })
-
-                    }, function (err) {
-
-                        return callbackSeries()
-                    })
-
-
-                }
 
 
             ],
@@ -561,209 +613,135 @@ console.log(" deleting index "+options.indexName)
                 return callback(err, {
                     dirs: elasticObjs.length,
                     files: totalFiles,
-                    thumbnails: {count: index1, duration: duration}
+                    elasticDocs: elasticDocs,
+                    duration:duration
+
                 })
             }
         )
 
 
+    },
+
+
+    processDirs: function (theque, processing, fromDirIndex, toDirIndex) {
+
+        var _options = {
+            acceptedExtensions: ["jpg", "JPG", "JPEG", "jpeg"],//, "odt", "ods", "ODT", "ODS"],
+            elasticUrl: elasticRestProxy.getElasticUrl(),
+            journalDir: "/home/claude/"
+
+        }
+
+        var watermarkPath = path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
+        watermarkPath = path.resolve(watermarkPath)
+        var thumbnailParams = {
+            targetDir: "/var/miniaturesPhotos2/artotheque/",
+            width: 480,
+            quality: 80,
+            acceptedExtensions: ["jpg"],
+            watermark: {
+                path: watermarkPath,
+                'ratio': 0.5,// Should be less than one
+                'opacity': 0.20, //Should be less than one
+            }
+        }
+        _options.thumbnailParams = thumbnailParams
+
+        var params = {
+            paths: {
+                phototheque: {
+                    photosDir: "/var/montageJungle/Photo/FONDS/",
+                    thumbnailsDir: "/var/montageJungle/MiniaturesPhotos/phototheque/",
+                    indexName: "photos-catalog-phototheque",
+                }
+                ,
+                polytheque: {
+                    photosDir: "/var/montageJungle/Poly/",
+                    thumbnailsDir: "/var/montageJungle/MiniaturesPhotos/polytheque/",
+                    indexName: "photos-catalog-polytheque",
+                }
+                ,
+                artotheque: {
+                    photosDir: "/var/montageJungle/Arto/FONDS/",
+                    thumbnailsDir: "/var/montageJungle/MiniaturesPhotos/artotheque/",
+                    indexName: "photos-catalog-artotheque",
+                }
+            },
+            processing: {
+                indexPhotosCatalog: {
+                    processor: "indexPhotosCatalog",
+                    deleteOldIndex: true,
+                },
+                generateThumbnails: {
+                    processor: "generateThumbnails",
+
+                },
+                synchronizeThumbnails: {
+                    processor: "synchronizeThumbnails"
+                }
+
+            }
+
+        }
+        _options = Object.assign(_options, params.paths[theque], params.processing[processing])
+
+
+        if (fromDirIndex && toDirIndex) {
+            _options.filterDirs = {
+                "0": {start: parseInt(fromDirIndex), end: parseInt(toDirIndex)},
+            }
+        }
+
+     //   _options.journalFilePath = "~/" + processing + "_" + theque + ".csv"
+        _options.journalFilePath = "/home/claude/" + processing + "_" + theque + ".csv"
+
+        PhotosScanner.getDirContent(_options, function (err, result) {
+            if (err)
+                return console.log(err)
+
+
+        })
     }
 
-
-    ,
-    polythequeDirs: ["0010-Periodique-ChoniquesComitesQM_DDH",
-        "0011-Periodique-SolidariteQuartMonde_Bretagne",
-        "0012-ATD_QuartMondeAlsace",
-        "0013-LettreAmisBise",
-        "0014-SolidariteQuartMondeNordPasCalais",
-        "0015-VierdeWereledVerkenningen",
-        "0016-TrompetteHospices",
-        "'0017-VierdeWereld-PersrevueArmoedeMensen'",
-        "0018-CriDesJeunes",
-        "0019-QM_EnMarche-Versailles",
-        "0020-NLD-VierdeWereld",
-        "0021-FourthWorldJournal-USA",
-        "0022-FourthWorldJournal-GB",
-        "0023-FeuilleRoute-BEL",
-        "0024-DroitQM-BEL",
-        "0025-InformationATDQM-Noisy-FRA",
-        "0026-FeuilleAmitie-Noisy-FRA",
-        "0027-Tapori-USA",
-        "0028-DossiersPierrelaye",
-        "0029-NousUnPeuple-BEL",
-        "0030-ConjonctureBELgique.odt",
-        "'0031-PeriodiqueJeunesseQuartMonde1979-2004'",
-        "0032-LettreAmisAfrique_Monde.ods",
-        "0033-InformationQuartMonde-Suisse-CHE.odt",
-        "0034-Tapori",
-        "0035-FeuilleRoute-JournalATD_QM",
-        "0037-BEL-JeunesseQM",
-        "0038-RondOmBoerderij-NLD",
-        "0039-Igloos-RevueQM50.7",
-        "0040-RevueQM-DossiersDocs",
-        "0041-PeriodiquesJeunesseQuartMonde-Champeaux",
-        "0042-DynamiqueTapori",
-        "0043-PeriodiquesAfriqueEtThaïlande",
-        "'0044-PeriodiquesAmeriqueduNord-AmeriqueduSud'",
-        "0045-Partenaire-VierdeWeltBlad-BEL",
-        "0046-Publications-SuisseLuxembourg",
-        "0047-Publications-PaysBas-Allemagne-Espagne-RoyaumeUni",
-        "0048-PeriodiquesEquipesInternationales",
-        "0049-PeriodiquesFrance",
-        "0050-UniversitePopulaire-IDF",
-        "0051-LettreInfoLyon",
-        "0052-PeriodiquesGuatemala",
-        "0119-Discernement",
-        "0135-RapportsMoraux",
-        "0136-livres-Publications",
-        "0142_39-Allemagne-Wendt-Livre-DOr-1992_2021",
-        "0229-FRA-RHA-RhoneAlpes",
-        "0240_016N_03-Bordeaux",
-        "'0255_047N-04-02FrimhurstHughMargaretCunningham'",
-        "0296-FRA-DN-PDAC-PoleDialogueActionConnaissance",
-        "0318-FRA-Nord-GroupeRelais_EquipeRegionale",
-        "0345-17Octobre-2007_2009",
-        "0350_23-INT-17Octobre_ComiteDalle-1987_2011",
-        "0353-UP-IDF-Genevieve_Tardieu-2002_2006",
-        "0481-2015-ReportagesCarmenMartos",
-        "0482-2016-ReportagesCarmenMartos",
-        "0483-2017-ReportagesCarmenMartos",
-        "0484-2018-ReportagesCarmenMartos",
-        "0485-2019-Reportages",
-        "0486-2020-ReportagesCarmenMartos",
-        "0492-ArchivesAudiovisuel",
-        "1005-OCI-MDG-MADAGASCAR-2007_2015",
-        "1006-OCI-MDG-MADAGASCAR_MMM-2009_2015",
-        "1007-ADN-CAN-Canada-2011_2015",
-        "1011-ArchivesAModave-AutourBeatification-2003_2014",
-        "1012-ArchivesAModave-2001_2015",
-        "1014_04N-ProcheOrient",
-        "1017-FRA-BibliothèquesRue-Paris11-2009_2015",
-        "1053-CAL-BOL-Bolivia-2013_2015",
-        "1054-CAL-GTM-Guatemala-1997_2015",
-        "1060-documents-evaDiscernement-2014_2015",
-        "1061-GpeDiscernement-2015_2016",
-        "1065-OCI-MUS-IleMaurice-2015_2016",
-        "1067-MessagesEcritParGabrielleErpicum-1988_2013",
-        "1069-OCI-MUS-IleMaurice-Tapori-17Oct-2003_2011",
-        "1072-CeQueVousMavezAppris-YvesPetit-Lyon",
-        "1074-EUR-POL-Warsaw-2013_2016",
-        "1076-EUR-LUXembourg-UniversitePopulaire-2009_2014",
-        "1079-AFR-CAF-Centrafrique-BANGUI-2015_2016",
-        "1083_03-MED-LBN-Liban-Beitouna",
-        "1088-Tapori-International-2014_2017",
-        "1089-pelerinageSiloe-PierreLaPlusPrecieuse",
-        "1097-FRA_PoleFormationEngagements_DN--2012_2017_VersementNumerique",
-        "1098-EUR-Mobilisation2017-RassemblementJeunesseWhije",
-        "1101-AFRique-DelReg-2003_2017",
-        "1103-INT-Benkadi-2015_2017",
-        "1104-INT-PoleExpressionsPubliquesPEPS-2009_2015",
-        "1107-PAEFI-MailsPaulMarechal-2008_2017",
-        "1110-TaporiInternational",
-        "1111-FRAnce-DelegNationale-2003-2013",
-        "1112-FRA-FRC-LaBise",
-        "1115-CINT-ArrierePays-2016_2018",
-        "1116-AnneeSabbatique-DenisGendre-2006_2007",
-        "1117-EUR-BEL-UniversitePopulaireBruxelles-2010_2017",
-        "1118",
-        "1119-Videos-PhilippeHamel-2015_2018",
-        "1126-VideosThemeFamilles",
-        "1127-Lille-Fives",
-        "1128-ReportagePhoto-Appalaches",
-        "1131-CINT-CourrielsAnimation-CJW-2011_2016",
-        "1136-BEL_AntoineScalliet-2017_2018",
-        "1137-FRA-DenisGendre-Detection-GpeRelaisBezonsNoisy-HAVEA-2007_2011",
-        "1138-ASI-BGD-MatiBangladesh-Photographs",
-        "1139",
-        "1140-Expertise-ViolenceSilencePaix-2008_2012",
-        "1141-ADN-USA-NewYork_UnitedNations-2010_2017",
-        "1142-EUR-BEL-EuropeEtBelgique-JeanPierrePinet-2013_2019",
-        "1146-OCDE-MesurePauvrete-Mai2019",
-        "1148_03-Alternative114-Champeaux-ClaudeFerrand-1973_2008",
-        "1152-ValDOiseBrigitteBourcier-1976_2019",
-        "1156-VideosPhilippeHamel-2018_2019",
-        "1159-OceanIndien-AlainFanchon-Courriels-2016_2017",
-        "1162-Boespflug-Illettrisme-1971_2019",
-        "1168-Labo-CroisementSavoirsPratiques",
-        "1169-Pologne-2006_2019",
-        "1171-FRA-BDR_Paris20-2016_2019",
-        "1172-ForumEuropeenJeunesse",
-        "1173-Europe-2008_2020",
-        "1174-Bolivia-2010_2015",
-        "1175-Suisse-Geneve-1979_2019",
-        "1176-Campagne2017-1983_2018",
-        "1178-ContratsEditeursAuteursLivres",
-        "1183-PEPs-2015_2017",
-        "1184-QueSommesNousDevenus-SimeonBrand-2015_2020",
-        "1185-Dynamique-Assises-Volontariat-2014_2015",
-        "1186-Evaluation-Campagne-StopPauvrete-2017",
-        "1187-Luxembourg-StefaniaPetriconiGalantucci-1976_2010",
-        "1188-INT-Benkadi-2011_2021",
-        "1190-Suisse-MarieRose-Blunschi-1973_2011",
-        "1191-Pays-Bas-ChristineBehain-2001_2020",
-        "1207-DimensionsCacheesPauvrete-Consolini-2016_2021"
-    ]
-
 }
+
 module.exports = PhotosScanner
 
+var theque = "phototheque"
+var processing = "generateThumbnails"
+//var processing = "synchronizeThumbnails"
+var processing = "indexPhotosCatalog"
 
-if (true) {
+var fromIndexDir = "0"
+var toIndexDir = "0"
 
+var args = process.argv
+if (args.length > 2) {
+    args = process.argv.slice(2);
 
-    var options = {
-        /*  filterDirs: {
-              "0": {start: 2, end: 10},
-            //  "1": {start: 28, end: 82}
+    if (args.length < 2)
+        return console.log("args=node bin/ PhotosScanner.processDirs theque,processing,fromIndexDir, toIndexDir")
+    theque = args[0]
+    processing = args[1]
+    if (args.length > 2)
+        fromIndexDir = args[2]
+    toIndexDir = args[3]
 
-          },*/
-        //   topDir: "/var/montageJungle/Poly/",
-        topDir: "/var/montageJungle/Arto/FONDS/",
-       topDir: "/var/montageJungle/Photo/FONDS/",
-      // processor: "indexPhotosCatalog",
-       processor: "getComparisonLog",
-        acceptedExtensions: ["jpg", "JPG", "JPEG", "jpeg"],//, "odt", "ods", "ODT", "ODS"],
-        elasticUrl: elasticRestProxy.getElasticUrl(),
-        indexName: "photos-catalog-phototheque",
-        deleteOldIndex: true,
-        // generateThumbnails: true,
-        journalDir: "/home/claude/"
-
-
-    }
-    var watermarkPath = path.join(__dirname, "../config/filigranes/logoseul-transparent.png")
-    watermarkPath = path.resolve(watermarkPath)
-
-
-    var thumbnailParams = {
-        targetDir: "/var/miniaturesPhotos2/artotheque/",
-        width: 480,
-        quality: 80,
-        acceptedExtensions: ["jpg"],
-        watermark: {
-            path: watermarkPath,
-            'ratio': 0.5,// Should be less than one
-            'opacity': 0.20, //Should be less than one
-        }
-    }
-    options.thumbnailParams = thumbnailParams
-
-    PhotosScanner.getDirContent(options, function (err, result) {
-        if (err)
-            return console.log(err)
-
-        // fs.writeFileSync("/home/claude/poltythequeTest.json",JSON.stringify(result,null,2))
-    })
 }
+console.log(processing + " " + theque);
+
+if( true)
+PhotosScanner.processDirs(theque, processing, fromIndexDir, toIndexDir)
 
 
-//queries
-var aggr =
-    {
-        "aggs": {
-            "types_count": {"terms": {"field": "dir1"}}
-        }
-    }
+
+
+
+
+
+
+
 
 
 

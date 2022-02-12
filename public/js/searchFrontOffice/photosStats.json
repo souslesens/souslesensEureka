@@ -1,0 +1,19 @@
+{
+  "size":0,
+  "query": {
+    "match_all": {}
+  },
+
+  "aggs": {
+    "dirs1": {
+      "size": 11000,
+      "terms": {
+        "field": "dir1.keyword"
+      },
+      "aggs": {
+        "files_count" : { "value_count" : { "field" : "files.keyword" } }
+      }
+    }
+
+  }
+}

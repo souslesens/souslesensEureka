@@ -510,23 +510,19 @@ var PhotosScanner = {
                     for (var i = 1; i < 10; i++) {
                         properties["dir" + i] = {
                             type: "text",
-                            fields: {
-                                keyword: {
-                                    type: "keyword",
-                                    ignore_above: 256,
-                                },
-                            },
                         }
+
+                        properties["num_dir" + i] = {
+                            type: "keyword",
+                            ignore_above: 256,
+                            }
+
+
                     }
 
                     properties.files = {
                         type: "text",
-                        fields: {
-                            keyword: {
-                                type: "keyword",
-                                ignore_above: 256,
-                            },
-                        },
+
                     }
 
                     var mappings = {
@@ -562,9 +558,20 @@ var PhotosScanner = {
 
                     async.eachSeries(slices, function (slice, callbackEach) {
 
+
+
                         var bulkStr = ""
+                        var regex=/(?<num>[0-9]+)/
                         slice.forEach(function (item) {
                             totalFiles += item.files.length
+
+                            for(var i=1;i<7;i++) {
+                                if (item["dir" + i]) {
+                                    var array = regex.exec(item["dir" + i])
+                                    if (array && array.groups.num)
+                                        item["num_dir" + i] = array.groups.num
+                                }
+                            }
                             bulkStr += JSON.stringify({index: {_index: indexName, _type: indexName, _id: item.id}}) + "\r\n"
                             bulkStr += JSON.stringify(item) + "\r\n";
 

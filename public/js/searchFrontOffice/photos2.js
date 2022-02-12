@@ -36,75 +36,7 @@ var Photos = (function () {
             $("#photosContainerDiv").css("display", "block")
             $("#photoMessageDiv").html(jstreeData.length + " photos trouvées ")
 
-            /*   var jstreeData = [];
-               var existingNodes = {}
-               photosPaths.forEach(function (path) {
-                   var path = ""
-                   for (var i = 0; i < 10; i++) {
-                       var dir = path["dir" + (i + 1)]
-                       if (!dir)
-                           break;
-                       path += dir + "/"
 
-
-                   }
-
-
-                   var array = path.split(sep)
-                   //    array.splice(array.length-1,1)// delete photo from tree (keep only parents)
-                   self.currentPhotosRootUrl = array[0]
-                   var oldId = "";
-                   array.forEach(function (item, index) {
-                       if (false && index == 0)
-                           return;
-                       var parent = "#"
-                       if (index > 0) {
-                           parent = oldId
-                           existingNodes[parent] += 1
-                       }
-                       var id = parent + "_" + item;
-                       var path = "";
-                       if (true || index > 0) {
-                           var path = id.substring(2)
-                       }
-
-                       if (!existingNodes[id]) {
-                           if (index == array.length - 1)
-                               existingNodes[id] = 0
-                           else {
-                               existingNodes[id] = 0
-                               item.id = id
-                               jstreeData.push({
-                                   id: id,
-                                   text: item,
-                                   parent: parent,
-                                   data: {
-                                       path: path,
-                                       text: item,
-                                       theque: theque
-                                   }
-                               })
-                           }
-
-                       } else {
-
-                       }
-                       oldId = id
-
-
-                   })
-
-
-               })
-
-               var x = jstreeData;
-
-               jstreeData.forEach(function (item) {
-                   if (existingNodes[item.id] > 0)
-                       item.text += " <b>" + existingNodes[item.id] + "</b>"
-                   item.data.count = existingNodes[item.id]
-
-               })*/
 
 
             var options = {
@@ -121,7 +53,8 @@ var Photos = (function () {
 
     }
 
-    self.onTreeNodeSelect = function (event, obj) {
+    self.onTreeNodeSelect = function (event, obj, useFonds) {
+        self.currentTreeNodeObj = obj
         var treePath = obj.node.id
         var files = obj.node.data.files;
         var rootPath = "/montageJungle/MiniaturesPhotos/"
@@ -129,29 +62,42 @@ var Photos = (function () {
         if (self.currentTheque == "phototheque") {
             rootPath = "/montageJungle/"
             files.forEach(function (file) {
-                ///var/montageJungle/phototheque/INDEX/
-              // var treePath2= treePath.replace(/\//g,"*/")
-               var treePath2= treePath
-                photoPaths.push({"thumb": rootPath + "Photo/" + "FONDS/" + treePath2 + file})
-             //   photoPaths.push({"thumb": rootPath + "phototheque/" + "FONDS/" + treePath2 + file})
+                if (!useFonds) {
+                    rootPath = "/montageJungle/"
+                    var treePath2 = (treePath).replace(/\//g, "|_|");
+                    photoPaths.push({"thumb": rootPath + "Poly/" + treePath2 + file})
+                } else {
+                    var treePath2 = treePath
+                    photoPaths.push({"thumb": rootPath + "Photo/" + "FONDS/" + treePath2 + file})
+
+                }
             })
 
         } else if (self.currentTheque == "polytheque") {
-
             files.forEach(function (file) {
 
-                var rootPath = "/montageJungle/MiniaturesPhotos/"
-                var treePath2 = (treePath).replace(/\//g, "|_|");//coding for pathSep
-
-                photoPaths.push({"thumb": rootPath + "polytheque2" + "/" + treePath2 + file})
+                if (!useFonds) {
+                    var rootPath = "/montageJungle/MiniaturesPhotos/"
+                    var treePath2 = (treePath).replace(/\//g, "|_|");//coding for pathSep
+                    photoPaths.push({"thumb": rootPath + "polytheque2" + "/" + treePath2 + file})
+                } else {
+                    rootPath = "/montageJungle/"
+                    var treePath2 = treePath
+                    photoPaths.push({"thumb": rootPath + "Poly/" + treePath2 + file})
+                }
             })
-        } else {
+        } else if (self.currentTheque == "artotheque") {
 
             files.forEach(function (file) {
-                var rootPath = "/montageJungle/MiniaturesPhotos/"
-                var treePath2 = (treePath).replace(/\//g, "|_|");//coding for pathSep
-
-                photoPaths.push({"thumb": rootPath + self.currentTheque + "/_INDEX_" + treePath2 + file})
+                if (!useFonds) {
+                    var rootPath = "/montageJungle/MiniaturesPhotos/"
+                    var treePath2 = (treePath).replace(/\//g, "_");//coding for pathSep
+                    photoPaths.push({"thumb": rootPath + self.currentTheque + "/_INDEX_" + treePath2 + file})
+                } else {
+                    rootPath = "/montageJungle/"
+                    var treePath2 = treePath
+                    photoPaths.push({"thumb": rootPath + "Poly/" + "FONDS/" + treePath2 + file})
+                }
             })
         }
 
@@ -178,6 +124,14 @@ var Photos = (function () {
             self.setActivePhotoInfos(activePhoto)
 
         });
+        $('.fotorama').on('fotorama:error', function (e, fotorama, xxx) {
+
+            var x = 3;
+            self.onTreeNodeSelect(null, self.currentTreeNodeObj, true)
+
+
+        });
+
         self.fotoramaDiv = $('.fotorama').fotorama();
 
 
@@ -250,13 +204,13 @@ var Photos = (function () {
         var size = 500;
         var mustArray = []
         options.pattern.forEach(function (item, index) {
-            if(false) {
+            if (true) {
                 mustArray.push({
                     "term": {
-                        ["dir" + (index + 1) + ".keyword"]: item
+                        ["num_dir" + (index + 1) + ""]: item
                     }
                 })
-            }else{
+            } else {
                 mustArray.push({
                     "match": {
                         ["dir" + (index + 1)]: item
@@ -288,7 +242,7 @@ var Photos = (function () {
                 query.from = offset;
                 query.size = size
 
-                var strQuery = JSON.stringify(query,null,2);
+                var strQuery = JSON.stringify(query, null, 2);
                 console.log(strQuery)
                 var payload = {
                     executeQuery: strQuery,

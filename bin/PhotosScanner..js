@@ -715,7 +715,7 @@ var PhotosScanner = {
 
 module.exports = PhotosScanner
 
-var theque = "phototheque"
+var theque = "polytheque"
 var processing = "generateThumbnails"
 //var processing = "synchronizeThumbnails"
 var processing = "indexPhotosCatalog"
@@ -738,7 +738,7 @@ if (args.length > 2) {
 }
 console.log(processing + " " + theque);
 
-if( true)
+if( false)
 PhotosScanner.processDirs(theque, processing, fromIndexDir, toIndexDir)
 
 

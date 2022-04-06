@@ -3,12 +3,13 @@ var mysql = require('mysql');
 
 var mySqlConnectionOptions={
     host: "localhost",
-        port:7202,
-        user: "bailletarchives",
-        password: "nodeApp55",
-        database: 'bailletarchives'
+    port:7202,
+    user: "bailletarchives",
+    password: "nodeApp55",
+    database: 'bailletarchives_test'
+
 }
-var mySqlConnectionOptions={
+var mySqlConnectionOptionsXX={
     host: "localhost",
     port:3306,
     user: "root",

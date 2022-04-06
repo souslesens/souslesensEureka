@@ -14,6 +14,7 @@ var Photos = (function () {
 
 
         var theque = appConfig.photos.indexPhotosDirsMap[hit._index]
+
         self.currentTheque = theque
         var sep = "_"
         if (theque == "phototheque")
@@ -23,20 +24,21 @@ var Photos = (function () {
         $("#photoMessageDiv").html("recherche des photos en cours...")
         self.getPhotosTree(hit, function (err, jstreeData) {
 
-            if (err)
+            if (err) {
+                $("#waitImg").css("display", "none")
                 return alert(err)
+            }
 
             if (jstreeData.length == 0) {
                 $("#photoMessageDiv").html("Aucune  photo trouvée")
                 $("#photosContainerDiv").css("display", "none")
                 //$("#detailedDataPdfIframe").height('800px');
                 $("#detailedDataPdfIframe").css("height", "95vh");
+                $("#waitImg").css("display", "none")
                 return;
             }
             $("#photosContainerDiv").css("display", "block")
-            $("#photoMessageDiv").html(jstreeData.length + " photos trouvées ")
-
-
+            $("#photoMessageDiv").html(jstreeData.totalPhotos+ " photos trouvées ")
 
 
             var options = {
@@ -54,14 +56,27 @@ var Photos = (function () {
     }
 
     self.onTreeNodeSelect = function (event, obj, useFonds) {
+        $("#waitImg").css("display", "block")
+        if (obj.node.children && obj.node.children > 0) {
+            $("#waitImg").css("display", "none")
+            return;
+        }
+
         self.currentTreeNodeObj = obj
         var treePath = obj.node.id
         var files = obj.node.data.files;
+
+        if (files.length == 0 || files.length > 100) {
+            $("#waitImg").css("display", "none")
+            return;
+        }
         var rootPath = "/montageJungle/MiniaturesPhotos/"
         var photoPaths = []
         if (self.currentTheque == "phototheque") {
             rootPath = "/montageJungle/"
             files.forEach(function (file) {
+                if(file.indexOf(".")==0)
+                    return
                 if (!useFonds) {
                     rootPath = "/montageJungle/"
                     var treePath2 = (treePath).replace(/\//g, "|_|");
@@ -101,21 +116,39 @@ var Photos = (function () {
             })
         }
 
-        console.log(JSON.stringify(photoPaths, null, 2))
+        self.checkPhotoExists(photoPaths[0].thumb, function(photo1Exists){
+
+            if(photo1Exists || useFonds){
+                var fr = $('.fotorama').fotorama();
+                var fotorama = fr.data('fotorama');
+                if (fotorama) {
+
+                    fotorama.load(photoPaths.slice(0,1));
 
 
-        var fr = $('.fotorama').fotorama();
-        var fotorama = fr.data('fotorama');
-        if (fotorama) {
-            fotorama.load(photoPaths);
-            fotorama.show(0);
-        } else {
-            $('.fotorama').fotorama({data: photoPaths});
-        }
+                    fotorama.load(photoPaths);
+                    // fotorama.show(0);
+                } else {
+                    $('.fotorama').fotorama({data: photoPaths});
+                }
+            }else{
+                self.onTreeNodeSelect(null, self.currentTreeNodeObj, true)
+            }
+
+        })
+
+
+     //   console.log(JSON.stringify(photoPaths, null, 2))
+
+
+
+
     }
     self.initFotorama = function () {
         $(".fotorama").html("")
         $('.fotorama').on('fotorama:load', function (e, fotorama) {
+            $("#waitImg").css("display", "none")
+            self.imgsLoaded= true
             self.Fotorama = fotorama
         });
         $('.fotorama').on('fotorama:show', function (e, fotorama) {
@@ -125,9 +158,13 @@ var Photos = (function () {
 
         });
         $('.fotorama').on('fotorama:error', function (e, fotorama, xxx) {
-
-            var x = 3;
-            self.onTreeNodeSelect(null, self.currentTreeNodeObj, true)
+            $("#waitImg").css("display", "none")
+         /*   if (!self.isUsingFonds) {
+                self.isUsingFonds = true
+                fotorama.destroy()
+                self.onTreeNodeSelect(null, self.currentTreeNodeObj, true)
+                self.isUsingFonds = false
+            }*/
 
 
         });
@@ -137,13 +174,42 @@ var Photos = (function () {
 
     }
 
+    self.checkPhotoExists=function(path, callback){
+        var img = new Image();
+        $(img).load(function(){
+            return callback(true);
+        }).attr({
+            src: path
+        }).error(function(){
+           return callback(false);
+        });
+    }
+
 
     self.setActivePhotoInfos = function (photoPath) {
 
+
+        function uriEncodePhotoPath(photoPath) {
+
+
+            return photoPath.replace(/'/g,"%27")
+            var array = photoPath.split("/")
+            var encodedPhotoPath = ""
+            array.forEach(function (item, index) {
+                if (index > 0)
+                    encodedPhotoPath += "/"
+                encodedPhotoPath += encodeURI(item)
+
+            })
+            return encodedPhotoPath
+        }
+
+
         if (self.currentTheque == "phototheque") {
             var url = photoPath.replace("INDEX", "FONDS")
+            url=uriEncodePhotoPath(url)
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
-            console.log(html);
+           // console.log(html);
             $("#activePhotoDiv").html(html)
             return;
         }
@@ -152,8 +218,9 @@ var Photos = (function () {
             p += 5
             photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
             var url = "/montageJungle/" + "Arto" + "/FONDS/" + photoPath
+            url=uriEncodePhotoPath(url)
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
-            console.log(html);
+           // console.log(html);
 
         } else {
             var p = photoPath.indexOf("polytheque")
@@ -161,6 +228,7 @@ var Photos = (function () {
                 p += 10
                 photoPath = photoPath.substring(p + 1).replace(/\|_\|/g, "/")
                 var url = "/montageJungle/" + "Poly/" + photoPath
+                url=uriEncodePhotoPath(url)
                 var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
                 console.log(html);
             } else {
@@ -173,6 +241,7 @@ var Photos = (function () {
 
 
     self.getPhotosTree = function (hit, callback) {
+        $("#waitImg").css("display", "block")
         var index = hit._index
         var photosArray = [];
         var options = {}
@@ -188,6 +257,9 @@ var Photos = (function () {
 
         } else if (index == "bordereaux") {
             options.pattern = [hit._source.title.substring(0, 4)]
+        } else if (index == "arkotheque1") {
+            var array=hit._source.cote.split(" ")
+            options.pattern = [array[1]]
         } else if (index == "artotheque" || index == "arts") {
 
             var niveau2 = hit._source.collection.substring(0, 3)
@@ -230,9 +302,10 @@ var Photos = (function () {
             }
         }
         var resultSize = 1;
-        var maxFiles = 2000
+        var maxFiles = 200000
         var jstreeData = [];
         var existingNodes = {};
+        var totalPhotos=0
         async.whilst(
             function (callbackTest) {//test
                 return resultSize > 0 && data.length < maxFiles;
@@ -262,6 +335,7 @@ var Photos = (function () {
                         hits.forEach(function (hit) {
                             var item = hit._source;
                             if (item.files && item.files.length > 0) {
+                                totalPhotos+=item.files.length
                                 var id = ""
                                 var parent = ""
                                 var label = ""
@@ -312,7 +386,8 @@ var Photos = (function () {
 
 
             }, function (err) {
-
+jstreeData.totalPhotos=totalPhotos;
+                $("#waitImg").css("display", "none")
                 return callback(null, jstreeData)
 
             })

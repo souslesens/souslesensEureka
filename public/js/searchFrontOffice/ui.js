@@ -165,11 +165,12 @@ var ui = (function () {
 
     }
 
-
-
+    self.resetDetailsDiv=function(){
+        $("#detailsDiv").html("")
+    }
 
     self.showHitDetails = function (hit) {
-        var indexesWithPhotos=["photos","bordereaux","artotheque","arts"]
+        var indexesWithPhotos=["photos","bordereaux","artotheque","arts","arkotheque1"]
 
 
 
@@ -203,28 +204,31 @@ title=title.replace("-DS","")
 
             return;
 
+        }else {
+            var displayConfig = context.indexConfigs[hit._index].display;
+            var indexLabel = context.indexConfigs[hit._index].general.label;
+
+            for (var thesaurus in context.allowedThesauri) {
+                if (hit._source["entities_" + thesaurus])
+                    hit = Entities.setHitEntitiesHiglight(hit, hit._source["entities_" + thesaurus])
+            }
+            var hitHtml = self.getHitDetailHtml(hit, displayConfig,)
+
+            var entitieLegendHtml = Entities.getEntitiesLegendDiv();
+            var html = ""
+            html += "<div style='display:flex;flex-direction:row;background-color:#e0dddd ' >" + entitieLegendHtml + "<div id='entityExtractDiv'></div></div>"
+            html += "<div id='detailsContentDiv'> <b> Source : </b><span class='title'>" + indexLabel + "</span><hr> "
+            html += hitHtml + "</div>"
+            html += "</div>";
+
+
+            $("#detailsDiv").html(html);
+          /*  $("#dialogDiv").html(html);
+            $(".hlt1").css("background-color", " #FFFF00");
+            $(".dialogDiv").css("top", " 100px");
+            $("#dialogDiv").dialog("open")*/
+
         }
-        var displayConfig = context.indexConfigs[hit._index].display;
-        var indexLabel = context.indexConfigs[hit._index].general.label;
-
-        for(var thesaurus in context.allowedThesauri) {
-            if (hit._source["entities_" + thesaurus])
-                hit = Entities.setHitEntitiesHiglight(hit, hit._source["entities_" + thesaurus])
-        }
-        var hitHtml = self.getHitDetailHtml(hit, displayConfig, )
-
-        var entitieLegendHtml = Entities.getEntitiesLegendDiv();
-        var html=""
-        html+= "<div style='display:flex;flex-direction:row;background-color:#e0dddd ' >" +entitieLegendHtml+"<div id='entityExtractDiv'></div></div>"
-        html +="<div id='detailsContentDiv'> <b> Source : </b><span class='title'>" + indexLabel + "</span><hr> "
-        html += hitHtml+"</div>"
-        html += "</div>";
-
-        $("#dialogDiv").html(html);
-        $(".hlt1").css("background-color", " #FFFF00");
-        $(".dialogDiv").css("top", " 100px");
-        $("#dialogDiv").dialog("open")
-
 
 
     }
@@ -313,7 +317,7 @@ if(appConfig.dictionary[fieldName]){
                 })
             }
 
-                fieldValue = self.setHighlight(fieldValue, words);
+               // fieldValue = self.setHighlight(fieldValue, words);
 
 
             if (line[fieldName].hyperlink) {

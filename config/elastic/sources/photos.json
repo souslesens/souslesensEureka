@@ -32,9 +32,7 @@
           "ancienne_cote": {
             "type": "text"
           },
-          "lien": {
-            "type": "keyword"
-          },
+
           "photographe": {
             "type": "text"
           },

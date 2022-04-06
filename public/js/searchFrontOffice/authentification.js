@@ -115,6 +115,7 @@ var authentication = (function () {
             $("#loginDiv").css("visibility", "hidden");
             $("#main").css("visibility", "visible");
             context.currentUser = user;
+            mainController.init0();
             if(callback)
          return callback()
 

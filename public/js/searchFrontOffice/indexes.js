@@ -98,6 +98,7 @@ var indexes = (function () {
 
         $("#indexesCbxes_all").prop("checked", allchecked)
         self.setContextIndexes();
+        ui.resetDetailsDiv()
         Search.searchPlainText()
 
 

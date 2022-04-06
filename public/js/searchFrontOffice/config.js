@@ -41,6 +41,7 @@ appConfig.elasticQuery = {
 appConfig.photos={
     indexPhotosDirsMap:{
         bordereaux:"polytheque",
+        arkotheque1:"polytheque",
         artotheque:"artotheque",
         arts:"artotheque",
         photos:"phototheque"

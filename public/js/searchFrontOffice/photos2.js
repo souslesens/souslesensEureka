@@ -38,7 +38,7 @@ var Photos = (function () {
                 return;
             }
             $("#photosContainerDiv").css("display", "block")
-            $("#photoMessageDiv").html(jstreeData.totalPhotos+ " photos trouvées ")
+            $("#photoMessageDiv").html(jstreeData.totalPhotos + " photos trouvées ")
 
 
             var options = {
@@ -75,7 +75,7 @@ var Photos = (function () {
         if (self.currentTheque == "phototheque") {
             rootPath = "/montageJungle/"
             files.forEach(function (file) {
-                if(file.indexOf(".")==0)
+                if (file.indexOf(".") == 0)
                     return
                 if (!useFonds) {
                     rootPath = "/montageJungle/"
@@ -116,14 +116,14 @@ var Photos = (function () {
             })
         }
 
-        self.checkPhotoExists(photoPaths[0].thumb, function(photo1Exists){
+        self.checkPhotoExists(photoPaths[0].thumb, function (photo1Exists) {
 
-            if(photo1Exists || useFonds){
+            if (photo1Exists || useFonds) {
                 var fr = $('.fotorama').fotorama();
                 var fotorama = fr.data('fotorama');
                 if (fotorama) {
 
-                    fotorama.load(photoPaths.slice(0,1));
+                    fotorama.load(photoPaths.slice(0, 1));
 
 
                     fotorama.load(photoPaths);
@@ -131,16 +131,14 @@ var Photos = (function () {
                 } else {
                     $('.fotorama').fotorama({data: photoPaths});
                 }
-            }else{
+            } else {
                 self.onTreeNodeSelect(null, self.currentTreeNodeObj, true)
             }
 
         })
 
 
-     //   console.log(JSON.stringify(photoPaths, null, 2))
-
-
+        //   console.log(JSON.stringify(photoPaths, null, 2))
 
 
     }
@@ -148,7 +146,7 @@ var Photos = (function () {
         $(".fotorama").html("")
         $('.fotorama').on('fotorama:load', function (e, fotorama) {
             $("#waitImg").css("display", "none")
-            self.imgsLoaded= true
+            self.imgsLoaded = true
             self.Fotorama = fotorama
         });
         $('.fotorama').on('fotorama:show', function (e, fotorama) {
@@ -159,12 +157,12 @@ var Photos = (function () {
         });
         $('.fotorama').on('fotorama:error', function (e, fotorama, xxx) {
             $("#waitImg").css("display", "none")
-         /*   if (!self.isUsingFonds) {
-                self.isUsingFonds = true
-                fotorama.destroy()
-                self.onTreeNodeSelect(null, self.currentTreeNodeObj, true)
-                self.isUsingFonds = false
-            }*/
+            /*   if (!self.isUsingFonds) {
+                   self.isUsingFonds = true
+                   fotorama.destroy()
+                   self.onTreeNodeSelect(null, self.currentTreeNodeObj, true)
+                   self.isUsingFonds = false
+               }*/
 
 
         });
@@ -174,14 +172,14 @@ var Photos = (function () {
 
     }
 
-    self.checkPhotoExists=function(path, callback){
+    self.checkPhotoExists = function (path, callback) {
         var img = new Image();
-        $(img).load(function(){
+        $(img).load(function () {
             return callback(true);
         }).attr({
             src: path
-        }).error(function(){
-           return callback(false);
+        }).error(function () {
+            return callback(false);
         });
     }
 
@@ -190,26 +188,26 @@ var Photos = (function () {
 
 
         function uriEncodePhotoPath(photoPath) {
-
-
-            return photoPath.replace(/'/g,"%27")
-            var array = photoPath.split("/")
-            var encodedPhotoPath = ""
-            array.forEach(function (item, index) {
-                if (index > 0)
-                    encodedPhotoPath += "/"
-                encodedPhotoPath += encodeURI(item)
-
-            })
+            var encodedPhotoPath = photoPath.replace(/'/g, "%27")
+            self.currentPhotoPath = encodedPhotoPath
             return encodedPhotoPath
+            /*  var array = photoPath.split("/")
+              var encodedPhotoPath = ""
+              array.forEach(function (item, index) {
+                  if (index > 0)
+                      encodedPhotoPath += "/"
+                  encodedPhotoPath += encodeURI(item)
+
+              })
+              return encodedPhotoPath*/
         }
 
 
         if (self.currentTheque == "phototheque") {
             var url = photoPath.replace("INDEX", "FONDS")
-            url=uriEncodePhotoPath(url)
+            url = uriEncodePhotoPath(url)
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
-           // console.log(html);
+            // console.log(html);
             $("#activePhotoDiv").html(html)
             return;
         }
@@ -218,9 +216,9 @@ var Photos = (function () {
             p += 5
             photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
             var url = "/montageJungle/" + "Arto" + "/FONDS/" + photoPath
-            url=uriEncodePhotoPath(url)
+            url = uriEncodePhotoPath(url)
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
-           // console.log(html);
+            // console.log(html);
 
         } else {
             var p = photoPath.indexOf("polytheque")
@@ -228,7 +226,7 @@ var Photos = (function () {
                 p += 10
                 photoPath = photoPath.substring(p + 1).replace(/\|_\|/g, "/")
                 var url = "/montageJungle/" + "Poly/" + photoPath
-                url=uriEncodePhotoPath(url)
+                url = uriEncodePhotoPath(url)
                 var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
                 console.log(html);
             } else {
@@ -258,7 +256,7 @@ var Photos = (function () {
         } else if (index == "bordereaux") {
             options.pattern = [hit._source.title.substring(0, 4)]
         } else if (index == "arkotheque1") {
-            var array=hit._source.cote.split(" ")
+            var array = hit._source.cote.split(" ")
             options.pattern = [array[1]]
         } else if (index == "artotheque" || index == "arts") {
 
@@ -305,7 +303,7 @@ var Photos = (function () {
         var maxFiles = 200000
         var jstreeData = [];
         var existingNodes = {};
-        var totalPhotos=0
+        var totalPhotos = 0
         async.whilst(
             function (callbackTest) {//test
                 return resultSize > 0 && data.length < maxFiles;
@@ -335,7 +333,7 @@ var Photos = (function () {
                         hits.forEach(function (hit) {
                             var item = hit._source;
                             if (item.files && item.files.length > 0) {
-                                totalPhotos+=item.files.length
+                                totalPhotos += item.files.length
                                 var id = ""
                                 var parent = ""
                                 var label = ""
@@ -386,7 +384,7 @@ var Photos = (function () {
 
 
             }, function (err) {
-jstreeData.totalPhotos=totalPhotos;
+                jstreeData.totalPhotos = totalPhotos;
                 $("#waitImg").css("display", "none")
                 return callback(null, jstreeData)
 

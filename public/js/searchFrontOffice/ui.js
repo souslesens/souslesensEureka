@@ -170,7 +170,7 @@ var ui = (function () {
     }
 
     self.showHitDetails = function (hit) {
-        var indexesWithPhotos=["photos","bordereaux","artotheque","arts","arkotheque1"]
+        var indexesWithPhotos=["photos","bordereaux","artotheque","arkotheque1"]
 
 
 

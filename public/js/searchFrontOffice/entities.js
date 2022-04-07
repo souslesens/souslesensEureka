@@ -33,7 +33,7 @@ var Entities = (function () {
 
         self.setUserIndexesThesauri = function (indexes) {
             if (!indexes)
-                indexes = context.curentSearchIndexes;
+                indexes = context.currentSearchIndexes;
             var allowedThesauri = {};
             if (!Array.isArray(indexes))
                 indexes = [indexes]

@@ -4,14 +4,17 @@ var Search = (function () {
         self.queryElastic = function (query, indexLabels, callback) {
 
             if (!indexLabels)
-                indexLabels = context.curentSearchIndexes;
-            var indexes=[]
-            indexLabels.forEach(function(indexName){
+                indexLabels = context.currentSearchIndexes;
+            var indexes = []
+            indexLabels.forEach(function (indexName) {
                 indexes.push(context.indexConfigs[indexName].general.indexName)
+                if (indexName == 'arkotheque1')
+                    indexes.push("bordereaux")
             })
 
+
             console.log(JSON.stringify(indexes, null, 2))
-            console.log(JSON.stringify(query, null, 2))
+           // console.log(JSON.stringify(query, null, 2))
 
 
             var strQuery = JSON.stringify(query);
@@ -101,7 +104,7 @@ var Search = (function () {
             if (!question || question.length < 3)
                 return $("#resultDiv").html("entrer une question (au moins 3 lettres)");
 
-            if (context.curentSearchIndexes.length == 0)
+            if (context.currentSearchIndexes.length == 0)
                 return $("#resultDiv").html("selectionner au moins une source");
 
             self.analyzeQuestion(question, function (err, query) {
@@ -129,8 +132,14 @@ var Search = (function () {
                         }
                     }
                     Entities.setUserIndexesThesauri()
-                   for(var thesaurus in context.allowedThesauri) {
-                        aggregations["entities_" + thesaurus] = {"terms": {"field": "entities_" + thesaurus+".id", "size": 50, "order": {"_count": "desc"}}};
+                    for (var thesaurus in context.allowedThesauri) {
+                        aggregations["entities_" + thesaurus] = {
+                            "terms": {
+                                "field": "entities_" + thesaurus + ".id",
+                                "size": 50,
+                                "order": {"_count": "desc"}
+                            }
+                        };
                     }
 
 
@@ -140,7 +149,7 @@ var Search = (function () {
                             size: size,
                             _source: context.elasticQuery.source,
                             highlight: context.elasticQuery.highlight,
-                         //   aggregations: aggregations
+                            //   aggregations: aggregations
 
 
                         }
@@ -161,14 +170,14 @@ var Search = (function () {
                             }
 
 
-                        //    Entities.showAssociatedWords(result.aggregations.associatedWords)
+                            //    Entities.showAssociatedWords(result.aggregations.associatedWords)
 
 
-                       //     self.setResultsCountByIndex(result.aggregations.indexesCountDocs);
+                            //     self.setResultsCountByIndex(result.aggregations.indexesCountDocs);
 
                             self.thesauri = {}
-                            var jsTreeArray=[]
-                            if(false) {
+                            var jsTreeArray = []
+                            if (false) {
                                 for (var thesaurus in context.allowedThesauri) {
                                     var thesaurusJsTreeArray = Entities.showThesaurusEntities(thesaurus, result.aggregations["entities_" + thesaurus]);
                                     jsTreeArray = jsTreeArray.concat(thesaurusJsTreeArray)
@@ -208,11 +217,11 @@ var Search = (function () {
 
         }
 
-        self.searchHitDetails = function (hitId,div) {
+        self.searchHitDetails = function (hitId, div) {
 
 
             $(".hit").removeClass("hitSelected")
-           div.addClass("hitSelected")
+            div.addClass("hitSelected")
 
             // on ajoute la question + l'id pour avoir les highlight
             self.analyzeQuestion(context.question, function (err, query) {
@@ -264,8 +273,8 @@ var Search = (function () {
             var query = {
                 "query_string": {
                     "query": question,
-                //   "default_field": "attachment.content",
-                 //   "default_field": "*",
+                    //   "default_field": "attachment.content",
+                    //   "default_field": "*",
                     "default_operator": "AND"
                 }
             }

@@ -16,6 +16,7 @@ var skosReader = require("../bin/backoffice/skosReader..js");
 var httpProxy = require("../bin/httpProxy.")
 
 var PhotosManager=require("../bin/PhotosManager2.")
+ var Panier=require("../bin/Panier.")
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -301,6 +302,16 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
 
             })
         }
+
+        if (req.body.downloadPanier) {
+
+            var content=JSON.parse(req.body.content)
+            Panier.getZippedPanier(content,response);
+
+
+        }
+
+
 
 
 

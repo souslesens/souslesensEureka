@@ -112,7 +112,7 @@ var indexes = (function () {
                 indexes.push(id);
 
         })
-        context.curentSearchIndexes = indexes;
+        context.currentSearchIndexes = indexes;
         context.question = $('#questionInput').val();
 
     }

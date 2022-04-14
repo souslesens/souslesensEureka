@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="panier">
-      <change afterPath="$PROJECT_DIR$/bin/Panier..js" afterDir="false" />
+    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="panier suite">
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/entities.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/entities.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/indexes.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/indexes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Panier..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Panier..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/panier.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/panier.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/snippets/panier.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/snippets/panier.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
@@ -47,15 +43,15 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/app.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/bin/PhotosManager2..js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/bin/PhotosScanner..js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/bin/backoffice/indexer..js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/bin/thumbnailManager..js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/bin/www" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/bin/PhotosManager2..js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/bin/backoffice/indexer..js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/routes/index.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/bin/PhotosScanner..js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/routes/index.js" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -66,20 +62,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="javascript.nodejs.core.library.configured.version" value="10.19.0" />
-    <property name="javascript.nodejs.core.library.typings.version" value="10.17.60" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/config/elastic/sources" />
-    <property name="nodejs_interpreter_path" value="/usr/local/n/versions/node/17.2.0/bin/node" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="advanced.settings" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/config/elastic/sources" />
@@ -212,7 +200,9 @@
       <workItem from="1644223874361" duration="58990000" />
       <workItem from="1644700789374" duration="14511000" />
       <workItem from="1649058585946" duration="21042000" />
-      <workItem from="1649322827091" duration="1576000" />
+      <workItem from="1649322827091" duration="2684000" />
+      <workItem from="1649353166491" duration="3370000" />
+      <workItem from="1649955103926" duration="2944000" />
     </task>
     <task id="LOCAL-00001" summary="thumbnailManager">
       <created>1634370637737</created>
@@ -361,7 +351,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649238650481</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="panier suite">
+      <created>1649324716193</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1649324716193</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -389,7 +386,8 @@
     <MESSAGE value="PhotosScanner.getComparison" />
     <MESSAGE value="ameliorations 06/04/2022" />
     <MESSAGE value="panier" />
-    <option name="LAST_COMMIT_MESSAGE" value="panier" />
+    <MESSAGE value="panier suite" />
+    <option name="LAST_COMMIT_MESSAGE" value="panier suite" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -431,26 +429,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/Panier..js</url>
-          <line>47</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="504" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/Panier..js</url>
-          <line>20</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="505" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/Panier..js</url>
-          <line>29</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="507" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/Panier..js</url>
-          <line>39</line>
-          <properties lambdaOrdinal="-1" />
+          <line>40</line>
           <option name="timeStamp" value="508" />
         </line-breakpoint>
       </breakpoints>

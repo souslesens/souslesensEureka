@@ -4,8 +4,8 @@ const archiver = require('archiver');
 
 var Panier = {
 
-    getZippedPanier: function (content, response) {
-        var archiveName = 'example.zip'
+    getZippedPanier: function (content, user,response) {
+        var archiveName = "selectionPhotos_"+user+"_"+ new Date().toJSON().slice(0,10)+".zip"
         const output = fs.createWriteStream("/tmp/" + archiveName);
         const archive = archiver('zip', {
             zlib: {level: 9} // Sets the compression level.
@@ -13,16 +13,17 @@ var Panier = {
 
         output.on('close', function () {
             console.log(archive.pointer() + ' total bytes');
+            var archive2 = fs.readFileSync("/tmp/" + archiveName);
+            response.setHeader('Content-type', 'application/zip');
+            response.setHeader("Content-Disposition", "attachment;filename=" + archiveName);
+            response.send(archive2);
+            console.log('Data has been drained');
 
         });
 
 
         output.on('end', function () {
-            var archive = fs.readFileSync("/tmp/" + archiveName);
-            response.setHeader('Content-type', 'application/zip');
-            response.setHeader("Content-Disposition", "attachment;filename=" + archiveName);
-            response.send(archive);
-            console.log('Data has been drained');
+
         });
 
 // good practice to catch warnings (ie stat failures and other non-blocking errors)
@@ -47,7 +48,7 @@ var Panier = {
 // append a file from string
         content.forEach(function (photoPath) {
 
-            archive.file(photoPath, {name: photoPath.replace(/\//g, " | ")});
+            archive.file("/var/"+photoPath, {name: photoPath.replace(/\//g, " | ")});
         })
 
         archive.finalize();

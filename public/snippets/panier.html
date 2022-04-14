@@ -1,9 +1,19 @@
-
-
+<style>
+    .photoDiv {
+        border: solid 1px brown;
+        margin: 5px;
+        padding: 5px;
+        font-size: 12px;
+        text-align: center;
+        height: 110px;
+    }
+</style>
 
 Votre Panier
-<button onclick="Panier.telecharger()">Telecharger</button><button onclick="Panier.vider()">Vider</button> <button onclick="Panier.fermerDialog()">Fermer</button>
-<div id="Panier_photosDiv" style="display: flex;flex-direction: column;width:500px;height: 600px; overflow: auto" >
+<button onclick="Panier.telecharger()">Telecharger</button>
+<button onclick="Panier.vider()">Vider</button>
+<button onclick="Panier.fermerDialog()">Fermer</button>
+<div id="Panier_photosDiv" style="display: flex;flex-wrap: wrap;width:500px;height: 600px; margin:10px;overflow: auto">
 
 </div>
 

@@ -306,7 +306,8 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
         if (req.body.downloadPanier) {
 
             var content=JSON.parse(req.body.content)
-            Panier.getZippedPanier(content,response);
+
+            Panier.getZippedPanier(content,req.body.user,response);
 
 
         }

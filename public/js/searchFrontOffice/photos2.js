@@ -7,6 +7,9 @@ var Photos = (function () {
 
     self.currentHit;
 
+    self.useFond=true
+   //self.photosRootDir="/data/montageJungle/"
+   self.photosRootDir="/montageJungle/"
 
     self.showPhotos = function (hit, displayConfig) {
         self.currentHit = hit
@@ -56,6 +59,7 @@ var Photos = (function () {
     }
 
     self.onTreeNodeSelect = function (event, obj, useFonds) {
+        useFonds=useFonds || self.useFond
         $("#waitImg").css("display", "block")
         if (obj.node.children && obj.node.children > 0) {
             $("#waitImg").css("display", "none")
@@ -70,18 +74,19 @@ var Photos = (function () {
             $("#waitImg").css("display", "none")
             return;
         }
-        var rootPath = "/montageJungle/MiniaturesPhotos/"
+
         var photoPaths = []
         if (self.currentTheque == "phototheque") {
-            rootPath = "/montageJungle/"
+
             files.forEach(function (file) {
                 if (file.indexOf(".") == 0)
                     return
                 if (!useFonds) {
-                    rootPath = "/montageJungle/"
+                    rootPath = self.photosRootDir+"MiniaturesPhotos/"
                     var treePath2 = (treePath).replace(/\//g, "|_|");
                     photoPaths.push({"thumb": rootPath + "Poly/" + treePath2 + file})
                 } else {
+                    var rootPath = self.photosRootDir
                     var treePath2 = treePath
                     photoPaths.push({"thumb": rootPath + "Photo/" + "FONDS/" + treePath2 + file})
 
@@ -92,11 +97,11 @@ var Photos = (function () {
             files.forEach(function (file) {
 
                 if (!useFonds) {
-                    var rootPath = "/montageJungle/MiniaturesPhotos/"
+                    var rootPath =self.photosRootDir
                     var treePath2 = (treePath).replace(/\//g, "|_|");//coding for pathSep
                     photoPaths.push({"thumb": rootPath + "polytheque2" + "/" + treePath2 + file})
                 } else {
-                    rootPath = "/montageJungle/"
+                    rootPath = self.photosRootDir+"MiniaturesPhotos/"
                     var treePath2 = treePath
                     photoPaths.push({"thumb": rootPath + "Poly/" + treePath2 + file})
                 }
@@ -105,7 +110,7 @@ var Photos = (function () {
 
             files.forEach(function (file) {
                 if (!useFonds) {
-                    var rootPath = "/montageJungle/MiniaturesPhotos/"
+                    var rootPath = self.photosRootDir+"MiniaturesPhotos/"
                     var treePath2 = (treePath).replace(/\//g, "_");//coding for pathSep
                     photoPaths.push({"thumb": rootPath + self.currentTheque + "/_INDEX_" + treePath2 + file})
                 } else {
@@ -118,7 +123,7 @@ var Photos = (function () {
 
         self.checkPhotoExists(photoPaths[0].thumb, function (photo1Exists) {
 
-            if (photo1Exists || useFonds) {
+            if (photo1Exists || !useFonds) {
                 var fr = $('.fotorama').fotorama();
                 var fotorama = fr.data('fotorama');
                 if (fotorama) {
@@ -215,7 +220,7 @@ var Photos = (function () {
         if (p > -1) {
             p += 5
             photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
-            var url = "/montageJungle/" + "Arto" + "/FONDS/" + photoPath
+            var url = self.photosRootDir + "Arto" + "/FONDS/" + photoPath
             url = uriEncodePhotoPath(url)
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
             // console.log(html);
@@ -225,7 +230,7 @@ var Photos = (function () {
             if (p > -1) {
                 p += 10
                 photoPath = photoPath.substring(p + 1).replace(/\|_\|/g, "/")
-                var url = "/montageJungle/" + "Poly/" + photoPath
+                var url =self.photosRootDir+ "Poly/" + photoPath
                 url = uriEncodePhotoPath(url)
                 var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
                 console.log(html);

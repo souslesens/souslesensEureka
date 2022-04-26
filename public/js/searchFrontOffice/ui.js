@@ -3,6 +3,8 @@ var ui = (function () {
 
 
     self.getHitDiv = function (hit, displayConfig) {
+
+
         var indexLabel = context.indexConfigs[hit._index].general.label
         var html = "<div class='hit' onclick=Search.searchHitDetails('" + hit._id + "',$(this)) >" +
             "<span style=' font-size: 12px;color:brown; font-weight: bold'>" + indexLabel + " : </span>  " +
@@ -14,38 +16,97 @@ var ui = (function () {
 
     }
     self.showResultList = function (hits, displayConfigs) {
+
         var html = "";
+        var arkothequeHits = {};
+        var bordereauHits = {};
         hits.forEach(function (hit, index) {
             var displayConfig = context.indexConfigs[hit._index].display
-            html += self.getHitDiv(hit, displayConfig)
+        /*    if (hit._index == "arkotheque1")
+                arkothequeHits[hit._source.refUnique] = hit
+            else if (hit._index == "bordereaux")
+                bordereauHits[hit._source.title] = hit
+            else*/
+                html += self.getHitDiv(hit, displayConfig)
         })
 
 
+        //merge arkotheque-bordereaux hits
+        var mergedHits
+        var arkoHtml="<div>"
+        for (var keyA in arkothequeHits) {
+            var displayConfig = context.indexConfigs[arkothequeHits[keyA]._index].display
+            arkoHtml+=self.getHitDiv(arkothequeHits[keyA], displayConfig)
+            for (var keyB in bordereauHits) {
+                if (keyB.indexOf(keyA) > -1) {
+
+                    arkoHtml+="<a onclick=Search.searchHitDetails('" + bordereauHits[keyB]._id +"') >" +bordereauHits[keyB]._source.title+"</a>"
+                }
+
+            }
+
+        }
+       arkoHtml="</div>"
+        html=arkoHtml+html
         $("#resultDiv").html(html);
 
 
     }
 
 
+    self.getDetailHtmlContent_getArkotheque= function (hit, displayConfig) {
+        var html=""
+        for( var key in hit._source){
+            if(key.indexOf("Arko_")==0){
+                var fieldValue=hit._source[key]
+                if (fieldValue.replace) {
+
+                    fieldValue = fieldValue.replace(/(\d{4})-(\d{2})-(\d{2}).*Z/, function (a, year, month, day) {
+                        if (appConfig.locale == "Fr")
+                            return "" + day + "/" + month + "/" + year
+                        return "" + year + "/" + month + "/" + day
+                    })
+                }
+
+
+
+
+
+
+
+
+                    fieldValue = "<span class='" + 'xx' + "'>" + fieldValue + "</span>";
+                    html+= "<span class='fieldTitle'>" + key.replace("attachment.", "") + " : </span>" + fieldValue + "<hr>";
+
+
+                }
+
+            }
+        return html
+
+        }
+
 
 
     self.getDetailHtmlContent_generic = function (hit, displayConfig) {
 
-       /* if (!displayConfig || displayConfig.length == 0 && template == "details") {
-            delete hit._source["attachment.content"]
-            return JSON.stringify(hit._source, null, 2).replace(/\n/g, "<br>")
-        }*/
+
+
+        /* if (!displayConfig || displayConfig.length == 0 && template == "details") {
+             delete hit._source["attachment.content"]
+             return JSON.stringify(hit._source, null, 2).replace(/\n/g, "<br>")
+         }*/
         var words = []
-       /// var appConfig = {}
+        /// var appConfig = {}
         var template = "details"
         if (false && context !== undefined) {
             var words = self.getQuestionWords(context.question);
         }
         var html = "";
-  
-        var htmlArray=[];
-        var textAreaIndex=false
-        displayConfig.forEach(function (line,indexLine) {
+
+        var htmlArray = [];
+        var textAreaIndex = false
+        displayConfig.forEach(function (line, indexLine) {
 
 
             var fieldName = Object.keys(line)[0];
@@ -68,13 +129,13 @@ var ui = (function () {
 
             fieldValue = fieldValue || "";
 
-            if(appConfig.dictionary[fieldName]){
-                fieldValue=appConfig.dictionary[fieldName][fieldValue] || fieldValue
+            if (appConfig.dictionary[fieldName]) {
+                fieldValue = appConfig.dictionary[fieldName][fieldValue] || fieldValue
             }
 
             if (fieldValue.replace) {
-              //  fieldValue = fieldValue.replace(/\n{2}/gm, "<br>")
-              //  fieldValue = fieldValue.replace(/\n/gm, "<br>")
+                //  fieldValue = fieldValue.replace(/\n{2}/gm, "<br>")
+                //  fieldValue = fieldValue.replace(/\n/gm, "<br>")
                 //format date
                 fieldValue = fieldValue.replace(/(\d{4})-(\d{2})-(\d{2}).*Z/, function (a, year, month, day) {
                     if (appConfig.locale == "Fr")
@@ -97,7 +158,7 @@ var ui = (function () {
                 cssClass = "";
 
             if (fieldLabel == "attachment.content") {
-                textAreaIndex=indexLine
+                textAreaIndex = indexLine
                 fieldValue = fieldValue.replace(/\n/gm, "<br>")
                 fieldValue = fieldValue.replace(/<br>/gm, "\n")
 
@@ -108,9 +169,9 @@ var ui = (function () {
             if (template == "details") {
 
                 fieldValue = "<span class='" + template + "'>" + fieldValue + "</span>";
-                var html_ = "<span class='fieldTitle'>" + fieldLabel.replace("attachment.","") + " : </span>" + fieldValue + "<hr>";
+                var html_ = "<span class='fieldTitle'>" + fieldLabel.replace("attachment.", "") + " : </span>" + fieldValue + "<hr>";
                 htmlArray.push(html_)
-              
+
             } else {
 
                 fieldValue = "<span class='" + template + " " + cssClass + "'><b>" + fieldValue + "</b></span>";
@@ -119,13 +180,8 @@ var ui = (function () {
 
 
         })
-        
-        
-        
-        
-        
-        
-        
+
+
         if (hit.highlight) {// traitement special
             html += "<span class='excerpt'>";
             hit.highlight[appConfig.contentField].forEach(function (highlight, index) {
@@ -137,26 +193,24 @@ var ui = (function () {
         }
 
 
-
-
         if (template == "details") {
             var htmlLeft = "";
             var htmlRight = "";
-         
-            if(textAreaIndex){
-                htmlArray.forEach(function(item,index){
-                    if(index==textAreaIndex)
-                        htmlLeft+=item
+
+            if (textAreaIndex) {
+                htmlArray.forEach(function (item, index) {
+                    if (index == textAreaIndex)
+                        htmlLeft += item
                     else
-                        htmlRight+=item
+                        htmlRight += item
                 })
-            }else {
-                var half=htmlArray.length/2
-                htmlArray.forEach(function(item,index){
-                    if(index<=half)
-                        htmlLeft+=item
+            } else {
+                var half = htmlArray.length / 2
+                htmlArray.forEach(function (item, index) {
+                    if (index <= half)
+                        htmlLeft += item
                     else
-                        htmlRight+=item
+                        htmlRight += item
                 })
 
             }
@@ -165,36 +219,36 @@ var ui = (function () {
 
     }
 
-    self.resetDetailsDiv=function(){
+    self.resetDetailsDiv = function () {
         $("#detailsDiv").html("")
     }
 
     self.showHitDetails = function (hit) {
-        var indexesWithPhotos=["photos","bordereaux","artotheque","arkotheque1"]
+        var indexesWithPhotos = ["photos", "bordereaux", "artotheque", "arkotheque1"]
 
 
+        if (indexesWithPhotos.indexOf(hit._index) > -1) {
 
-
-        if( indexesWithPhotos.indexOf(hit._index)>-1){
-
-            $("#detailsDiv").load("snippets/detailsPhotos.html",function(){
+            $("#detailsDiv").load("snippets/detailsPhotos.html", function () {
                 var displayConfig = context.indexConfigs[hit._index].display;
 
-                if(hit._index=="bordereaux"){
-                    var url="/instrumentsDeRecherchePDFs/0117-Etudes-1959_2014-DS.pdf"
-                     var p=hit._source.title.lastIndexOf(".")
-                    var title=hit._source.title.substring(0,p)+".pdf"
-title=title.replace("-DS","")
-                    var url="/montageBordereauxPdfs/"+title
-                    $("#detailedDataPdfIframe").width( $("#detailedDataPdfIframe").parent().width());
+                if (hit._index == "bordereaux") {
+                    var html = self.getDetailHtmlContent_getArkotheque(hit, displayConfig)
+                    $("#detailedDataDivLeft").html(html)
+                 //   $("#detailedDataDivRight").html(htmlObj.htmlRight)
+                    return
+                    var p = hit._source.title.lastIndexOf(".")
+                    var title = hit._source.title.substring(0, p) + ".pdf"
+                    title = title.replace("-DS", "")
+                    var url = "/montageBordereauxPdfs/" + title
+                    $("#detailedDataPdfIframe").width($("#detailedDataPdfIframe").parent().width());
                     $("#detailedDataPdfIframe").height('400px');
-                    $("#detailedDataPdfIframe").css("display","block");
-                    $("#detailedDataPdfIframe").attr('src',url);
+                    $("#detailedDataPdfIframe").css("display", "block");
+                    $("#detailedDataPdfIframe").attr('src', url);
 
 
-
-                }else {
-                    var htmlObj = self.getDetailHtmlContent_generic(hit,displayConfig)
+                } else {
+                    var htmlObj = self.getDetailHtmlContent_generic(hit, displayConfig)
                     $("#detailedDataDivLeft").html(htmlObj.htmlLeft)
                     $("#detailedDataDivRight").html(htmlObj.htmlRight)
                 }
@@ -204,7 +258,7 @@ title=title.replace("-DS","")
 
             return;
 
-        }else {
+        } else {
             var displayConfig = context.indexConfigs[hit._index].display;
             var indexLabel = context.indexConfigs[hit._index].general.label;
 
@@ -223,16 +277,15 @@ title=title.replace("-DS","")
 
 
             $("#detailsDiv").html(html);
-          /*  $("#dialogDiv").html(html);
-            $(".hlt1").css("background-color", " #FFFF00");
-            $(".dialogDiv").css("top", " 100px");
-            $("#dialogDiv").dialog("open")*/
+            /*  $("#dialogDiv").html(html);
+              $(".hlt1").css("background-color", " #FFFF00");
+              $(".dialogDiv").css("top", " 100px");
+              $("#dialogDiv").dialog("open")*/
 
         }
 
 
     }
-
 
 
     self.setHighlight = function (text, highlightedWords) {
@@ -265,15 +318,12 @@ title=title.replace("-DS","")
     }
 
 
-
-
-
     self.getHitDetailHtml = function (hit, displayConfig, template) {
 
-     /*   if (!displayConfig || displayConfig.length == 0 ) {
-            delete hit._source["attachment.content"]
-            return JSON.stringify(hit._source, null, 2).replace(/\n/g, "<br>")
-        }*/
+        /*   if (!displayConfig || displayConfig.length == 0 ) {
+               delete hit._source["attachment.content"]
+               return JSON.stringify(hit._source, null, 2).replace(/\n/g, "<br>")
+           }*/
 
 
         var html = "";
@@ -298,11 +348,9 @@ title=title.replace("-DS","")
             }
 
 
-if(appConfig.dictionary[fieldName]){
-    fieldValue=appConfig.dictionary[fieldName][fieldValue] || fieldValue
-}
-
-
+            if (appConfig.dictionary[fieldName]) {
+                fieldValue = appConfig.dictionary[fieldName][fieldValue] || fieldValue
+            }
 
 
             fieldValue = fieldValue || "";
@@ -317,7 +365,7 @@ if(appConfig.dictionary[fieldName]){
                 })
             }
 
-               // fieldValue = self.setHighlight(fieldValue, words);
+            // fieldValue = self.setHighlight(fieldValue, words);
 
 
             if (line[fieldName].hyperlink) {
@@ -331,9 +379,8 @@ if(appConfig.dictionary[fieldName]){
                 cssClass = "";
 
 
-                fieldValue = "<span class='" + template + "'>" + fieldValue + "</span>";
-                html += "<B>" + fieldLabel + " : </B>" + fieldValue + "<hr>";
-
+            fieldValue = "<span class='" + template + "'>" + fieldValue + "</span>";
+            html += "<B>" + fieldLabel + " : </B>" + fieldValue + "<hr>";
 
 
         })
@@ -379,15 +426,13 @@ if(appConfig.dictionary[fieldName]){
             }
 
 
-
-
             fieldValue = fieldValue || "";
             if (fieldValue.replace) {
                 fieldValue = fieldValue.replace(/\n{2}/gm, "<br>")
                 fieldValue = fieldValue.replace(/\n/gm, "<br>")
                 //format date
-             //   fieldValue = fieldValue.replace(/(\d{4})-(\d{2})-(\d{2}).*Z/, function (a, year, month, day) {
-                    fieldValue = fieldValue.replace(/(\d{4})-(\d{2})-(\d{2}).*/, function (a, year, month, day) {
+                //   fieldValue = fieldValue.replace(/(\d{4})-(\d{2})-(\d{2}).*Z/, function (a, year, month, day) {
+                fieldValue = fieldValue.replace(/(\d{4})-(\d{2})-(\d{2}).*/, function (a, year, month, day) {
                     if (appConfig.locale == "Fr")
                         return "" + day + "/" + month + "/" + year
                     return "" + year + "/" + month + "/" + day
@@ -406,10 +451,8 @@ if(appConfig.dictionary[fieldName]){
                 cssClass = "";
 
 
-
-                fieldValue = "<span class='list " + cssClass + "'><b>" + fieldValue + "</b></span>";
-                html += fieldValue + "&nbsp;&nbsp;";
-
+            fieldValue = "<span class='list " + cssClass + "'><b>" + fieldValue + "</b></span>";
+            html += fieldValue + "&nbsp;&nbsp;";
 
 
         })
@@ -424,9 +467,6 @@ if(appConfig.dictionary[fieldName]){
         }
         return html;
     }
-
-
-
 
 
     return self;

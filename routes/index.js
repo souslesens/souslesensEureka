@@ -115,7 +115,7 @@ router.post(serverParams.routesRootUrl + '/elastic', function (req, response) {
             })
 
         }
-        if (req.body && req.body.runIndexation) {
+        if (req.body && req.body.runIndexationXX) {
 
             indexer.runIndexation(JSON.parse(req.body.config), function (error, result) {
                 processResponse(response, error, result);

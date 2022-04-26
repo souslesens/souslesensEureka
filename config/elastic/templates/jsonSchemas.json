@@ -264,15 +264,14 @@
         "elasticUrl": {
           "type": "string",
           "title": "elasticSearch server url and port",
-          "default": "http://localhost:9200/"
+          "default": "http://192.168.2.2:2009"
         },
         "deleteOldIndex": {
           "type": "bool",
           "title": "deleteOldIndex",
           "enum": [
-            "",
-            "yes",
-            "no"
+            "no",
+            "yes"
           ],
           "required": true
         },
@@ -280,8 +279,9 @@
           "type": "bool",
           "title": "apply associated thesauri",
           "enum": [
-            "yes",
-            "no"
+
+            "no",
+            "yes"
           ]
         }
       }
@@ -340,15 +340,14 @@
         "elasticUrl": {
           "type": "string",
           "title": "elasticSearch server url and port",
-          "default": "http://localhost:9200/"
+          "default": "http://192.168.2.2:2009"
         },
         "deleteOldIndex": {
           "type": "bool",
           "title": "deleteOldIndex",
           "enum": [
-            "",
-            "yes",
-            "no"
+            "no",
+            "yes"
           ]
         },
         "active": {

@@ -1,11 +1,12 @@
 const fs = require('fs');
 const archiver = require('archiver');
+var path = require('path')
 
 
 var Panier = {
 
-    getZippedPanier: function (content, user,response) {
-        var archiveName = "selectionPhotos_"+user+"_"+ new Date().toJSON().slice(0,10)+".zip"
+    getZippedPanier: function (content, user, response) {
+        var archiveName = "selectionPhotos_" + user + "_" + new Date().toJSON().slice(0, 10) + ".zip"
         const output = fs.createWriteStream("/tmp/" + archiveName);
         const archive = archiver('zip', {
             zlib: {level: 9} // Sets the compression level.
@@ -47,8 +48,14 @@ var Panier = {
 
 // append a file from string
         content.forEach(function (photoPath) {
+            var absolutePhotoPath = path.join("/var/" + decodeURIComponent(photoPath))
+            absolutePhotoPath = path.resolve(absolutePhotoPath)
+            console.log(absolutePhotoPath)
+            if(!fs.existsSync(absolutePhotoPath)){
+                var x=3
+            }
 
-            archive.file("/var/"+photoPath, {name: photoPath.replace(/\//g, " | ")});
+            archive.file(absolutePhotoPath, {name: photoPath.replace(/\//g, " | ")});
         })
 
         archive.finalize();

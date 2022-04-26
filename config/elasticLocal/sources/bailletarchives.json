@@ -181,7 +181,7 @@
     }
   ],
   "indexation": {
-    "elasticUrl": "http://localhost:9200/",
+    "elasticUrl": "http://192.168.2.2:2009",
     "deleteOldIndex": "yes",
     "applythesauri": "no"
   }

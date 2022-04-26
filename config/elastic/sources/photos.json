@@ -54,7 +54,7 @@
             "type": "text"
           },
           "date": {
-            "type": "date"
+            "type": "text"
           },
           "lieu": {
             "type": "text"
@@ -69,7 +69,7 @@
             "type": "keyword"
           },
           "dateMaj": {
-            "type": "date"
+            "type": "text"
           },
           "redacteur": {
             "type": "keyword"
@@ -98,7 +98,7 @@
     }
   ],
   "indexation": {
-    "elasticUrl": "http://92.222.116.179:7201/",
-    "deleteOldIndex": "yes"
+    "elasticUrl": "192.168.2.2:9200",
+    "deleteOldIndex": "no"
   }
 }

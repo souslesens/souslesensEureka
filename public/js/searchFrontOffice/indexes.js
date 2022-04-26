@@ -177,12 +177,12 @@ var indexes = (function () {
         var indexationConfig = context.currentIndexationConfig;
         config.indexation = indexationConfig;
         var payload = {
-            runIndexation: 1,
+            runIndexationXX: 1,
             config: JSON.stringify(config)
         }
         $.ajax({
             type: "POST",
-            url: appConfig.elasticUrl,
+            url: "/elastic",
             data: payload,
             dataType: "json",
             timeout: 1000*3600*24*3, //3 days //Set your timeout value in milliseconds or 0 for unlimited

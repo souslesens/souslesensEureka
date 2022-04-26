@@ -96,6 +96,9 @@ if (args.length > 2) {
 
 
 } else {
+
+
+
     console.log("Usage : node indexer indexTheques  index1,index2...");
 }
 

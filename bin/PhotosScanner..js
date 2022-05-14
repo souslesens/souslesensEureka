@@ -691,6 +691,9 @@ var PhotosScanner = {
             }
 
         }
+        if(!params.paths[theque]){
+            return console.log( "wrong theque name")
+        }
         _options = Object.assign(_options, params.paths[theque], params.processing[processing])
 
 
@@ -716,6 +719,8 @@ var PhotosScanner = {
 module.exports = PhotosScanner
 
 var theque = "polytheque"
+var theque = "artotheque"
+var theque="phototheque"
 var processing = "generateThumbnails"
 //var processing = "synchronizeThumbnails"
 var processing = "indexPhotosCatalog"
@@ -738,7 +743,7 @@ if (args.length > 2) {
 }
 console.log(processing + " " + theque);
 
-if( false)
+if( true)
 PhotosScanner.processDirs(theque, processing, fromIndexDir, toIndexDir)
 
 

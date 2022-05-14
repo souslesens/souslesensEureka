@@ -1,11 +1,14 @@
 var ui = (function () {
     var self = {};
 
+    self.getIndexParams=function(index){
+        return  context.indexConfigs[index]
+    }
 
     self.getHitDiv = function (hit, displayConfig) {
 
 
-        var indexLabel = context.indexConfigs[hit._index].general.label
+        var indexLabel = self.getIndexParams(hit._index).general.label
         var html = "<div class='hit' onclick=Search.searchHitDetails('" + hit._id + "',$(this)) >" +
             "<span style=' font-size: 12px;color:brown; font-weight: bold'>" + indexLabel + " : </span>  " +
             "" + self.getHitListItemHtml(hit, displayConfig) +
@@ -18,43 +21,23 @@ var ui = (function () {
     self.showResultList = function (hits, displayConfigs) {
 
         var html = "";
-        var arkothequeHits = {};
-        var bordereauHits = {};
+
         hits.forEach(function (hit, index) {
-            var displayConfig = context.indexConfigs[hit._index].display
-        /*    if (hit._index == "arkotheque1")
-                arkothequeHits[hit._source.refUnique] = hit
-            else if (hit._index == "bordereaux")
-                bordereauHits[hit._source.title] = hit
-            else*/
+            var displayConfig =self.getIndexParams(hit._index).display
+
                 html += self.getHitDiv(hit, displayConfig)
         })
 
 
-        //merge arkotheque-bordereaux hits
-        var mergedHits
-        var arkoHtml="<div>"
-        for (var keyA in arkothequeHits) {
-            var displayConfig = context.indexConfigs[arkothequeHits[keyA]._index].display
-            arkoHtml+=self.getHitDiv(arkothequeHits[keyA], displayConfig)
-            for (var keyB in bordereauHits) {
-                if (keyB.indexOf(keyA) > -1) {
 
-                    arkoHtml+="<a onclick=Search.searchHitDetails('" + bordereauHits[keyB]._id +"') >" +bordereauHits[keyB]._source.title+"</a>"
-                }
-
-            }
-
-        }
-       arkoHtml="</div>"
-        html=arkoHtml+html
         $("#resultDiv").html(html);
 
 
     }
 
 
-    self.getDetailHtmlContent_getArkotheque= function (hit, displayConfig) {
+    self.getDetailHtmlContent_versement= function (hit, displayConfig) {
+        var htmlArray=[]
         var html=""
         for( var key in hit._source){
             if(key.indexOf("Arko_")==0){
@@ -76,13 +59,25 @@ var ui = (function () {
 
 
                     fieldValue = "<span class='" + 'xx' + "'>" + fieldValue + "</span>";
-                    html+= "<span class='fieldTitle'>" + key.replace("attachment.", "") + " : </span>" + fieldValue + "<hr>";
+                htmlArray.push( "<span class='fieldTitle'>" + key.replace("attachment.", "") + " : </span>" + fieldValue + "<hr>");
 
 
                 }
 
+
             }
-        return html
+
+        var half = htmlArray.length / 2
+        var htmlLeft = "";
+        var htmlRight = "";
+
+        htmlArray.forEach(function (item, index) {
+            if (index <= half)
+                htmlLeft += item
+            else
+                htmlRight += item
+        })
+        return {html: html, htmlLeft: htmlLeft, htmlRight: htmlRight};
 
         }
 
@@ -215,6 +210,7 @@ var ui = (function () {
 
             }
         }
+
         return {html: html, htmlLeft: htmlLeft, htmlRight: htmlRight};
 
     }
@@ -224,43 +220,61 @@ var ui = (function () {
     }
 
     self.showHitDetails = function (hit) {
-        var indexesWithPhotos = ["photos", "bordereaux", "artotheque", "arkotheque1"]
-
+        var indexesWithPhotos = ["photos", "versements", "artotheque"]
+       // Panier.panier={}
 
         if (indexesWithPhotos.indexOf(hit._index) > -1) {
 
-            $("#detailsDiv").load("snippets/detailsPhotos.html", function () {
-                var displayConfig = context.indexConfigs[hit._index].display;
 
-                if (hit._index == "bordereaux") {
-                    var html = self.getDetailHtmlContent_getArkotheque(hit, displayConfig)
-                    $("#detailedDataDivLeft").html(html)
-                 //   $("#detailedDataDivRight").html(htmlObj.htmlRight)
-                    return
-                    var p = hit._source.title.lastIndexOf(".")
-                    var title = hit._source.title.substring(0, p) + ".pdf"
-                    title = title.replace("-DS", "")
-                    var url = "/montageBordereauxPdfs/" + title
-                    $("#detailedDataPdfIframe").width($("#detailedDataPdfIframe").parent().width());
-                    $("#detailedDataPdfIframe").height('400px');
-                    $("#detailedDataPdfIframe").css("display", "block");
-                    $("#detailedDataPdfIframe").attr('src', url);
+                if (hit._index == "versements") {
+                   // var html = self.getDetailHtmlContent_versement(hit, displayConfig)
+                    $("#detailsDiv").load("snippets/detailsVersement.html",function(){
+                        $("#detailVersement_tabs").tabs({})
+                      //  var htmlObj = self.getDetailHtmlContent_generic(hit, displayConfig)
+                        var htmlObj = self.getDetailHtmlContent_versement(hit, displayConfig)
+                        $("#detailVersement_DataDivLeft").html(htmlObj.htmlLeft)
+                        $("#detailVersement_DataDivRight").html(htmlObj.htmlRight)
+                        
+                        var p = hit._source.title.lastIndexOf(".")
+                        var title = hit._source.title.substring(0, p) + ".pdf"
+                        title = title.replace("-DS", "")
+                        var url = "/montageBordereauxPdfs/" + title
+                      //  $("#detailedDataPdfIframe").width('550px');
+                      //  $("#detailedDataPdfIframe").height('350px');
+
+                        $("#detailedDataPdfIframe").css("display", "block");
+                        $("#detailedDataPdfIframe").attr('src', url);
+                        Photos.showPhotos(hit);
+                    })
 
 
-                } else {
+
+
+                }else{
+                    $("#detailsDiv").load("snippets/detailsPhotos.html", function () {
+                        var displayConfig = self.getIndexParams(hit._index).display;
+
+                        var html='<div className="detailedDataDiv" id="detailedDataDivLeft" style="width:50%"></div>'+
+                    '<div className="detailedDataDiv" id="detailedDataDivRight" style="width:50%"></div>'
+                    $("#detailedDataDiv").html(html)
+
                     var htmlObj = self.getDetailHtmlContent_generic(hit, displayConfig)
                     $("#detailedDataDivLeft").html(htmlObj.htmlLeft)
                     $("#detailedDataDivRight").html(htmlObj.htmlRight)
+                        Photos.showPhotos(hit);
+                    });
+                } if(true){
+
                 }
 
-                Photos.showPhotos(hit);
-            });
+
+
 
             return;
 
         } else {
-            var displayConfig = context.indexConfigs[hit._index].display;
-            var indexLabel = context.indexConfigs[hit._index].general.label;
+            var displayConfig =self.getIndexParams(hit._index).display;
+            var indexLabel = self.getIndexParams(hit._index).general.label;
 
             for (var thesaurus in context.allowedThesauri) {
                 if (hit._source["entities_" + thesaurus])
@@ -451,12 +465,12 @@ var ui = (function () {
                 cssClass = "";
 
 
-            fieldValue = "<span class='list " + cssClass + "'><b>" + fieldValue + "</b></span>";
-            html += fieldValue + "&nbsp;&nbsp;";
+            fieldValue = "<span class='list " + cssClass + "'>" + fieldName+": <b>" +fieldValue + "</b></span>";
+            html +=  fieldValue + "&nbsp;&nbsp;";
 
 
         })
-        if (hit.highlight) {// traitement special
+        if (false && hit.highlight) {// traitement special
             html += "<span class='excerpt'>";
             hit.highlight[appConfig.contentField].forEach(function (highlight, index) {
                 if (index > 0)

@@ -77,7 +77,7 @@ var indexer = {
 module.exports = indexer
 
 
-//indexer.indexTheques(["bordereaux"]);
+//indexer.indexTheques(["versements"]);
 
 
 const args = process.argv;

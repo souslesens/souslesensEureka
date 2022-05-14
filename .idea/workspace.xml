@@ -4,31 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="panier suite">
-      <change afterPath="$PROJECT_DIR$/bin/backoffice/mergeArkotheque..js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/elastic/sources/arkotheque.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/souslesensEureka.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/souslesensEureka.iml" afterDir="false" />
+    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="mergeArkotheque">
+      <change afterPath="$PROJECT_DIR$/public/snippets/detailsVersement.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Panier..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Panier..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/PhotosScanner..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosScanner..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/backoffice/annotator_skosOld..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/annotator_skosOld..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/backoffice/indexerTheques..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/indexerTheques..js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/backoffice/mergeArkotheque..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/mergeArkotheque..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/elasticRestProxy..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/elasticRestProxy..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/artotheque.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/artotheque.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/bailletarchives.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/bailletarchives.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/photos.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/photos.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/templates/jsonSchemas.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/templates/jsonSchemas.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elasticLocal/sources/bailletarchives.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elasticLocal/sources/bailletarchives.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_001.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_002.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_003.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_004.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Photo/6021_dfgdfgdfgdgdgf/003_egfghfghgf/002_sdgfdsfgg/0073-001-002_005.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Photos/INDEXES/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/atdSearchConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/atdSearchConfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/elastic/sources/arkotheque.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/elastic/sources/arkotheque1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/elastic/sources/bailletarchives.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/bailletarchives.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/elastic/sources/bordereaux.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/versements.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/elasticLocal/sources/bordereaux.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elasticLocal/sources/bordereaux.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/search/elasticSchema.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/search/elasticSchema.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchBackoffice/configEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchBackoffice/configEditor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/indexes.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/indexes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/panier.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/panier.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photos2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/photosManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/photosManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/ui.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/snippets/panier.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/snippets/panier.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/test/photos.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/test/photos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/snippets/detailsPhotos.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/snippets/detailsPhotos.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,15 +88,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "true",
-    "last_opened_file_path": "/root/WebstormProjects/souslesensEureka/config/elastic/sources",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "web-ide.project.structure",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/root/WebstormProjects/souslesensEureka/config/elastic/sources&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;web-ide.project.structure&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/config/elastic/sources" />
@@ -106,14 +106,14 @@
       <recent name="$PROJECT_DIR$/public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/config/elastic" />
       <recent name="$PROJECT_DIR$/public/data" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/bin" />
       <recent name="D:\webstorm\souslesensEureka\public\snippets" />
-      <recent name="D:\webstorm\souslesensEureka\public\Photo\6021_dfgdfgdfgdgdgf\003_egfghfghgf\002_sdgfdsfgg" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.mergeArkotheque..js">
+  <component name="RunManager" selected="Node.js.bin\www">
     <configuration name="PhotosScanner..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/PhotosScanner..js" working-dir="$PROJECT_DIR$/bin">
       <method v="2" />
     </configuration>
@@ -131,9 +131,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Node.js.mergeArkotheque..js" />
-        <item itemvalue="Node.js.elasticRestProxy..js" />
         <item itemvalue="Node.js.PhotosScanner..js" />
+        <item itemvalue="Node.js.elasticRestProxy..js" />
+        <item itemvalue="Node.js.mergeArkotheque..js" />
         <item itemvalue="Node.js.thumbnailManager..js" />
         <item itemvalue="Node.js.photos2.js" />
       </list>
@@ -234,7 +234,8 @@
       <workItem from="1649955103926" duration="4902000" />
       <workItem from="1650216605553" duration="683000" />
       <workItem from="1650360808871" duration="1111000" />
-      <workItem from="1650436946366" duration="39307000" />
+      <workItem from="1650436946366" duration="42786000" />
+      <workItem from="1651396625825" duration="23600000" />
     </task>
     <task id="LOCAL-00001" summary="thumbnailManager">
       <created>1634370637737</created>
@@ -397,7 +398,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649958055919</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="mergeArkotheque">
+      <created>1650968210973</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1650968210973</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -426,7 +434,8 @@
     <MESSAGE value="ameliorations 06/04/2022" />
     <MESSAGE value="panier" />
     <MESSAGE value="panier suite" />
-    <option name="LAST_COMMIT_MESSAGE" value="panier suite" />
+    <MESSAGE value="mergeArkotheque" />
+    <option name="LAST_COMMIT_MESSAGE" value="mergeArkotheque" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -443,7 +452,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/public/js/searchFrontOffice/ui.js</url>
-          <line>367</line>
+          <line>381</line>
           <option name="timeStamp" value="497" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -464,62 +473,59 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/Panier..js</url>
           <line>31</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="512" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/Panier..js</url>
           <line>41</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="513" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/Panier..js</url>
           <line>15</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="514" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/Panier..js</url>
           <line>27</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="515" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/Panier..js</url>
           <line>54</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="516" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/Panier..js</url>
           <line>57</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="517" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/Panier..js</url>
-          <line>50</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="518" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/backoffice/_sqlCrawler..js</url>
           <line>141</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="523" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/mySQLproxy..js</url>
           <line>27</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="525" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/backoffice/mergeArkotheque..js</url>
           <line>230</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="564" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
+          <line>374</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="573" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public/js/searchFrontOffice/_search.js</url>
+          <line>158</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="580" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

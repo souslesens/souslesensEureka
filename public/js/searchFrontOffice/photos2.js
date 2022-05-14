@@ -35,8 +35,9 @@ var Photos = (function () {
             if (jstreeData.length == 0) {
                 $("#photoMessageDiv").html("Aucune  photo trouvée")
                 $("#photosContainerDiv").css("display", "none")
-                //$("#detailedDataPdfIframe").height('800px');
-                $("#detailedDataPdfIframe").css("height", "95vh");
+                $("#detailVersement_tabs").tabs( "disable" , 2 )
+                    //$("#detailedDataPdfIframe").height('800px');
+               // $("#detailedDataPdfIframe").css("height", "95vh");
                 $("#waitImg").css("display", "none")
                 return;
             }
@@ -96,10 +97,10 @@ var Photos = (function () {
         } else if (self.currentTheque == "polytheque") {
             files.forEach(function (file) {
 
-                if (!useFonds) {
+                if (useFonds) {
                     var rootPath =self.photosRootDir
-                    var treePath2 = (treePath).replace(/\//g, "|_|");//coding for pathSep
-                    photoPaths.push({"thumb": rootPath + "polytheque2" + "/" + treePath2 + file})
+                    var treePath2 = treePath ;//(treePath).replace(/\//g, "|_|");//coding for pathSep
+                    photoPaths.push({"thumb": rootPath + "Poly" + "/" + treePath2 + file})
                 } else {
                     rootPath = self.photosRootDir+"MiniaturesPhotos/"
                     var treePath2 = treePath
@@ -109,7 +110,7 @@ var Photos = (function () {
         } else if (self.currentTheque == "artotheque") {
 
             files.forEach(function (file) {
-                if (!useFonds) {
+                if (useFonds) {
                     var rootPath = self.photosRootDir+"MiniaturesPhotos/"
                     var treePath2 = (treePath).replace(/\//g, "_");//coding for pathSep
                     photoPaths.push({"thumb": rootPath + self.currentTheque + "/_INDEX_" + treePath2 + file})
@@ -178,6 +179,7 @@ var Photos = (function () {
     }
 
     self.checkPhotoExists = function (path, callback) {
+
         var img = new Image();
         $(img).load(function () {
             return callback(true);
@@ -210,32 +212,34 @@ var Photos = (function () {
 
         if (self.currentTheque == "phototheque") {
             var url = photoPath.replace("INDEX", "FONDS")
-            url = uriEncodePhotoPath(url)
+            //url = uriEncodePhotoPath(url)
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
             // console.log(html);
             $("#activePhotoDiv").html(html)
             return;
-        }
-        var p = photoPath.indexOf("INDEX")//artotheque
-        if (p > -1) {
-            p += 5
-            photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
-            var url = self.photosRootDir + "Arto" + "/FONDS/" + photoPath
-            url = uriEncodePhotoPath(url)
-            var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
-            // console.log(html);
-
-        } else {
-            var p = photoPath.indexOf("polytheque")
+        }else {
+            var p = photoPath.indexOf("INDEX")//artotheque
             if (p > -1) {
-                p += 10
-                photoPath = photoPath.substring(p + 1).replace(/\|_\|/g, "/")
-                var url =self.photosRootDir+ "Poly/" + photoPath
+                p += 5
+                photoPath = photoPath.substring(p + 1).replace(/_/g, "/")
+                var url = self.photosRootDir + "Arto" + "/FONDS/" + photoPath
                 url = uriEncodePhotoPath(url)
                 var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
-                console.log(html);
+                // console.log(html);
+
             } else {
-                $("#activePhotoDiv").html(photoPath)
+                var p = photoPath.indexOf("polytheque")
+                if (p > -1) {
+                    p += 10
+                    photoPath = photoPath.substring(p + 1).replace(/\|_\|/g, "/")
+                    var url = self.photosRootDir + "Poly/" + photoPath
+                    url = uriEncodePhotoPath(url)
+                    var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
+                    console.log(html);
+                } else {
+                    url = uriEncodePhotoPath(photoPath)
+                    $("#activePhotoDiv").html(photoPath)
+                }
             }
         }
 
@@ -258,11 +262,8 @@ var Photos = (function () {
 
             //  options.pattern = [hit._source.dossier, hit._source.sousdossier, hit._source.document]
 
-        } else if (index == "bordereaux") {
+        } else if (index == "versements") {
             options.pattern = [hit._source.title.substring(0, 4)]
-        } else if (index == "arkotheque1") {
-            var array = hit._source.cote.split(" ")
-            options.pattern = [array[1]]
         } else if (index == "artotheque" || index == "arts") {
 
             var niveau2 = hit._source.collection.substring(0, 3)

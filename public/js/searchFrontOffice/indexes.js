@@ -160,7 +160,7 @@ var indexes = (function () {
             indexesCxbs += "<li><input type='checkbox' checked="+checked+" onchange='indexes.onIndexCBXchange(this)' class='indexesCbxes' id='" + key + "'>" +
                 "<span onclick=indexes.onIndexSelect('" + key + "') >" + index.general.label + "</span><span class='indexDocCount' id='indexDocCount_" + key + "'/></li>"
         }
-        indexesCxbs += "<ul>";
+        indexesCxbs += "<ul style='margin-left:-35px'>";
         $("#indexesDiv").html(indexesCxbs);
 
         if (true || checked  && Object.keys(context.indexConfigs)>1  )

@@ -7,9 +7,9 @@ var Search = (function () {
                 indexLabels = context.currentSearchIndexes;
             var indexes = []
             indexLabels.forEach(function (indexName) {
+             //   indexName=indexName
                 indexes.push(context.indexConfigs[indexName].general.indexName)
-                if (indexName == 'arkotheque1')
-                    indexes.push("bordereaux")
+
             })
 
 
@@ -162,8 +162,8 @@ var Search = (function () {
                                     return callback(err);
                                 return;
                             }
-                            if (result.hits.hits.length == 0) {
-                                return $("#resultDiv").html("pas de résultats");
+                            if (!result.hits || result.hits.hits.length == 0) {
+                                return ;//$("#resultDiv").html("pas de résultats");
                                 if (callback)
                                     return callback("pas de résultats");
                                 return;

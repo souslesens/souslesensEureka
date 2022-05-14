@@ -95,7 +95,7 @@ var PhotosManager = (function () {
                     }
                 });
 
-            } else if (index == "bordereaux") {
+            } else if (index == "versements") {
 
                 var docTitle=hit._source.title;
                 var payload = {getPolythequePhotos:docTitle}

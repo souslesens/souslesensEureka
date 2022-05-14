@@ -40,14 +40,13 @@ appConfig.elasticQuery = {
 
 appConfig.photos={
     indexPhotosDirsMap:{
-        bordereaux:"polytheque",
-        arkotheque1:"polytheque",
+        versements:"polytheque",
         artotheque:"artotheque",
         arts:"artotheque",
         photos:"phototheque"
     },
  maxPhotosInFotorama:100,
-    bordereauxPath:"smb://serveur.local/serveur/Equipe/Pole_Archives/01-Instruments_de_RECHERCHE/1107-INT-PAEFI-1970_2018.odt",
+    //versementsPath:"smb://serveur.local/serveur/Equipe/Pole_Archives/01-Instruments_de_RECHERCHE/1107-INT-PAEFI-1970_2018.odt",
 
 
 }

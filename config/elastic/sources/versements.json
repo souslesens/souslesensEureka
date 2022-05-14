@@ -1,8 +1,8 @@
 {
   "general": {
-    "description": "index des bordereaux de versement de Baillet",
-    "label": "Bordereaux",
-    "indexName": "bordereaux"
+    "description": "index des versements de versement de Baillet",
+    "label": "Versements",
+    "indexName": "versements"
   },
   "connector": {
     "type": "document",
@@ -12,7 +12,7 @@
     "contentField": "attachment.content",
     "analyzer": "lowercase_asciifolding",
     "mappings": {
-      "bordereaux": {
+      "versements": {
         "properties": {
           "attachment.author": {
             "type": "text",
@@ -40,33 +40,30 @@
   },
   "display": [
     {
-      "attachment.author": {
+      "Arko_refUnique": {
+        "cssClass": "excerpt"
+      }
+    },
+
+    {
+      "Arko_intitule": {
         "cssClass": "excerpt"
       }
     },
     {
-      "attachment.title": {
-        "cssClass": "text"
+      "Arko_annee_debut": {
+        "cssClass": "excerpt"
       }
     },
+
     {
-      "attachment.date": {
+      "Arko_annee_fin": {
         "cssClass": "excerpt"
       }
     },
     {
-      "attachment.language": {
+      "Arko_producteur": {
         "cssClass": "excerpt"
-      }
-    },
-    {
-      "title": {
-        "cssClass": "excerpt"
-      }
-    },
-    {
-      "attachment.content": {
-        "cssClass": "text"
       }
     }
   ],

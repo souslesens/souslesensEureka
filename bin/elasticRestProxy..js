@@ -3,7 +3,7 @@ const request = require('request');
 
 //const elasticUrl = "http://localhost:9200/";
 //const elasticUrl = "http://92.222.116.179:7201/";
-var  elasticUrl = "http://51.178.39.209:2009/";
+var elasticUrl = "http://51.178.39.209:2009/";
 //var elasticUrl = "http://164.132.194.227:2009/";
 var elasticUrl = "http://192.168.2.3:7201/";
 
@@ -15,7 +15,7 @@ var elasticUrl = "http://192.168.2.2:2009/";
 const debug = true;
 var elasticRestProxy = {
     elasticUrl: elasticUrl,
-    getElasticUrl:function(){
+    getElasticUrl: function () {
         return elasticUrl;
     },
 
@@ -64,7 +64,7 @@ var elasticRestProxy = {
             url: elasticUrl + "/_msearch"
         };
 
-       // console.log(ndjson)
+        // console.log(ndjson)
         request(options, function (error, response, body) {
             if (error)
                 return callback(error);
@@ -93,12 +93,11 @@ var elasticRestProxy = {
         if (Buffer.isBuffer(responseBody))
             try {
 
-        body = JSON.parse(responseBody.toString());
-    }
-    catch(e){
-        return callback(e+" : "+responseBody.toString())
+                body = JSON.parse(responseBody.toString());
+            } catch (e) {
+                return callback(e + " : " + responseBody.toString())
 
-    }
+            }
         else
             body = responseBody;
         var errors = [];
@@ -145,10 +144,10 @@ var elasticRestProxy = {
         })
     },
 
-    analyzeSentence:function(sentence, callback){
-        var json={
-            "analyzer" : "stop",
-            "text" : sentence
+    analyzeSentence: function (sentence, callback) {
+        var json = {
+            "analyzer": "stop",
+            "text": sentence
         }
         var options = {
             method: 'POST',
@@ -156,7 +155,7 @@ var elasticRestProxy = {
             headers: {
                 'content-type': 'application/json'
             },
-            json:json,
+            json: json,
             url: elasticUrl + "_analyze"
         };
 
@@ -164,14 +163,61 @@ var elasticRestProxy = {
             if (error) {
                 return callback(error)
             }
-            return callback(null,body);
+            return callback(null, body);
         })
-
 
 
     }
 
 
-}
+    , cloneIndex: function (fromIndex, toIndex) {
 
-module.exports = elasticRestProxy;
+        var async = require('async')
+
+        async.series([
+
+            function (callbackseries) {
+            return callbackseries();
+                var json = {
+                    "settings": {
+                        "index.blocks.write": true
+                    }
+                }
+
+                var options = {
+                    method: 'PUT',
+                    url: elasticRestProxy.elasticUrl + fromIndex,
+                    json: json,
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                };
+
+                request(options, function (error, response, body) {
+                    return callbackseries(error)
+
+
+                })
+            }
+,   function (callbackseries) {
+                var query = {}
+                var url = elasticRestProxy.elasticUrl + fromIndex + "/_clone/" + toIndex
+                elasticRestProxy.executePostQuery(url, query, function (err, result) {
+                    if (err)
+                        return console.log(err)
+
+
+                })
+            }
+
+            ])
+
+
+
+            }
+
+
+    }
+
+    module.exports = elasticRestProxy;
+  //  elasticRestProxy.cloneIndex("bordereaux", "versements")

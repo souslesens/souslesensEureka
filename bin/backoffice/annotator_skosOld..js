@@ -1029,7 +1029,7 @@ if (false) {
 if (false) {
     var options = {
 
-        corpusIndex: "bordereaux",
+        corpusIndex: "versements",
         thesaurusIndex: "thesaurus_eurovoc",
         elasticUrl: "http://localhost:9200/",
 

@@ -9,7 +9,7 @@ const elasticRestProxy = require("../elasticRestProxy.");
 const socket = require("../../routes/socket");
 var mergeArkotheque = {
 
-    updateBordereauxIndex: function (arkothequeFilePath, bordereauxIndex, callback) {
+    updateBordereauxIndex: function (arkothequeFilePath, versementsIndex, callback) {
 
         var arkothequeData = {}
         var mergedData = []
@@ -22,7 +22,7 @@ var mergeArkotheque = {
 
         var elasticUrl = "http://192.168.2.2:2009/";
         var arkothequePrefix = "Arko_"
-        var bordereauxIndex = "bordereaux"
+        var versementsIndex = "versements"
 
         async.series([
                 function (callbackSeries) {
@@ -127,7 +127,7 @@ var mergeArkotheque = {
                             headers: {
                                 'content-type': 'application/json'
                             },
-                            url: elasticUrl + bordereauxIndex + "/_update_by_query"
+                            url: elasticUrl + versementsIndex + "/_update_by_query"
                         };
 
                         //  console.log(JSON.stringify(query, null, 2));
@@ -168,8 +168,8 @@ var mergeArkotheque = {
 
                         bulkStr += JSON.stringify({
                             index: {
-                                _index: bordereauxIndex,
-                                _type: bordereauxIndex,
+                                _index: versementsIndex,
+                                _type: versementsIndex,
                                 _id: "ARKO_" + line.numeroEntree
                             }
                         }) + "\r\n"
@@ -226,12 +226,12 @@ var mergeArkotheque = {
 var arkothequeFilePath = "/home/claude/arkotheque1.csv"
 module.exports = mergeArkotheque
 
-mergeArkotheque.updateBordereauxIndex(arkothequeFilePath, "bordereaux", function (err, result) {
+mergeArkotheque.updateBordereauxIndex(arkothequeFilePath, "versements", function (err, result) {
 
 })
 
 
-/*/ search bordereaux
+/*/ search versements
                 , function (callbackSeries) {
                     return callbackSeries();
                     var ndjson = ""
@@ -240,7 +240,7 @@ mergeArkotheque.updateBordereauxIndex(arkothequeFilePath, "bordereaux", function
                         var numero = key.substring(4)
                         mergedData.push(arkothequeData[key])
                         if (numero) {
-                            ndjson += JSON.stringify({index: bordereauxIndex}) + "\r\n"
+                            ndjson += JSON.stringify({index: versementsIndex}) + "\r\n"
                             ndjson += JSON.stringify({
                                 "query": {
                                     "match": {
@@ -323,7 +323,7 @@ mergeArkotheque.updateBordereauxIndex(arkothequeFilePath, "bordereaux", function
                             headers: {
                                 'content-type': 'application/json'
                             },
-                            url: elasticUrl + "bordereaux/_update/" + line.bordereauId
+                            url: elasticUrl + "versements/_update/" + line.bordereauId
                         };
 
 

@@ -132,13 +132,18 @@ var configEditor = (function () {
 
                             var excerptFields = Object.keys(fields);
                             var display = []
-                            for (var key in selectedMappingFields) {
+                            excerptFields.forEach(function(item){
+                                display.push({[item]: {"cssClass": "excerpt"}})
+                            })
+
+                          /*  for (var key in selectedMappingFields) {
                                 if (excerptFields.indexOf(key) > -1)
                                     display.push({[key]: {"cssClass": "excerpt"}});
                                 else
                                     display.push({[key]: {"cssClass": "text"}});
                             }
-                            config.display = display;
+                            //config.display = display;*/
+                            config.display=display
                             callbackSeries();
                         })
 

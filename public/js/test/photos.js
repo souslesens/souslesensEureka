@@ -33,8 +33,8 @@ var TestPhotos = (function () {
     }
 
     self.hitBordereau = {
-        "_index": "bordereaux",
-        "_type": "bordereaux",
+        "_index": "versements",
+        "_type": "versements",
         "_id": "D2097125692",
         "_score": 1,
         "_source": {

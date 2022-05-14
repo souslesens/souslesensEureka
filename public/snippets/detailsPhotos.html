@@ -69,7 +69,7 @@
 <div style="display: flex;flex-direction: row">
     <img src="icons/waitAnimated.gif" id="waitImg" style="display: none;width: 15px">
     <div id="photoMessageDiv" style="font-size:12px ;color:#372806;font-weight: bold;background-color: #bdbdbd"></div>
-    <div><button onclick="Panier.voirPanier()">voir Panier</button> </div>
+    <div>&nbsp;&nbsp; <button onclick="Panier.ajouterPhotoAuPanier()">Ajouter au panier</button>&nbsp;&nbsp;<button onclick="Panier.voirPanier()">voir Panier</button></div>
 </div>
 <div id="photosContainerDiv" style="display: none">
     <div style="display: flex;flex-direction: row;">
@@ -77,10 +77,11 @@
         <div style="width:300px;   height: 450px;overflow: auto; margin:3px;border: solid 1px #f5faec;background-color: #67707F; color:white;overflow: auto;">
             <div class="jstree" id="photosTreeDiv"></div>
         </div>
-        <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex-1);"><</button>
+       <!-- <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex-1);"><</button>-->
         <div id="carrouselDiv" class="detailedDataDiv">
             <div class="fotorama"
                  data-height="400"
+                 data-width="500"
                  data-nav="thumbs"
                  data-arrows="true"
                  data-click="true"
@@ -88,23 +89,23 @@
                 data-auto="false"
             </div>
         </div>
-        <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex+1);">></button>
+      <!--  <button onclick="Photos.Fotorama.show(Photos.Fotorama.activeIndex+1);">></button>-->
 
     </div>
     <div id="photoCommentDiv"></div>
     <div id='activePhotoDiv'></div>
-    <div><button onclick="Panier.ajouterPhotoAuPanier()">Ajouter au panier</button></div>
+
 </div>
 
 
 <!--<div id='activePhotoDiv'></div>-->
-<iframe style='width: 100%;height:400px;overflow: auto;display:none' id="detailedDataPdfIframe"></iframe>
+
 <div id="detailedDataDiv" style="display: flex;flex-direction: row;width:100%;  min-height: 300px;overflow: visible;">
 
-    <div class="detailedDataDiv" id="detailedDataDivLeft" style="width:50%"></div>
-    <div class="detailedDataDiv" id="detailedDataDivRight" style="width:50%"></div>
+
 
 </div>
+
 </div>
 
 <script>

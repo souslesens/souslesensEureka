@@ -48,7 +48,7 @@
             },
             "sqlQuery": "select * from videotheque"
         },
-        "bordereaux": {
+        "versements": {
             "type": "fs",
             "settings": "ATD",
             "dirPath": "D:\\ATD_Baillet\\versements2018",

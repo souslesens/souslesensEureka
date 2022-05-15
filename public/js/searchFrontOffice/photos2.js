@@ -42,7 +42,7 @@ var Photos = (function () {
                 return;
             }
             $("#photosContainerDiv").css("display", "block")
-            $("#photoMessageDiv").html(jstreeData.totalPhotos + " photos trouvées ")
+            $("#photoMessageDiv").html(jstreeData.totalPhotos + " photos")
 
 
             var options = {
@@ -193,7 +193,7 @@ var Photos = (function () {
 
     self.setActivePhotoInfos = function (photoPath) {
 
-
+$("#photos_ajouterpanierButton").css("display","inline")
         function uriEncodePhotoPath(photoPath) {
             var encodedPhotoPath = photoPath.replace(/'/g, "%27")
             self.currentPhotoPath = encodedPhotoPath
@@ -212,7 +212,7 @@ var Photos = (function () {
 
         if (self.currentTheque == "phototheque") {
             var url = photoPath.replace("INDEX", "FONDS")
-            //url = uriEncodePhotoPath(url)
+            url = uriEncodePhotoPath(url)
             var html = "<a href='" + url + "' target='_blank'>" + photoPath + "</a>"
             // console.log(html);
             $("#activePhotoDiv").html(html)

@@ -120,17 +120,19 @@ var Search = (function () {
 
                     var aggregations = {
 
-                        "associatedWords": {
+                      /*  "associatedWords": {
                             "significant_terms": {
                                 "size": 30,
                                 "field": appConfig.contentField
                             }
-                        },
+                        },*/
 
                         "indexesCountDocs": {
                             "terms": {"field": "_index"}
                         }
                     }
+
+                    /*
                     Entities.setUserIndexesThesauri()
                     for (var thesaurus in context.allowedThesauri) {
                         aggregations["entities_" + thesaurus] = {
@@ -140,7 +142,7 @@ var Search = (function () {
                                 "order": {"_count": "desc"}
                             }
                         };
-                    }
+                    }*/
 
 
                     Search.queryElastic({
@@ -149,7 +151,7 @@ var Search = (function () {
                             size: size,
                             _source: context.elasticQuery.source,
                             highlight: context.elasticQuery.highlight,
-                            //   aggregations: aggregations
+                             aggregations: aggregations
 
 
                         }
@@ -173,7 +175,7 @@ var Search = (function () {
                             //    Entities.showAssociatedWords(result.aggregations.associatedWords)
 
 
-                            //     self.setResultsCountByIndex(result.aggregations.indexesCountDocs);
+                               self.setResultsCountByIndex(result.aggregations.indexesCountDocs);
 
                             self.thesauri = {}
                             var jsTreeArray = []
@@ -190,7 +192,7 @@ var Search = (function () {
 
                             context.currentHits = result.hits.hits;
                             if ($("#indexesCbxes_all").prop("checked"))
-                                $("#indexDocCount_all").html("(" + result.hits.total + ")");
+                                $("#indexDocCount_all").html("");//$("#indexDocCount_all").html("(" + result.hits.total + ")");
                             else
                                 $("#indexDocCount_all").html("");
                             mainController.showPageControls(result.hits.total);
@@ -211,7 +213,7 @@ var Search = (function () {
 
         self.setResultsCountByIndex = function (aggregation) {
             aggregation.buckets.forEach(function (bucket) {
-                $("#indexDocCount_" + bucket.key).html("(" + bucket.doc_count + " docs)")
+                $("#indexDocCount_" + bucket.key).html(" " + bucket.doc_count)
 
             })
 

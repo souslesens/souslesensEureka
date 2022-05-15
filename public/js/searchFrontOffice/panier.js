@@ -8,6 +8,7 @@ var Panier = (function () {
             photoPath = Photos.currentPhotoPath;
         var key = common.getRandomHexaId(10)
         self.panier[key] = photoPath
+        $("#photos_voirpanierButton").css("display","inline")
     }
 
 
@@ -35,7 +36,7 @@ var Panier = (function () {
 
     self.removeFromPanier = function (key) {
         $("#" + key).remove()
-        delete self.panier["photo_" + key]
+        delete self.panier[key]
     }
 
     self.telecharger = function () {
@@ -69,6 +70,7 @@ var Panier = (function () {
         if (confirm("vider le panier")) {
             self.panier = {}
             $("#dialogDiv").html("");
+            $("#dialogDiv").dialog("close")
         }
     }
 

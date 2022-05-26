@@ -28,6 +28,7 @@
     "ndjson": "^2.0.0",
     "node-schedule": "^2.0.0",
     "node-scp": "^0.0.16",
+    "office-to-pdf": "^4.0.0",
     "pdfjs-dist": "^2.6.347",
     "pug": "2.0.0-beta11",
     "request": "^2.88.2",

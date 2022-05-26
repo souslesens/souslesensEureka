@@ -113,6 +113,8 @@ var authentication = (function () {
                 return $("#loginMessage").html("user not allowed on this application  : " + appConfig.appName);
 
             $("#loginDiv").css("visibility", "hidden");
+            $("#loginMessage").css("visibility", "hidden");
+
             $("#main").css("visibility", "visible");
             context.currentUser = user;
             mainController.init0();

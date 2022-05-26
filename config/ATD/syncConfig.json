@@ -1,0 +1,20 @@
+{
+  "paths": {
+    "IR_sourceDir": "/var/arko_IR/",
+    "IR_targetPdfDir": "/var/bordereaux_PDFs/",
+    "Phototheque": "",
+    "Artotheque": "",
+    "Polytheque": ""
+  },
+  "indexes": [
+    "artotheque",
+    "audiotheque",
+    "photos",
+    " videotheque",
+    "versement"
+  ],
+  "arko_index_update": {
+    "dumpFile":"/var/arko_export_csv/fiches_entree.csv",
+    "index": "versement"
+  }
+}

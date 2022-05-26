@@ -236,15 +236,20 @@ var ui = (function () {
                         $("#detailVersement_DataDivRight").html(htmlObj.htmlRight)
 
                         if(hit._source.title) {
-                            var p = hit._source.title.lastIndexOf(".")
-                            var title = hit._source.title.substring(0, p) + ".pdf"
-                            title = title.replace("-DS", "")
-                            var url = "/montageBordereauxPdfs/" + title
-                            //  $("#detailedDataPdfIframe").width('550px');
-                            //  $("#detailedDataPdfIframe").height('350px');
+                           // var p = hit._source.title.lastIndexOf(".")
+                            var path=hit._source.Arko_lien_fichiers
+                          var p = path.lastIndexOf("/")
+                            var fileName=path.substring(p+1)
+                            var p = fileName.lastIndexOf(".")
+                            fileName = fileName.substring(0,p) + ".pdf"
+                            var url = "/montageBordereauxPdfs/" + fileName
+
 
                             $("#detailedDataPdfIframe").css("display", "block");
                             $("#detailedDataPdfIframe").attr('src', url);
+                        }
+                        else{
+                            $("#detailVersement_tabs").tabs( "disable" , 1 )
                         }
                         Photos.showPhotos(hit);
                     })

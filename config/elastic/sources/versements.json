@@ -40,7 +40,7 @@
   },
   "display": [
     {
-      "Arko_refUnique": {
+      "Arko_cote": {
         "cssClass": "excerpt"
       }
     },

@@ -234,16 +234,18 @@ var ui = (function () {
                         var htmlObj = self.getDetailHtmlContent_versement(hit, displayConfig)
                         $("#detailVersement_DataDivLeft").html(htmlObj.htmlLeft)
                         $("#detailVersement_DataDivRight").html(htmlObj.htmlRight)
-                        
-                        var p = hit._source.title.lastIndexOf(".")
-                        var title = hit._source.title.substring(0, p) + ".pdf"
-                        title = title.replace("-DS", "")
-                        var url = "/montageBordereauxPdfs/" + title
-                      //  $("#detailedDataPdfIframe").width('550px');
-                      //  $("#detailedDataPdfIframe").height('350px');
 
-                        $("#detailedDataPdfIframe").css("display", "block");
-                        $("#detailedDataPdfIframe").attr('src', url);
+                        if(hit._source.title) {
+                            var p = hit._source.title.lastIndexOf(".")
+                            var title = hit._source.title.substring(0, p) + ".pdf"
+                            title = title.replace("-DS", "")
+                            var url = "/montageBordereauxPdfs/" + title
+                            //  $("#detailedDataPdfIframe").width('550px');
+                            //  $("#detailedDataPdfIframe").height('350px');
+
+                            $("#detailedDataPdfIframe").css("display", "block");
+                            $("#detailedDataPdfIframe").attr('src', url);
+                        }
                         Photos.showPhotos(hit);
                     })
 

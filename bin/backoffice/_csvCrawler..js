@@ -68,7 +68,7 @@ var csvCrawler = {
 
                         if (config.incrementRecordIds.indexOf(incrementRecordId) < 0) {
 
-                            bulkStr += JSON.stringify({index: {_index: config.general.indexName, _type: config.general.indexName, _id: id}}) + "\r\n"
+                            bulkStr += JSON.stringify({index: {_index: config.general.indexName, _type: "_doc", _id: id}}) + "\r\n"
                             bulkStr += JSON.stringify(record) + "\r\n";
 
                         }

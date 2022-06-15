@@ -21,24 +21,12 @@
     "contentField": "attachment.content",
     "analyzer": "lowercase_asciifolding",
     "mappings": {
-
+      "photos": {
         "properties": {
-          "id": {
-            "type": "integer"
-          },
           "indexCIJW": {
             "type": "keyword"
           },
-          "dossier": {
-            "type": "keyword"
-          },
-          "sousdossier": {
-            "type": "keyword"
-          },
-          "document": {
-            "type": "keyword"
-          },
-          "versement_relie": {
+          "versement_relié": {
             "type": "text"
           },
           "ancienne_cote": {
@@ -66,7 +54,7 @@
             "type": "text"
           },
           "date": {
-            "type": "date"
+            "type": "text"
           },
           "lieu": {
             "type": "text"
@@ -88,7 +76,7 @@
           }
         }
       }
-
+    }
   },
   "display": [
     {
@@ -96,16 +84,8 @@
         "cssClass": "excerpt"
       }
     },
-    {
-      "photographe": {
-        "cssClass": "excerpt"
-      }
-    },
-    {
-      "agence": {
-        "cssClass": "excerpt"
-      }
-    },
+
+
     {
       "date": {
         "cssClass": "excerpt"
@@ -115,11 +95,10 @@
       "lieu": {
         "cssClass": "excerpt"
       }
-    },
-    {
-      "description": {
-        "cssClass": "excerpt"
-      }
     }
-  ]
+  ],
+  "indexation": {
+    "elasticUrl": "192.168.2.2:9200",
+    "deleteOldIndex": "no"
+  }
 }

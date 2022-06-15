@@ -170,8 +170,8 @@ var indexes = (function () {
 
 
     self.runIndexation = function () {
-        $("#messageDiv").html("");
-        $("#socketDiv").html("");
+        $("#messageDiv").html("Indexing ... please wait");
+        $("#socketDiv").html("Indexing ... please wait");
         context.socketAppend=true;
         var config = context.indexConfigs[context.currentIndexName];
         var indexationConfig = context.currentIndexationConfig;
@@ -189,6 +189,7 @@ var indexes = (function () {
             success: function (data, textStatus, jqXHR) {
 
                 $("#messageDiv").html("done")
+                $("#socketDiv").html("")
                 context.socketAppend=null;
             }
             , error: function (err) {

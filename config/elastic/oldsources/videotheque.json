@@ -24,7 +24,7 @@
   "schema": {
     "settings": {},
     "mappings": {
-
+      "videotheque": {
         "properties": {
           "id": {
             "isId": true,
@@ -112,7 +112,7 @@
             }
           }
         }
-
+      }
     }
   },
   "display":  [

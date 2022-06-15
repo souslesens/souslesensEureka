@@ -5,7 +5,8 @@ var globalParams={
 
     mysqlConnection:{
         host: "localhost",
-        user: "root",
+       // user: "root",
+        user:"bailletarchives",
         password: "vi0lon",
         database: 'bailletarchives',
         // database: 'bailletarchives_test'

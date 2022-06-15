@@ -1,6 +1,6 @@
 var async = require("async");
-var elasticProxy = require("./elasticProxy.js")
-var mySQLproxy = require("./mySQLproxy..js");
+var elasticProxy = require("../elasticRestProxy.")
+var mySQLproxy = require("../mySQLproxy.");
 var fs=require('fs');
 var path=require("path");
 

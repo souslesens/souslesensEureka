@@ -188,7 +188,7 @@ var _documentCrawler = {
             var id = "D" +incrementRecordId;
             requestOptions = {
                 method: 'PUT',
-                url: elasticUrl + index + "/" + type + "/" + id + "?pipeline=attachment",
+                url: elasticUrl + index + "/" + "_doc" + "/" + id + "?pipeline=attachment",
                 json: {
                     "data": fileContent,
                     "path": encodeURIComponent(file),
@@ -202,7 +202,7 @@ var _documentCrawler = {
             var id = "D" +incrementRecordId;
             requestOptions = {
                 method: 'PUT',
-                url: elasticUrl + index + "/" + type + "/" + id+"?refresh=wait_for",
+                url: elasticUrl + index + "/" + "_doc" + "/" + id+"?refresh=wait_for",
                 json: {
                     "content": fileContent,
                     "path": encodeURIComponent(file),

@@ -1,6 +1,6 @@
 var appConfig = {
     appName: "search",
-    loginMode: "database",  //database or none
+    loginMode: "none",  //database or none
     contentField: "attachment.content",
     locale: "Fr",
     elasticUrl: "./elastic",

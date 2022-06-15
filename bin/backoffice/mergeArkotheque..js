@@ -9,7 +9,7 @@ const elasticRestProxy = require("../elasticRestProxy.");
 const socket = require("../../routes/socket");
 var mergeArkotheque = {
 
-    updateBordereauxIndex: function (arkothequeFilePath, versementsIndex, callback) {
+    updateVersementsIndex: function (arkothequeFilePath, versementsIndex, callback) {
 
         var arkothequeData = {}
         var mergedData = []
@@ -143,7 +143,7 @@ var mergeArkotheque = {
                                 fichesWithtoutBordereau.push(line);
                                 countErrorOnUpdateBordereaux += 1
                                 var x = query;
-                                console.log(" error " + line.numeroEntree)
+                                console.log(" error  line " + line.numeroEntree)
                             }
                             callbackEach()
 
@@ -223,12 +223,15 @@ var mergeArkotheque = {
     }
 }
 
-var arkothequeFilePath = "/home/claude/arkotheque1.csv"
-module.exports = mergeArkotheque
+module.exports=mergeArkotheque;
+if(false) {
+    var arkothequeFilePath = "/home/claude/arkotheque1.csv"
+    module.exports = mergeArkotheque
 
-mergeArkotheque.updateBordereauxIndex(arkothequeFilePath, "versements", function (err, result) {
+    mergeArkotheque.updateVersementsIndex(arkothequeFilePath, "versements", function (err, result) {
 
-})
+    })
+}
 
 
 /*/ search versements

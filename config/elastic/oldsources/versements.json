@@ -6,32 +6,34 @@
   },
   "connector": {
     "type": "document",
-    "dirPath": "/var/bordereaux_PDFs"
+    "dirPath": "D:\\ATD_Baillet\\versements2018"
   },
   "schema": {
     "contentField": "attachment.content",
     "analyzer": "lowercase_asciifolding",
     "mappings": {
-      "properties": {
-        "attachment.author": {
-          "type": "text",
-          "index": false
-        },
-        "attachment.title": {
-          "type": "text",
-          "index": false
-        },
-        "attachment.date": {
-          "type": "date",
-          "index": false
-        },
-        "attachment.language": {
-          "type": "keyword",
-          "index": false
-        },
-        "title": {
-          "type": "text",
-          "index": true
+      "versements": {
+        "properties": {
+          "attachment.author": {
+            "type": "text",
+            "index": false
+          },
+          "attachment.title": {
+            "type": "text",
+            "index": false
+          },
+          "attachment.date": {
+            "type": "date",
+            "index": false
+          },
+          "attachment.language": {
+            "type": "keyword",
+            "index": false
+          },
+          "title": {
+            "type": "text",
+            "index": false
+          }
         }
       }
     }
@@ -42,6 +44,7 @@
         "cssClass": "excerpt"
       }
     },
+
     {
       "Arko_intitule": {
         "cssClass": "excerpt"
@@ -52,6 +55,7 @@
         "cssClass": "excerpt"
       }
     },
+
     {
       "Arko_annee_fin": {
         "cssClass": "excerpt"
@@ -75,8 +79,8 @@
     }
   },
   "indexation": {
-    "elasticUrl": "http://192.168.2.2:2009",
+    "elasticUrl": "http://localhost:9200/",
     "deleteOldIndex": "yes",
-    "applythesauri": "no"
+    "applythesauri": "yes"
   }
 }

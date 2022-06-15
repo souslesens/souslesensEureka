@@ -1,4 +1,6 @@
 {
+
+  "elasticUrl":"http://192.168.2.2:2009/",
   "paths": {
     "IR_sourceDir": "/var/arko_IR/",
     "IR_targetPdfDir": "/var/bordereaux_PDFs/",
@@ -7,14 +9,20 @@
     "Polytheque": ""
   },
   "indexes": [
-    "artotheque",
-    "audiotheque",
-    "photos",
-    " videotheque",
-    "versement"
+    "versements.json",
+    "artotheque.json",
+    "audiotheque.json",
+    "photos.json",
+    "videotheque.json"
+
   ],
   "arko_index_update": {
-    "dumpFile":"/var/arko_export_csv/fiches_entree.csv",
-    "index": "versement"
-  }
+    "dumpFile": "/var/arko_export_csv/fiches_entree.csv",
+    "index": "versements"
+  },
+  "photo_catalog_theques": [
+    "polytheque",
+    "artotheque",
+    "phototheque"
+  ]
 }

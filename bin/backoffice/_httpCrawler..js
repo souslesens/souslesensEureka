@@ -141,7 +141,7 @@ var sqlCrawler = {
 
                         if (config.incrementRecordIds.indexOf(incrementRecordId) < 0) {
 
-                            bulkStr += JSON.stringify({index: {_index: index, _type: index, _id: id}}) + "\r\n"
+                            bulkStr += JSON.stringify({index: {_index: index, _type: "_doc", _id: id}}) + "\r\n"
                             bulkStr += JSON.stringify(record) + "\r\n";
                             indexedFiles += 1;
                         }

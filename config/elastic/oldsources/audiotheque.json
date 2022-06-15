@@ -10,9 +10,8 @@
     "sqlQuery": "select * from audiotheque",
     "connOptions": {
       "host": "localhost",
-      "port": "7202",
-      "user": "bailletarchives",
-      "password": "nodeApp55",
+      "user": "root",
+      "password": "vi0lon",
       "database": "audiotheque",
       "table": "audiotheque"
     },
@@ -22,7 +21,7 @@
     "contentField": "attachment.content",
     "analyzer": "lowercase_asciifolding",
     "mappings": {
-
+      "audiotheque": {
         "properties": {
           "id": {
             "type": "integer"
@@ -66,10 +65,7 @@
           "RMDA": {
             "type": "text"
           },
-          "versement_relie": {
-            "type": "text"
-          },
-          "ancienne_cote": {
+          "DocumentsAssocies": {
             "type": "text"
           },
           "DateConformation": {
@@ -107,9 +103,14 @@
           }
         }
       }
-
+    }
   },
   "display": [
+    {
+      "id": {
+        "cssClass": "text"
+      }
+    },
     {
       "indexCIJW": {
         "cssClass": "excerpt"
@@ -117,12 +118,27 @@
     },
     {
       "Cote": {
-        "cssClass": "excerpt"
+        "cssClass": "text"
       }
     },
     {
       "Type": {
-        "cssClass": "excerpt"
+        "cssClass": "text"
+      }
+    },
+    {
+      "NDA": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "Comptage": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "DateNumerisation": {
+        "cssClass": "text"
       }
     },
     {
@@ -132,12 +148,12 @@
     },
     {
       "Titre1": {
-        "cssClass": "excerpt"
+        "cssClass": "text"
       }
     },
     {
       "Titre2": {
-        "cssClass": "excerpt"
+        "cssClass": "text"
       }
     },
     {
@@ -151,13 +167,73 @@
       }
     },
     {
+      "RDB": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "RMDA": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "DocumentsAssocies": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "DateConformation": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "Conformation": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "DH": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "DM": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "DS": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "DS10_3": {
+        "cssClass": "text"
+      }
+    },
+    {
       "DateEnregistrement": {
         "cssClass": "excerpt"
       }
     },
     {
+      "MoisEnregistrement": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "AnneeEnregistrement": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "dateMaj": {
+        "cssClass": "text"
+      }
+    },
+    {
       "redacteur": {
-        "cssClass": "excerpt"
+        "cssClass": "text"
       }
     }
   ]

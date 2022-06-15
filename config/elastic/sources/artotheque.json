@@ -9,9 +9,10 @@
     "subType": "mysql",
     "sqlQuery": "select * from artotheque",
     "connOptions": {
-      "host": "localhost",
-      "user": "root",
-      "password": "vi0lon",
+      "host": "192.168.2.2",
+      "port": "7202",
+      "user": "bailletarchives",
+      "password": "nodeApp55",
       "database": "artotheque",
       "table": "artotheque"
     },
@@ -21,78 +22,124 @@
     "contentField": "attachment.content",
     "analyzer": "lowercase_asciifolding",
     "mappings": {
-      "artotheque": {
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "indexCIJW": {
-            "type": "keyword"
-          },
-          "lien": {
-            "type": "keyword"
-          },
-          "fonds": {
-            "type": "keyword"
-          },
-          "collection": {
-            "type": "keyword"
-          },
-          "document": {
-            "type": "keyword"
-          },
-          "type": {
-            "type": "text"
-          },
-          "createur": {
-            "type": "text"
-          },
-          "titre": {
-            "type": "text"
-          },
-          "epoque": {
-            "type": "text"
-          },
-          "materiaux": {
-            "type": "text"
-          },
-          "dimensions": {
-            "type": "text"
-          },
-          "provenance": {
-            "type": "text"
-          },
-          "description": {
-            "type": "text"
-          },
-          "localisation": {
-            "type": "text"
-          },
-          "temoin_ref": {
-            "type": "text"
-          },
-          "liens": {
-            "type": "text"
-          },
-          "mots_cles": {
-            "type": "text"
-          },
-          "divers": {
-            "type": "text"
-          },
-          "dateMaj": {
-            "type": "date"
-          },
-          "redacteur": {
-            "type": "keyword"
-          }
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "indexCIJW": {
+          "type": "keyword"
+        },
+        "lien": {
+          "type": "keyword"
+        },
+        "fonds": {
+          "type": "keyword"
+        },
+        "collection": {
+          "type": "keyword"
+        },
+        "document": {
+          "type": "keyword"
+        },
+        "versement_relie": {
+          "type": "text"
+        },
+        "ancienne_cote": {
+          "type": "text"
+        },
+        "type": {
+          "type": "text"
+        },
+        "createur": {
+          "type": "text"
+        },
+        "titre": {
+          "type": "text"
+        },
+        "epoque": {
+          "type": "text"
+        },
+        "materiaux": {
+          "type": "text"
+        },
+        "dimensions": {
+          "type": "text"
+        },
+        "provenance": {
+          "type": "text"
+        },
+        "description": {
+          "type": "text"
+        },
+        "localisation": {
+          "type": "text"
+        },
+        "temoin_ref": {
+          "type": "text"
+        },
+        "liens": {
+          "type": "text"
+        },
+        "mots_cles": {
+          "type": "text"
+        },
+        "commentaires": {
+          "type": "text"
+        },
+        "dateMaj": {
+          "type": "date"
+        },
+        "redacteur": {
+          "type": "keyword"
         }
       }
     }
   },
-
-  "indexation": {
-    "elasticUrl": "http://192.168.2.2:2009",
-    "deleteOldIndex": "no"
-  }
+  "display": [
+    {
+      "indexCIJW": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "fonds": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "collection": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "type": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "createur": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "titre": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "epoque": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "materiaux": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "provenance": {
+        "cssClass": "excerpt"
+      }
+    }
+  ]
 }

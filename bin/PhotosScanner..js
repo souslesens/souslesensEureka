@@ -98,12 +98,12 @@ var PhotosScanner = {
         var totalFilesIndexed = 0
         var totalDirsIndexed = 0
         var index = 0
-        var dirsDone=""
+        var dirsDone = ""
         var t1 = new Date()
 
         var i = -1;
-        var journal = ""+new Date()+"\n"
-        PhotosScanner.writeJournal(options.journalFilePath,journal,true)
+        var journal = "" + new Date() + "\n"
+        PhotosScanner.writeJournal(options.journalFilePath, journal, true)
         async.eachSeries(dirs1, function (dir1, callbackEach) {
             i++;
             if (options.filterDirs && options.filterDirs["0"]) {
@@ -130,7 +130,7 @@ var PhotosScanner = {
                     journal += message + "\n"
                     message = " Total  thumbnails  " + result.thumbnails.count + " in sec. " + result.thumbnails.duration
                     journal += message + "\n"
-                    PhotosScanner.writeJournal(options.journalFilePath,journal)
+                    PhotosScanner.writeJournal(options.journalFilePath, journal)
                     console.log(message);
 
 
@@ -140,22 +140,22 @@ var PhotosScanner = {
             } else if (options.processor == "indexPhotosCatalog") {
                 if ((index++) == 0) {
                     options.deleteOldIndex = true
-                    var  message =  "dir\ttotalDirsIndexed\tfiles\telasticDocs\tduration sec. \n"
-                    PhotosScanner.writeJournal(options.journalFilePath,message)
+                    var message = "dir\ttotalDirsIndexed\tfiles\telasticDocs\tduration sec. \n"
+                    PhotosScanner.writeJournal(options.journalFilePath, message)
 
-                }else
+                } else
                     options.deleteOldIndex = false
                 PhotosScanner.indexPhotosCatalog(dirFilesMap, options, function (err, result) {
                     dirFilesMap = {}
                     totalFilesIndexed += result.files;
                     totalDirsIndexed += result.dirs;
 
-                  var  message =  dir1+"\t"+result.dirs+"\t"+result.files +"\t"+  result.elasticDocs+"\t"+ result.duration+"\n"
+                    var message = dir1 + "\t" + result.dirs + "\t" + result.files + "\t" + result.elasticDocs + "\t" + result.duration + "\n"
 
-                        PhotosScanner.writeJournal(options.journalFilePath,message)
-                        journal = ""
-                    if(index%10==0)
-                         console.log(totalFilesIndexed+" files  in  dirs  "+totalDirsIndexed);
+                    PhotosScanner.writeJournal(options.journalFilePath, message)
+                    journal = ""
+                    if (index % 10 == 0)
+                        console.log(totalFilesIndexed + " files  in  dirs  " + totalDirsIndexed);
                     callbackEach();
 
                 })
@@ -170,11 +170,11 @@ var PhotosScanner = {
                     dirFilesMap = {}
 
 
-                        PhotosScanner.writeJournal(options.journalFilePath,journal)
-                        journal = ""
-                    dirsDone+=dir1+", "
+                    PhotosScanner.writeJournal(options.journalFilePath, journal)
+                    journal = ""
+                    dirsDone += dir1 + ", "
                     if (i % 10 == 0) {
-                        console.log(dirsDone+ "  "+i)
+                        console.log(dirsDone + "  " + i)
                     }
 
                     return callbackEach()
@@ -198,7 +198,7 @@ var PhotosScanner = {
             }
             fs.writeFileSync(filePath, message)
         } else {
-            fs.appendFileSync(filePath,message)
+            fs.appendFileSync(filePath, message)
         }
     },
 
@@ -219,7 +219,7 @@ var PhotosScanner = {
             dirsFonds += 1
             var filesFonds = fs.readdirSync(key)
             photosFonds += filesFonds.length
-            var indexDirPath =options.targetDir;// key.replace("FONDS", "INDEX")
+            var indexDirPath = options.targetDir;// key.replace("FONDS", "INDEX")
             if (fs.existsSync(indexDirPath)) {
                 var filesIndex = fs.readdirSync(indexDirPath)
                 var delta = filesFonds.length - filesIndex.length
@@ -416,23 +416,23 @@ var PhotosScanner = {
                         async.eachSeries(item.files, function (file, callbackEach2) {
                             index1 += 1
                             index2 += 1
-                            var imgPath = options.photosDir+item.id + file
-                            var thumbnailPath = options.thumbnailsDir+ item.id + file.replace(/\//g, "|_|")
+                            var imgPath = options.photosDir + item.id + file
+                            var thumbnailPath = options.thumbnailsDir + item.id + file.replace(/\//g, "|_|")
 
 
-                           // imgPath = options.topDir + imgPath
+                            // imgPath = options.topDir + imgPath
                             thumbnailManager.generateThumnail(imgPath, thumbnailPath, options.thumbnailParams, function (err, result) {
                                 if (err)
                                     return callbackEach2(err)
                                 return callbackEach2()
                             })
                         }, function (err) {
-                            var message="";
+                            var message = "";
                             var duration = Math.round((new Date() - t1) / 1000)
-                            if(err)
-                                message=err
+                            if (err)
+                                message = err
                             else
-                               message = " generated thumbnails " + index2 + " in sec. " + duration
+                                message = " generated thumbnails " + index2 + " in sec. " + duration
 
                             console.log(message)
                             return callbackEach1()
@@ -473,10 +473,10 @@ var PhotosScanner = {
         var thumbnailJournal = ""
         var t0 = new Date()
         var index1 = 0;
-     //   console.log(Object.keys(photosMap).length)
+        //   console.log(Object.keys(photosMap).length)
         var totalFiles = 0
         var elasticObjs = []
-        var elasticDocs=0
+        var elasticDocs = 0
         for (var key in photosMap) {
             var photos = photosMap[key];
             elasticObjs.push(photosMap[key])
@@ -515,7 +515,7 @@ var PhotosScanner = {
                         properties["num_dir" + i] = {
                             type: "keyword",
                             ignore_above: 256,
-                            }
+                        }
 
 
                     }
@@ -554,18 +554,17 @@ var PhotosScanner = {
                 function (callbackSeries) {
 
                     var slices = util.sliceArray(elasticObjs, sliceSize)
-                    var totalIndexed=0
+                    var totalIndexed = 0
 
                     async.eachSeries(slices, function (slice, callbackEach) {
 
 
-
                         var bulkStr = ""
-                        var regex=/(?<num>[0-9]+)/
+                        var regex = /(?<num>[0-9]+)/
                         slice.forEach(function (item) {
                             totalFiles += item.files.length
 
-                            for(var i=1;i<7;i++) {
+                            for (var i = 1; i < 7; i++) {
                                 if (item["dir" + i]) {
                                     var array = regex.exec(item["dir" + i])
                                     if (array && array.groups.num)
@@ -598,16 +597,16 @@ var PhotosScanner = {
                             elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
                                 if (err)
                                     return callbackEach(err);
-                                elasticDocs+=result
-                            //    console.log("  indexed " + (totalIndexed++) + "in current top dir")
-                                callbackEach(null,result)
+                                elasticDocs += result
+                                //    console.log("  indexed " + (totalIndexed++) + "in current top dir")
+                                callbackEach(null, result)
 
                             })
                         })
                     }, function (err) {
-                        if( err)
+                        if (err)
                             return callbackSeries(err)
-                      //  console.log("indexed " + totalFiles + " jpg files");
+                        //  console.log("indexed " + totalFiles + " jpg files");
                         return callbackSeries(err)
                     })
                 },
@@ -621,7 +620,7 @@ var PhotosScanner = {
                     dirs: elasticObjs.length,
                     files: totalFiles,
                     elasticDocs: elasticDocs,
-                    duration:duration
+                    duration: duration
 
                 })
             }
@@ -631,7 +630,7 @@ var PhotosScanner = {
     },
 
 
-    processDirs: function (theque, processing, fromDirIndex, toDirIndex) {
+    processDirs: function (theque, processing, fromDirIndex, toDirIndex, callback) {
 
         var _options = {
             acceptedExtensions: ["jpg", "JPG", "JPEG", "jpeg"],//, "odt", "ods", "ODT", "ODS"],
@@ -691,8 +690,8 @@ var PhotosScanner = {
             }
 
         }
-        if(!params.paths[theque]){
-            return console.log( "wrong theque name")
+        if (!params.paths[theque]) {
+            return console.log("wrong theque name")
         }
         _options = Object.assign(_options, params.paths[theque], params.processing[processing])
 
@@ -703,13 +702,18 @@ var PhotosScanner = {
             }
         }
 
-     //   _options.journalFilePath = "~/" + processing + "_" + theque + ".csv"
+        //   _options.journalFilePath = "~/" + processing + "_" + theque + ".csv"
         _options.journalFilePath = "/home/claude/" + processing + "_" + theque + ".csv"
 
         PhotosScanner.getDirContent(_options, function (err, result) {
-            if (err)
+            if (err) {
+                if(callback){
+                    return callback(err);
+                }else
                 return console.log(err)
-
+            }
+            if (callback)
+                return callback(null, "done")
 
         })
     }
@@ -720,7 +724,7 @@ module.exports = PhotosScanner
 
 var theque = "polytheque"
 var theque = "artotheque"
-var theque="phototheque"
+var theque = "phototheque"
 var processing = "generateThumbnails"
 //var processing = "synchronizeThumbnails"
 var processing = "indexPhotosCatalog"
@@ -743,8 +747,8 @@ if (args.length > 2) {
 }
 console.log(processing + " " + theque);
 
-if( true)
-PhotosScanner.processDirs(theque, processing, fromIndexDir, toIndexDir)
+if (false)
+    PhotosScanner.processDirs(theque, processing, fromIndexDir, toIndexDir)
 
 
 

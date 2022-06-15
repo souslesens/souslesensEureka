@@ -275,7 +275,7 @@ var configEditor = (function () {
 
 
         self.saveIndexationConfig = function (index,withIndexationConfig) {
-            if(context.currentIndexName && !index)
+            if(!context.currentIndexName)
                return  alert("No index selected")
             if(!index)
                 index=context.currentIndexName;

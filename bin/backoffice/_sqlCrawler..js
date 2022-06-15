@@ -78,7 +78,7 @@ var sqlCrawler = {
 
         var defaultFetchSize = 300;
         var fetchSize = config.connector.fetchSize || defaultFetchSize;
-        var schemaProperties = config.schema.mappings[index].properties;
+        var schemaProperties = config.schema.mappings.properties;
         var fields = Object.keys(schemaProperties);
 
 
@@ -141,7 +141,7 @@ var sqlCrawler = {
 
                         if (config.incrementRecordIds.indexOf(incrementRecordId) < 0) {
 
-                            bulkStr += JSON.stringify({index: {_index: index, _type: index, _id: id}}) + "\r\n"
+                            bulkStr += JSON.stringify({index: {_index: index, _type: "_doc", _id: id}}) + "\r\n"
                             bulkStr += JSON.stringify(record) + "\r\n";
                             indexedFiles += 1;
                         }

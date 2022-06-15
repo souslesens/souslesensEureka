@@ -85,6 +85,7 @@ var indexer = {
 
                 //******create Index*************
                 function (callbackSeries) {
+
                     if (!config.indexation.deleteOldIndex)
                         return callbackSeries();
 
@@ -107,7 +108,7 @@ var indexer = {
                             json.mappings = indexSchema.mappings;//{[index]: {properties: indexSchema.mappings}};
 
                         if (indexSchema.contentField) {
-                            json.mappings[index].properties[indexSchema.contentField] = {
+                            json.mappings.properties[indexSchema.contentField] = {
                                 //   json.mappings[index].properties[indexSchema.contentField] = {
                                 "type": "text",
                                 //   "index_options": "offsets",
@@ -129,7 +130,7 @@ var indexer = {
 
 
                     //updateRecordId  used for incremental update
-                    json.mappings[index].properties.incrementRecordId = {"type": "keyword"};
+                    json.mappings.properties.incrementRecordId = {"type": "keyword"};
 
                     var options = {
                         method: 'PUT',
@@ -138,11 +139,15 @@ var indexer = {
                         json: json
                     };
 
+                    console.log("create index");
                     request(options, function (error, response, body) {
-                        if (error)
+                        if (error) {
+                            console.log("create index error "+JSON.stringify(json,null,2))
                             return callbackSeries(error);
-                        if (body.error)
+                        }if (body.error) {
+
                             return callbackSeries(body.error);
+                        }
                         var message = "index " + index + " created"
                         socket.message(message);
                         return callbackSeries();
@@ -360,14 +365,18 @@ var indexer = {
                     },
                     url: elasticUrl + "_bulk?refresh=wait_for"
                 };
+                console.log(" indexing bulkStr \n "+bulkStr)
                 request(options, function (error, response, body) {
                     if (error) {
+                        console.log(" indexing bulkStr error")
                         return callbackSeries(error)
 
                     }
                     elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
-                        if (err)
+                        if (err) {
+                            console.log(" indexing bulkStr error")
                             return callbackSeries(err);
+                        }
                         var message = "indexed " + objects.length + " records ";
                         socket.message(message);
                         setTimeout(function () {

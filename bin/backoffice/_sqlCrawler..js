@@ -171,6 +171,7 @@ var sqlCrawler = {
                                 return callbackWhilst(err);
                             var message = "indexed " + result.length + " records ";
                             socket.message(message)
+                            console.log(message)
                             return callbackWhilst()
 
                         })

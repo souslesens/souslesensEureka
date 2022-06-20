@@ -8,11 +8,21 @@ const indexer = require('./backoffice/indexer.')
 const mergeArkotheque = require('./backoffice/mergeArkotheque.')
 const elasticProxy = require("./elasticRestProxy.");
 
+
 var Synchronizer = {
     allMessages: "",
+    t0: new Date(),
+    getTaskDuration: function () {
+        var t1 = new Date() - Synchronizer.t0;
+        Synchronizer.t0 = t1
+        return "" + Math.round((t1/ 1000) )+ "sec."
+    },
+    
     message: function (message) {
         console.log(message)
     },
+    
+    
     getConfig: function () {
         if (Synchronizer.config)
             return Synchronizer.config;
@@ -29,6 +39,8 @@ var Synchronizer = {
         if (!options) {
             options = {}
         }
+        Synchronizer.t0=new Date()
+
         async.series([
             function (callbackSeries) {
                 if (options.tasks.indexOf("syncIndexes") < 0)
@@ -41,7 +53,24 @@ var Synchronizer = {
                     }
 
 
-                    Synchronizer.message(" finished syncIndexes")
+                    Synchronizer.message(" finished syncIndexes in " + Synchronizer.getTaskDuration());
+                    return callbackSeries()
+                })
+            },
+
+            
+            function (callbackSeries) {
+                if (options.tasks.indexOf("syncGeneratePDFbordereaux") < 0)
+                    return callbackSeries();
+                Synchronizer.message(" start syncGeneratePDFbordereaux")
+                Synchronizer.syncGeneratePDFbordereaux({}, function (err, result) {
+                    if (err) {
+                        Synchronizer.message(err)
+                        return callbackSeries(err)
+                    }
+
+
+                    Synchronizer.message(" finished syncGeneratePDFbordereaux" +Synchronizer.getTaskDuration())
                     return callbackSeries()
                 })
             },
@@ -56,7 +85,7 @@ var Synchronizer = {
                     }
 
 
-                    Synchronizer.message(" finished updateIndexVersement")
+                    Synchronizer.message(" finished updateIndexVersement" +Synchronizer.getTaskDuration())
                     return callbackSeries()
                 })
             },
@@ -71,7 +100,7 @@ var Synchronizer = {
                     }
 
 
-                    Synchronizer.message(" finished syncPhotosIndexes")
+                    Synchronizer.message(" finished syncPhotosIndexes"+Synchronizer.getTaskDuration())
                     return callbackSeries()
                 })
             }
@@ -87,8 +116,8 @@ var Synchronizer = {
     // update databases
     // regenerate indexe
     syncIndexes: function (options, callback) {
-        console.log(" NOT READY YET")
-        return callback()
+        /*   console.log(" NOT READY YET")
+           return callback()*/
 
 
         var config = Synchronizer.getConfig();
@@ -109,32 +138,34 @@ var Synchronizer = {
                         return callbackSeries()
                     },
                     function (callbackSeries) {
-                        console.log("processing " + indexConfig.indexName)
+
 
                         indexConfig.indexation = {
                             elasticUrl: config.elasticUrl,
-                            deleteOldIndex: true
+                            deleteOldIndex: true,
+                            thesauri: {}
                         }
 
                         var connector = indexConfig.connector;
-                        console.log("indexing" + indexesToRefresh)
+                        console.log("---indexing" + index)
                         indexer.runIndexation(indexConfig, function (err, result) {
                             if (err)
                                 return callbackSeries(err);
 
-                            return callbackSeries(null, "indexed" + indexesToRefresh)
+                            return callbackSeries(null, "---indexed" + index + Synchronizer.getTaskDuration())
 
                         })
 
 
                     }],
                 function (err) {
-                    if (err)
-                        return callbackEachIndex(err)
+
+                    return callbackEachIndex(err)
                 })
         }, function (err) {
             if (err)
-                return console.log(err)
+                return callback(err)
+            return callback(null, " ALL INDEXES DONE")
 
 
         })
@@ -149,7 +180,7 @@ var Synchronizer = {
         mergeArkotheque.updateVersementsIndex(file, index, function (err, result) {
             if (err)
                 return callback(err)
-            callback(null, "updateIndexVersement DONE")
+            callback(null, "updateIndexVersement DONE" )
         })
 
     },
@@ -169,9 +200,8 @@ var Synchronizer = {
     }
 
     ,
-
-    function(options, callback) {
-
+    syncGeneratePDFbordereaux: function (options, callback) {
+    
 
         var getAllFiles = function (rootDir) {
             var allFiles = []
@@ -199,6 +229,7 @@ var Synchronizer = {
         var IR_targetPdfDir = Synchronizer.getConfig().paths.IR_targetPdfDir
         var toPdf = require("office-to-pdf")
         var files = getAllFiles(IRsourceDir)
+        var totalCount=0
         async.eachSeries(files, function (file, callbackEach) {
                 console.log(file)
 
@@ -209,7 +240,10 @@ var Synchronizer = {
                         fileName = fileName.substring(0, p + 1) + "pdf"
                         var targetPath = IR_targetPdfDir + fileName
                         fs.writeFileSync(targetPath, pdfBuffer)
-                        console.log("done " + targetPath)
+                    totalCount+=1
+                    if(totalCount%10==0)
+
+                        console.log(totalCount+" documents transformed in pdf")
                         callbackEach();
                     }, (err) => {
                         console.log(err)
@@ -228,9 +262,11 @@ var Synchronizer = {
 module.exports = Synchronizer
 //var x=Synchronizer.getConfig()
 
-/*Synchronizer.syncPhotosIndexes({}, function (err, result) {
+if (true) {
+    Synchronizer.syncPhotosIndexes({}, function (err, result) {
 
-})*/
+    })
+}
 
 
 const myArgs = process.argv.slice(2);
@@ -240,21 +276,31 @@ console.log('myArgs: ', myArgs);
 var possibleTasks = [
     "syncIndexes",
     "updateIndexVersements",
-    "syncPhotosIndexes"
+    "syncPhotosIndexes",
+    "syncGeneratePDFbordereaux"
 ]
 
 var tasks = []
 myArgs.forEach(function (arg) {
     if (possibleTasks.indexOf(arg) < 0) {
-        return console.log("arguments values must be  in " + possibleTasks.toString())
+        return console.log("arguments are any of " + possibleTasks.toString())
     }
     tasks.push(arg)
 
 })
+
+
 if (myArgs.length == 0 || tasks.length == 0)
-    return console.log("Nothing to do");
+    return ;//console.log("arguments are any of " + possibleTasks.toString())
 else {
     var options = {tasks: tasks}
+    Synchronizer.synchronizeAll(options, function (err, result) {
+
+    })
+}
+
+if(false){
+    var options = {tasks: ["syncGeneratePDFbordereaux","syncPhotosIndexes"]}
     Synchronizer.synchronizeAll(options, function (err, result) {
 
     })

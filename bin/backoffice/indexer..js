@@ -250,10 +250,13 @@ var indexer = {
 
                 //******run thesaurusAnnotator *************
                 function (callbackSeries) {
-                    if (!config.thesauri)
+
+
+                    var thesauri = Object.keys(config.indexation.thesauri);
+                    if(thesauri.length==0)
                         return callbackSeries();
 
-                    var thesauri = Object.keys(config.thesauri);
+
                     var i = 0;
                     async.eachSeries(thesauri, function (thesaurus, callbackEach2) {
 

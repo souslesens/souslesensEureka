@@ -15,10 +15,10 @@ var mergeArkotheque = {
         var mergedData = []
         var results = []
         var countFichesEntree = 0
-        var countMissingBordereaux = 0
-        var countUpdatedBordereaux = 0
-        var countErrorOnUpdateBordereaux = 0
-        var fichesWithtoutBordereau = []
+        var countMissingVersements = 0
+        var countUpdatedVersements = 0
+        var countErrorOnUpdateVersements = 0
+        var fichesWithtoutVersements = []
 
         var elasticUrl = "http://192.168.2.2:2009/";
         var arkothequePrefix = "Arko_"
@@ -26,7 +26,7 @@ var mergeArkotheque = {
 
         async.series([
                 function (callbackSeries) {
-
+                    console.log("reading " + arkothequeFilePath)
                     fs.createReadStream(arkothequeFilePath)
                         .pipe(csv({separator: ';'}))
                         .on('data', (data) =>
@@ -58,7 +58,7 @@ var mergeArkotheque = {
                 , function (callbackSeries) {
                     async.eachSeries(mergedData, function (line, callbackEach) {
                         var escapeCols = [
-                            // 'lien_fichiers', 'intitule', 'bordereauId', 'producteurs'
+                            // 'lien_fichiers', 'intitule', 'VersementsId', 'producteurs'
                         ]
 
                         function getScript() {
@@ -90,7 +90,7 @@ var mergeArkotheque = {
                             var params = {}
                             for (var key in line) {
                                 if (escapeCols.indexOf(key) < 0)
-                                    params[ key.trim()] = "'" + line[key] + "'";
+                                    params[key.trim()] = "'" + line[key] + "'";
                             }
                             return params
                         }
@@ -99,7 +99,7 @@ var mergeArkotheque = {
                         var script = {
                             "source": getScript(),
                             "lang": "painless",
-                            "params" : getParams()
+                            "params": getParams()
                         }
 
 
@@ -116,8 +116,7 @@ var mergeArkotheque = {
                                     }
 
                                 }
-                            ,script:script
-
+                            , script: script
 
 
                         }
@@ -136,20 +135,21 @@ var mergeArkotheque = {
                                 return callbackEach(err);
                             if (body.updated) {
                                 if (body.updated == 1)
-                                    countUpdatedBordereaux += 1
+                                    countUpdatedVersements += 1
                                 else
                                     var x = line
                             } else {
-                                fichesWithtoutBordereau.push(line);
-                                countErrorOnUpdateBordereaux += 1
+                                fichesWithtoutVersements.push(line);
+                                countErrorOnUpdateVersements += 1
                                 var x = query;
-                                console.log(" error  line " + line.numeroEntree)
+                                // console.log(" error  line " + line.numeroEntree)
                             }
                             callbackEach()
 
                         })
 
                     }, function (err) {
+                        console.log("Fiches entree added to index versements ")
                         callbackSeries()
                     })
 
@@ -159,8 +159,9 @@ var mergeArkotheque = {
 
                 //insert fiches entree sans brodereaux
                 function (callbackSeries) {
+                    console.log("indexation des fiches entrees sans versement")
                     var bulkStr = ''
-                    fichesWithtoutBordereau.forEach(function (line) {
+                    fichesWithtoutVersements.forEach(function (line) {
                         var line2 = {}
                         for (var key in line) {
                             line2[arkothequePrefix + key] = line[key]
@@ -211,20 +212,23 @@ var mergeArkotheque = {
             ,
 
             function (err) {
+                if (err)
+                    console.log(err)
                 console.log(JSON.stringify({
                     countFichesEntree: countFichesEntree,
-                    countMissingBordereaux: countMissingBordereaux,
-                    countUpdatedBordereaux: countUpdatedBordereaux,
-                    countErrorOnUpdateBordereaux: countErrorOnUpdateBordereaux
+                    countMissingVersements: countMissingVersements,
+                    countUpdatedVersements: countUpdatedVersements,
+                    countErrorOnUpdateVersements: countErrorOnUpdateVersements,
+                    //  fichesWithtoutVersements: JSON.stringify(fichesWithtoutVersements)
                 }))
-
+                callback()
             }
         )
     }
 }
 
-module.exports=mergeArkotheque;
-if(false) {
+module.exports = mergeArkotheque;
+if (false) {
     var arkothequeFilePath = "/home/claude/arkotheque1.csv"
     module.exports = mergeArkotheque
 
@@ -232,119 +236,4 @@ if(false) {
 
     })
 }
-
-
-/*/ search versements
-                , function (callbackSeries) {
-                    return callbackSeries();
-                    var ndjson = ""
-
-                    for (var key in arkothequeData) {
-                        var numero = key.substring(4)
-                        mergedData.push(arkothequeData[key])
-                        if (numero) {
-                            ndjson += JSON.stringify({index: versementsIndex}) + "\r\n"
-                            ndjson += JSON.stringify({
-                                "query": {
-                                    "match": {
-                                        "title": {
-                                            "query": "\"" + numero + "\""
-                                        }
-                                    }
-                                }
-                            }) + "\r\n";
-                        }
-                    }
-
-
-                    var options = {
-                        method: 'POST',
-                        body: ndjson,
-                        encoding: null,
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        url: elasticUrl + "/_msearch"
-                    };
-
-                    // console.log(ndjson)
-
-                    request(options, function (error, response, body) {
-                        if (error)
-                            return callbackSeries(error);
-                        if (body.error && body.error.reason)
-                            return callback(body.error.reason)
-                        var json = JSON.parse(response.body);
-                        json.responses.forEach(function (item, line) {
-
-                            if (item.hits && item.hits.hits && item.hits.hits.length > 0) {
-                                countBordereaux += 1
-                                try {
-                                    var hit = item.hits.hits[0]
-                                    mergedData[line].bordereauId = hit._id
-                                } catch (e) {
-                                    var x = e
-                                }
-                            } else {
-                                countMissingBordereaux += 1
-                            }
-
-
-                        })
-                        console.log(countBordereaux + "  missing" + countMissingBordereaux)
-                        callbackSeries()
-                    })
-
-                }
-
-
-                ,
-
-                function (callbackSeries) {
-
-                    async.eachSeries(mergedData, function (line, callbackSeries) {
-                        return callbackSeries();
-
-                        if (!line.bordereauId)
-                            return callbackSeries()
-                        var script = "";
-                        var escapeCols = [
-                            'lien_fichiers', 'intitule', 'bordereauId', 'producteurs'
-                        ]
-                        for (var key in line) {
-                            if (escapeCols.indexOf(key) < 0)
-                                script += "ctx._source." + key.trim() + " = '" + line[key] + "';"
-                        }
-
-                        var query = {
-                            "script": script
-                        }
-
-                        var options = {
-                            method: 'POST',
-                            json: query,
-                            headers: {
-                                'content-type': 'application/json'
-                            },
-                            url: elasticUrl + "versements/_update/" + line.bordereauId
-                        };
-
-
-                        //  console.log(JSON.stringify(query, null, 2));
-                        request(options, function (error, response, body) {
-                            if (error)
-                                return callbackSeries(err);
-                            if (body.result == "updated") {
-                                countUpdatedBordereaux += 1
-                            } else {
-                                var x = query;
-                                console.log(" error " + line.bordereauId)
-                            }
-                        })
-                        callbackSeries()
-                    })
-
-                }
-                */
-
 

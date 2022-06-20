@@ -116,6 +116,20 @@
     }
   },
   "display":  [
+    {
+      "cote": {
+        "cssClass": "text"
+      }
+    },{
+      "date_creation": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "titre": {
+        "cssClass": "text"
+      }
+    },
       {
         "indexCIJW": {
           "cssClass": "text"
@@ -126,26 +140,14 @@
           "cssClass": "text"
         }
       },
-      {
-        "cote": {
-          "cssClass": "text"
-        }
-      },
+
       {
         "document": {
           "cssClass": "text"
         }
       },
-      {
-        "date_creation": {
-          "cssClass": "text"
-        }
-      },
-      {
-        "titre": {
-          "cssClass": "text"
-        }
-      },
+
+
       {
         "fonds": {
           "cssClass": "text"

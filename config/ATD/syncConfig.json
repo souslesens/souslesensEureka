@@ -21,8 +21,9 @@
     "index": "versements"
   },
   "photo_catalog_theques": [
-    "polytheque",
     "artotheque",
+    "polytheque",
     "phototheque"
   ]
+
 }

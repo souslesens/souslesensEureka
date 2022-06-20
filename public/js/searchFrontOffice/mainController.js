@@ -84,26 +84,25 @@ var mainController = (function () {
 
     self.showPageControls = function (total) {
 
-        var maxPagesLinks = 10;
+        var maxPagesLinks = 5;
 
         if (total > context.elasticQuery.from) {
 
-            var str = "documents trouvés : " + total + " &nbsp; pages&nbsp;:&nbsp;";
+            var str = "documents trouvés : " + total + " &nbsp; pages&nbsp;:&nbsp;<br>";
             var k = 1
             if ((context.currentPage + 1) <= (total / context.elasticQuery.size))
-                str += "<em onclick='Search.searchPlainText({page:" + (context.currentPage + 1) + "})'> suivante  </a>&nbsp;&nbsp;";
+                str += "<em onclick='Search.searchPlainText({page:" + (context.currentPage + 1) +"})'> suivante  </em>&nbsp;&nbsp;";
             if (context.currentPage > 0)
-                str += "<em onclick='Search.searchPlainText({page:" + (context.currentPage - 1) + "})'> précédente  </em>&nbsp;&nbsp;";
+                str += "<em  onclick='Search.searchPlainText({page:" + (context.currentPage - 1) + "})'> précédente  </em>&nbsp;&nbsp;";
 
 
             for (var i = 0; i < total; i++) {
                 var linkClass = "";
-                if (k == context.currentPage + 1)
-                    linkClass = " class='currentPage' ";
+
 
 
                 if (i % context.elasticQuery.size == 0) {
-                    str += "<em onclick='Search.searchPlainText({page:" + (k - 1) + "})'> " + (k) + "</a>&nbsp;&nbsp;"
+                    str += "<em class='resultPageNumber' id='page"+(k-1)+"'  onclick='Search.searchPlainText({page:" + (k - 1) + "})'> " + (k) + "</em>&nbsp;&nbsp;"
                     k++;
                 }
 
@@ -116,6 +115,7 @@ var mainController = (function () {
 
 
             $("#paginationDiv").html(str)
+
         }
     }
     self.resetQuestion = function () {

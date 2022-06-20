@@ -7,14 +7,13 @@ var util = require("./util.")
 var fs = require('fs');
 
 
-
 var _documentCrawler = {
     indexSource: function (config, callback) {
         var maxDocSize = 1000 * 1000 * 1000 * 20;
         var rootdir = config.connector.dirPath;
         var index = config.general.indexName;
-        var acceptedExtensions = ["doc", "docx","docm", "xls", "xlsx", "pdf", "odt", "ods", "ppt", "pptx", "html", "htm", "txt", "csv"];
-        var base64Extensions = ["doc", "docx","docm", "xls", "xlsx", "pdf", "ppt", "pptx", "ods", "odt"];
+        var acceptedExtensions = ["doc", "docx", "docm", "xls", "xlsx", "pdf", "odt", "ods", "ppt", "pptx", "html", "htm", "txt", "csv"];
+        var base64Extensions = ["doc", "docx", "docm", "xls", "xlsx", "pdf", "ppt", "pptx", "ods", "odt"];
 
         var filesToIndex = [];
         var indexedFilesCount = 0;
@@ -29,8 +28,8 @@ var _documentCrawler = {
 
                 function getFilesRecursive(dir) {
                     dir = path.normalize(dir);
-                    if(!fs.existsSync(dir))
-                        return callbackSeries("dir doesnt not exist :"+dir)
+                    if (!fs.existsSync(dir))
+                        return callbackSeries("dir doesnt not exist :" + dir)
                     if (dir.charAt(dir.length - 1) != path.sep)
                         dir += path.sep;
 
@@ -84,6 +83,7 @@ var _documentCrawler = {
                         ]
                     }
                 }
+                console.log("configure ingest attachement pipeline ")
                 request(requestOptions, function (error, response, body) {
 
                     if (error) {
@@ -131,11 +131,12 @@ var _documentCrawler = {
                             if (result.indexed) {
                                 indexedFilesCount += 1;
                             }
-                          if(indexedFilesCount%10==0) {
-                              var duration = new Date().getTime() - t0alldocs;
-                              var message = "indexed "+ indexedFilesCount+" documents in " + duration + " msec.";
-                              socket.message(message);
-                          }
+                            if (indexedFilesCount % 50 == 0) {
+                                var duration = new Date().getTime() - t0alldocs;
+                                var message = "indexed " + indexedFilesCount + " documents in " + duration + " msec.";
+                                socket.message(message);
+                                console.log(message)
+                            }
 
                             return callbackEach();
 
@@ -148,6 +149,7 @@ var _documentCrawler = {
                         var duration = new Date().getTime() - t0alldocs;
                         var message = "indexation done " + indexedFilesCount + "/" + filesToIndex.length + " documents  in " + duration + " msec.";
                         socket.message(message)
+                        console.log(message)
                         return callbackSeries();
 
                     }
@@ -184,8 +186,8 @@ var _documentCrawler = {
         var incrementRecordId;
         if (base64) {
             fileContent = util.base64_encodeFile(file);
-           incrementRecordId = util.getStringHash(fileContent);
-            var id = "D" +incrementRecordId;
+            incrementRecordId = util.getStringHash(fileContent);
+            var id = "D" + incrementRecordId;
             requestOptions = {
                 method: 'PUT',
                 url: elasticUrl + index + "/" + "_doc" + "/" + id + "?pipeline=attachment",
@@ -199,10 +201,10 @@ var _documentCrawler = {
         } else {
             fileContent = "" + fs.readFileSync(file);
             incrementRecordId = util.getStringHash(fileContent);
-            var id = "D" +incrementRecordId;
+            var id = "D" + incrementRecordId;
             requestOptions = {
                 method: 'PUT',
-                url: elasticUrl + index + "/" + "_doc" + "/" + id+"?refresh=wait_for",
+                url: elasticUrl + index + "/" + "_doc" + "/" + id + "?refresh=wait_for",
                 json: {
                     "content": fileContent,
                     "path": encodeURIComponent(file),
@@ -216,9 +218,9 @@ var _documentCrawler = {
         var docOK = true;
 
 
-            if (options.incrementRecordIds.indexOf(incrementRecordId) > -1) {
-                docOK = false;
-            }
+        if (options.incrementRecordIds.indexOf(incrementRecordId) > -1) {
+            docOK = false;
+        }
 
         if (!docOK)
             return callback(null, {notReindexed: true});
@@ -241,7 +243,7 @@ var _documentCrawler = {
     }
 
     , generateDefaultMappingFields: function (connector, callback) {
-        var fields=
+        var fields =
             {
                 "attachment.author": {type: "text"},
                 "attachment.title": {type: "text"},
@@ -249,7 +251,7 @@ var _documentCrawler = {
                 "attachment.language": {type: "keyword"},
                 "title": {type: "text"}
             }
-            callback(null, fields)
+        callback(null, fields)
 
     }
 }

@@ -4,35 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="synchronizer..js">
-      <change afterPath="$PROJECT_DIR$/config/elastic/oldsources/artotheque.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/elastic/oldsources/audiotheque.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/elastic/oldsources/photos.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/elastic/oldsources/versements.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/elastic/oldsources/videotheque.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+    <list default="true" id="7ec4a36b-aceb-4d8d-b2e3-8d7e82d07f26" name="Default Changelist" comment="synchronizer..js finished">
+      <change afterPath="$PROJECT_DIR$/bin/backoffice/TestCIJWsql..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/PhotosScanner..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/PhotosScanner..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Synchronizer..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Synchronizer..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/backoffice/_csvCrawler..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/_csvCrawler..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/backoffice/_documentCrawler..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/_documentCrawler..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/backoffice/_httpCrawler..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/_httpCrawler..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/backoffice/_imapCrawler..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/_imapCrawler..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/backoffice/_jsonCrawler..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/_jsonCrawler..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/backoffice/_sqlCrawler..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/_sqlCrawler..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/backoffice/indexer..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/indexer..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/backoffice/indexerTheques..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/indexerTheques..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/backoffice/mergeArkotheque..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/backoffice/mergeArkotheque..js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/globalParams..js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/globalParams..js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/ATD/syncConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/ATD/syncConfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/artotheque.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/artotheque.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/audiotheque.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/audiotheque.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/elastic/sources/photos.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/photos.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/elastic/sources/versements.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/versements.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/elastic/sources/videotheque.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/elastic/sources/videotheque.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchBackoffice/configEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchBackoffice/configEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/indexes.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/indexes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/_search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/searchFrontOffice/mainController.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/searchFrontOffice/mainController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,15 +78,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "true",
-    "last_opened_file_path": "/root/WebstormProjects/souslesensEureka/config/elastic/sources",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "web-ide.project.structure",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/root/WebstormProjects/souslesensEureka/config/elastic/sources&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;web-ide.project.structure&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/config/elastic/sources" />
@@ -118,13 +104,10 @@
     </key>
   </component>
   <component name="RunManager" selected="Node.js.Synchronizer..js">
-    <configuration name="PhotosScanner..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/PhotosScanner..js" working-dir="$PROJECT_DIR$/bin">
-      <method v="2" />
-    </configuration>
     <configuration name="Synchronizer..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/Synchronizer..js" working-dir="$PROJECT_DIR$/bin">
       <method v="2" />
     </configuration>
-    <configuration name="elasticRestProxy..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/elasticRestProxy..js" working-dir="$PROJECT_DIR$/bin">
+    <configuration name="TestCIJWsql..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/backoffice/TestCIJWsql..js" working-dir="$PROJECT_DIR$/bin/backoffice">
       <method v="2" />
     </configuration>
     <configuration name="indexerTheques..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/backoffice/indexerTheques..js" working-dir="$PROJECT_DIR$/bin/backoffice">
@@ -133,13 +116,16 @@
     <configuration name="indexer..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/backoffice/indexer..js" working-dir="$PROJECT_DIR$/bin/backoffice">
       <method v="2" />
     </configuration>
+    <configuration name="mergeArkotheque..js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bin/backoffice/mergeArkotheque..js" working-dir="$PROJECT_DIR$/bin/backoffice">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Node.js.Synchronizer..js" />
+        <item itemvalue="Node.js.TestCIJWsql..js" />
+        <item itemvalue="Node.js.mergeArkotheque..js" />
         <item itemvalue="Node.js.indexer..js" />
         <item itemvalue="Node.js.indexerTheques..js" />
-        <item itemvalue="Node.js.PhotosScanner..js" />
-        <item itemvalue="Node.js.elasticRestProxy..js" />
       </list>
     </recent_temporary>
   </component>
@@ -240,7 +226,8 @@
       <workItem from="1650360808871" duration="1111000" />
       <workItem from="1650436946366" duration="42786000" />
       <workItem from="1651396625825" duration="30982000" />
-      <workItem from="1653555384417" duration="44692000" />
+      <workItem from="1653555384417" duration="58854000" />
+      <workItem from="1655616783255" duration="9999000" />
     </task>
     <task id="LOCAL-00001" summary="thumbnailManager">
       <created>1634370637737</created>
@@ -438,7 +425,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653583904164</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="synchronizer..js finished">
+      <created>1655325104317</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1655325104317</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -472,7 +466,8 @@
     <MESSAGE value="finitions IHM" />
     <MESSAGE value="finitions IHM 26_05_2022" />
     <MESSAGE value="synchronizer..js" />
-    <option name="LAST_COMMIT_MESSAGE" value="synchronizer..js" />
+    <MESSAGE value="synchronizer..js finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="synchronizer..js finished" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -544,73 +539,72 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/PhotosScanner..js</url>
-          <line>374</line>
+          <line>378</line>
           <option name="timeStamp" value="573" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/public/js/searchFrontOffice/_search.js</url>
-          <line>160</line>
+          <line>162</line>
           <option name="timeStamp" value="580" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/backoffice/indexerTheques..js</url>
           <line>25</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="604" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/backoffice/indexerTheques..js</url>
           <line>91</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="605" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/backoffice/indexerTheques..js</url>
           <line>1</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="624" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/backoffice/indexerTheques..js</url>
           <line>24</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="625" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/backoffice/indexer..js</url>
-          <line>345</line>
-          <properties lambdaOrdinal="-1" />
+          <line>348</line>
           <option name="timeStamp" value="647" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/backoffice/_documentCrawler..js</url>
-          <line>232</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="675" />
+          <url>file://$PROJECT_DIR$/bin/backoffice/TestCIJWsql..js</url>
+          <line>24</line>
+          <option name="timeStamp" value="732" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/backoffice/_documentCrawler..js</url>
-          <line>228</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="676" />
+          <url>file://$PROJECT_DIR$/bin/backoffice/TestCIJWsql..js</url>
+          <line>20</line>
+          <option name="timeStamp" value="733" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/backoffice/indexer..js</url>
-          <line>88</line>
+          <url>file://$PROJECT_DIR$/bin/backoffice/TestCIJWsql..js</url>
+          <line>19</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="680" />
+          <option name="timeStamp" value="738" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/mySQLproxy..js</url>
+          <line>33</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="739" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/bin/mySQLproxy..js</url>
+          <line>34</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="740" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/bin/Synchronizer..js</url>
-          <line>148</line>
+          <line>303</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="685" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/bin/Synchronizer..js</url>
-          <line>149</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="686" />
+          <option name="timeStamp" value="742" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

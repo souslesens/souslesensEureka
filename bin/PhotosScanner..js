@@ -186,7 +186,11 @@ var PhotosScanner = {
         }, function (err) {
             var journalPath = options.journalDir + options.indexName + "_" + new Date() + ".txt"
             PhotosScanner.writeJournal(journalPath, journal)
-            console.log(" ALL DONE")
+
+            if(callback)
+                return callback(err,"done")
+            else
+                console.log(" ALL DONE" )
         })
         //  return callback(null, dirFilesMap)
     },

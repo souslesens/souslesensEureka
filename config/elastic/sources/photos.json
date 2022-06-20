@@ -1,7 +1,7 @@
 {
   "general": {
     "description": "photos",
-    "label": "Photos",
+    "label": "Reportages",
     "indexName": "photos"
   },
   "connector": {

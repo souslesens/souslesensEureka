@@ -92,6 +92,8 @@ var Search = (function () {
                 else
                     context.currentPage = 0;
             }
+
+
             $("#entitiesWrapperDiv").css("visibility", "hidden");
             $("#thumbnailsDiv").css("display", "none");
 
@@ -195,7 +197,10 @@ var Search = (function () {
                                 $("#indexDocCount_all").html("");//$("#indexDocCount_all").html("(" + result.hits.total + ")");
                             else
                                 $("#indexDocCount_all").html("");
-                            mainController.showPageControls(result.hits.total);
+                            mainController.showPageControls(result.hits.total.value);
+
+                            $(".resultPageNumber").removeClass("currentResultPage")
+                            $("#page"+options.page || 1).addClass("currentResultPage")
 
                             $("#thumbnailsDiv").css("display", "flex");
                             //   indexes. self.uncheckAllIndexes()
@@ -300,6 +305,7 @@ var Search = (function () {
                 //process not phrases
             }
             if (true) {
+                question=question.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                 question = question.replace(/(\w*\*?)\/(\w*\*?)/g, function (matched, $1, $2) {
 
                     return "(" + $1 + " OR " + $2 + ")";

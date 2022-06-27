@@ -9,11 +9,11 @@
     "subType": "mysql",
     "sqlQuery": "select * from artotheque",
     "connOptions": {
-      "host": "192.168.2.1",
-      "port": "3306",
-      "user": "recherche",
-      "password": "HfD1!Ga45!ù$",
-      "database": "cijwa",
+      "host": "192.168.2.2",
+      "port": "7202",
+      "user": "bailletarchives",
+      "password": "nodeApp55",
+      "database": "artotheque",
       "table": "artotheque"
     },
     "contentField": "attachment.content"

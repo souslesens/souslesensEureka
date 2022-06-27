@@ -177,7 +177,7 @@ var indexes = (function () {
         var indexationConfig = context.currentIndexationConfig;
         config.indexation = indexationConfig;
         var payload = {
-            runIndexationXX: 1,
+            runIndexation: 1,
             config: JSON.stringify(config)
         }
         $.ajax({

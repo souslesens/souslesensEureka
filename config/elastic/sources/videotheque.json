@@ -1,174 +1,115 @@
 {
   "general": {
-    "description": "index de la videotheque de Baillet",
+    "description": "videotheque recollement tableur",
     "label": "Videos",
     "indexName": "videotheque"
   },
   "connector": {
-    "type": "sql",
-    "subType": "mysql",
-    "connOptions": {
-      "host": "localhost",
-      "port": "7202",
-      "user": "bailletarchives",
-      "password": "nodeApp55",
-      "database": "videotheque",
-      "table": "videotheque"
-    },
-    "sqlQuery": "select * from videotheque"
-  },
-  "indexation": {
-    "deleteOldIndex": true,
-    "elasticUrl": "http://localhost:9200/"
+    "type": "csv",
+    "filePath": "/var/videotheque_csv/RecolementFondVideotheque.csv",
+    "contentField": "attachment.content"
   },
   "schema": {
-    "settings": {},
+    "contentField": "attachment.content",
+    "analyzer": "lowercase_asciifolding",
     "mappings": {
-
-        "properties": {
-          "id": {
-            "isId": true,
-            "type": "integer"
-          },
-          "indexCIJW": {
-            "type": "keyword",
-            "inCSV": true,
-            "isTitle": true
-          },
-          "projet": {
-            "type": "keyword"
-          },
-          "lien": {
-            "type": "keyword"
-          },
-          "cote": {
-            "type": "keyword"
-          },
-          "document": {
-            "type": "keyword"
-          },
-          "date_creation": {
-            "type": "keyword"
-          },
-          "titre": {
-            "type": "text",
-            "inCSV": true
-          },
-          "fonds": {
-            "type": "keyword",
-            "inCSV": true
-          },
-          "depot": {
-            "type": "keyword"
-          },
-          "droits": {
-            "type": "keyword",
-            "inCSV": true
-          },
-          "local": {
-            "type": "keyword"
-          },
-          "standard": {
-            "type": "keyword"
-          },
-          "observations": {
-            "type": "text"
-          },
-          "edition": {
-            "type": "text",
-            "inCSV": true
-          },
-          "langue": {
-            "type": "keyword",
-            "inCSV": true
-          },
-          "qualification": {
-            "type": "keyword",
-            "inCSV": true
-          },
-          "exploitation": {
-            "type": "keyword"
-          },
-          "notes_conjoncture": {
-            "type": "text"
-          },
-          "dateMaj": {
-            "type": "date"
-          },
-          "redacteur": {
-            "type": "keyword",
-            "inCSV": true
-          },
-          "content": {
-            "type": "text",
-            "index_options": "offsets",
-            "analyzer": "ATD",
-            "fielddata": true,
-            "fields": {
-              "contentKeyWords": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
-          }
+      "properties": {
+        "cote": {
+          "type": "text"
+        },
+        "dateCreation": {
+          "type": "text"
+        },
+        "titre": {
+          "type": "text"
+        },
+        "nomFichierNumeriseDiffusion": {
+          "type": "text"
+        },
+        "numeroLotNumerisation": {
+          "type": "text"
+        },
+        "auteur": {
+          "type": "text"
+        },
+        "duree": {
+          "type": "text"
+        },
+        "langue": {
+          "type": "text"
+        },
+        "description": {
+          "type": "text"
+        },
+        "remarque": {
+          "type": "text"
+        },
+        "qualite": {
+          "type": "text"
         }
-
+      }
     }
   },
-  "display":  [
+  "display": [
     {
       "cote": {
         "cssClass": "text"
       }
-    },{
-      "date_creation": {
+    },
+    {
+      "dateCreation": {
         "cssClass": "text"
       }
     },
     {
       "titre": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "nomFichierNumeriseDiffusion": {
         "cssClass": "text"
       }
     },
-      {
-        "indexCIJW": {
-          "cssClass": "text"
-        }
-      },
-      {
-        "projet": {
-          "cssClass": "text"
-        }
-      },
-
-      {
-        "document": {
-          "cssClass": "text"
-        }
-      },
-
-
-      {
-        "fonds": {
-          "cssClass": "text"
-        }
-      },
-      {
-        "depot": {
-          "cssClass": "text"
-        }
-      },
-      {
-        "droits": {
-          "cssClass": "text"
-        }
-      },
-      {
-        "excerpt": {
-          "cssClass": "excerpt"
-        }
+    {
+      "numeroLotNumerisation": {
+        "cssClass": "text"
       }
-    ]
-
-
+    },
+    {
+      "auteur": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "duree": {
+        "cssClass": "excerpt"
+      }
+    },
+    {
+      "langue": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "description": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "remarque": {
+        "cssClass": "text"
+      }
+    },
+    {
+      "qualite": {
+        "cssClass": "excerpt"
+      }
+    }
+  ],
+  "indexation": {
+    "elasticUrl": "http://192.168.2.2:2009",
+    "deleteOldIndex": "yes",
+    "applythesauri": "no"
+  }
 }

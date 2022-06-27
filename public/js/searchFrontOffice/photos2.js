@@ -238,6 +238,7 @@ $("#photos_ajouterpanierButton").css("display","inline")
                     console.log(html);
                 } else {
                     url = uriEncodePhotoPath(photoPath)
+
                     $("#activePhotoDiv").html(photoPath)
                 }
             }

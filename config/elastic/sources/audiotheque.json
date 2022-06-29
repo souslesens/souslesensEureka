@@ -9,11 +9,11 @@
     "subType": "mysql",
     "sqlQuery": "select * from audiotheque",
     "connOptions": {
-      "host": "localhost",
-      "port": "7202",
-      "user": "bailletarchives",
-      "password": "nodeApp55",
-      "database": "audiotheque",
+      "host": "192.168.2.1",
+      "port": "3306",
+      "user": "recherche194",
+      "password": "4cuGEbe4W83J5",
+      "database": "cijwu",
       "table": "audiotheque"
     },
     "contentField": "attachment.content"
@@ -22,92 +22,90 @@
     "contentField": "attachment.content",
     "analyzer": "lowercase_asciifolding",
     "mappings": {
-
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "indexCIJW": {
-            "type": "keyword"
-          },
-          "Cote": {
-            "type": "text"
-          },
-          "Type": {
-            "type": "text"
-          },
-          "NDA": {
-            "type": "keyword"
-          },
-          "Comptage": {
-            "type": "text"
-          },
-          "DateNumerisation": {
-            "type": "keyword"
-          },
-          "Operateur": {
-            "type": "text"
-          },
-          "Titre1": {
-            "type": "text"
-          },
-          "Titre2": {
-            "type": "text"
-          },
-          "TitreCatalogue": {
-            "type": "text"
-          },
-          "QualiteEcoute": {
-            "type": "text"
-          },
-          "RDB": {
-            "type": "keyword"
-          },
-          "RMDA": {
-            "type": "text"
-          },
-          "versement_relie": {
-            "type": "text"
-          },
-          "ancienne_cote": {
-            "type": "text"
-          },
-          "DateConformation": {
-            "type": "keyword"
-          },
-          "Conformation": {
-            "type": "text"
-          },
-          "DH": {
-            "type": "text"
-          },
-          "DM": {
-            "type": "text"
-          },
-          "DS": {
-            "type": "text"
-          },
-          "DS10_3": {
-            "type": "text"
-          },
-          "DateEnregistrement": {
-            "type": "keyword"
-          },
-          "MoisEnregistrement": {
-            "type": "text"
-          },
-          "AnneeEnregistrement": {
-            "type": "text"
-          },
-          "dateMaj": {
-            "type": "date"
-          },
-          "redacteur": {
-            "type": "keyword"
-          }
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "indexCIJW": {
+          "type": "keyword"
+        },
+        "Cote": {
+          "type": "text"
+        },
+        "Type": {
+          "type": "text"
+        },
+        "NDA": {
+          "type": "keyword"
+        },
+        "Comptage": {
+          "type": "text"
+        },
+        "DateNumerisation": {
+          "type": "keyword"
+        },
+        "Operateur": {
+          "type": "text"
+        },
+        "Titre1": {
+          "type": "text"
+        },
+        "Titre2": {
+          "type": "text"
+        },
+        "TitreCatalogue": {
+          "type": "text"
+        },
+        "QualiteEcoute": {
+          "type": "text"
+        },
+        "RDB": {
+          "type": "keyword"
+        },
+        "RMDA": {
+          "type": "text"
+        },
+        "versement_relie": {
+          "type": "text"
+        },
+        "ancienne_cote": {
+          "type": "text"
+        },
+        "DateConformation": {
+          "type": "keyword"
+        },
+        "Conformation": {
+          "type": "text"
+        },
+        "DH": {
+          "type": "text"
+        },
+        "DM": {
+          "type": "text"
+        },
+        "DS": {
+          "type": "text"
+        },
+        "DS10_3": {
+          "type": "text"
+        },
+        "DateEnregistrement": {
+          "type": "keyword"
+        },
+        "MoisEnregistrement": {
+          "type": "text"
+        },
+        "AnneeEnregistrement": {
+          "type": "text"
+        },
+        "dateMaj": {
+          "type": "date"
+        },
+        "redacteur": {
+          "type": "keyword"
         }
       }
-
+    }
   },
   "display": [
     {
@@ -160,5 +158,10 @@
         "cssClass": "excerpt"
       }
     }
-  ]
+  ],
+  "indexation": {
+    "elasticUrl": "http://192.168.2.2:2009",
+    "deleteOldIndex": "yes",
+    "applythesauri": "no"
+  }
 }

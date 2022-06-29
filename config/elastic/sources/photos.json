@@ -8,11 +8,11 @@
     "type": "sql",
     "subType": "mysql",
     "connOptions": {
-      "host": "localhost",
-      "port": "7202",
-      "user": "bailletarchives",
-      "password": "nodeApp55",
-      "database": "phototheque",
+      "host": "192.168.2.1",
+      "port": "3306",
+      "user": "recherche194",
+      "password": "4cuGEbe4W83J5",
+      "database": "cijwp",
       "table": "phototheque"
     },
     "contentField": "attachment.content"
@@ -21,74 +21,72 @@
     "contentField": "attachment.content",
     "analyzer": "lowercase_asciifolding",
     "mappings": {
-
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "indexCIJW": {
-            "type": "keyword"
-          },
-          "dossier": {
-            "type": "keyword"
-          },
-          "sousdossier": {
-            "type": "keyword"
-          },
-          "document": {
-            "type": "keyword"
-          },
-          "versement_relie": {
-            "type": "text"
-          },
-          "ancienne_cote": {
-            "type": "text"
-          },
-          "lien": {
-            "type": "keyword"
-          },
-          "photographe": {
-            "type": "text"
-          },
-          "agence": {
-            "type": "text"
-          },
-          "droit_auteur": {
-            "type": "keyword"
-          },
-          "droit_image": {
-            "type": "keyword"
-          },
-          "contenu": {
-            "type": "text"
-          },
-          "temoin_ref": {
-            "type": "text"
-          },
-          "date": {
-            "type": "date"
-          },
-          "lieu": {
-            "type": "text"
-          },
-          "description": {
-            "type": "text"
-          },
-          "local": {
-            "type": "keyword"
-          },
-          "support": {
-            "type": "keyword"
-          },
-          "dateMaj": {
-            "type": "text"
-          },
-          "redacteur": {
-            "type": "keyword"
-          }
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "indexCIJW": {
+          "type": "keyword"
+        },
+        "dossier": {
+          "type": "keyword"
+        },
+        "sousdossier": {
+          "type": "keyword"
+        },
+        "document": {
+          "type": "keyword"
+        },
+        "versement_relie": {
+          "type": "text"
+        },
+        "ancienne_cote": {
+          "type": "text"
+        },
+        "lien": {
+          "type": "keyword"
+        },
+        "photographe": {
+          "type": "text"
+        },
+        "agence": {
+          "type": "text"
+        },
+        "droit_auteur": {
+          "type": "keyword"
+        },
+        "droit_image": {
+          "type": "keyword"
+        },
+        "contenu": {
+          "type": "text"
+        },
+        "temoin_ref": {
+          "type": "text"
+        },
+        "date": {
+          "type": "date"
+        },
+        "lieu": {
+          "type": "text"
+        },
+        "description": {
+          "type": "text"
+        },
+        "local": {
+          "type": "keyword"
+        },
+        "support": {
+          "type": "keyword"
+        },
+        "dateMaj": {
+          "type": "text"
+        },
+        "redacteur": {
+          "type": "keyword"
         }
       }
-
+    }
   },
   "display": [
     {
@@ -121,5 +119,10 @@
         "cssClass": "excerpt"
       }
     }
-  ]
+  ],
+  "indexation": {
+    "elasticUrl": "http://192.168.2.2:2009",
+    "deleteOldIndex": "yes",
+    "applythesauri": "no"
+  }
 }

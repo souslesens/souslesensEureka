@@ -169,7 +169,7 @@ var sqlCrawler = {
                         elasticRestProxy.checkBulkQueryResponse(body, function(err,result){
                             if(err)
                                 return callbackWhilst(err);
-                            var message = "indexed " + result.length + " records ";
+                            var message = "indexation finished" +   totalSqlRecords + " records ";
                             socket.message(message)
                             console.log(message)
                             return callbackWhilst()
@@ -191,8 +191,9 @@ var sqlCrawler = {
                     return callback(err);
 
                 var duration = new Date().getTime() - t0;
-                var message = "*** indexation done : " + indexedFiles + "/" + totalSqlRecords + " records  in " + duration + " msec.";
+                var message = "*** indexation done : " + totalSqlRecords + " records  in " + duration + " msec.";
                 socket.message(message)
+                console.log(message)
                 callback(null, "done");
 
 

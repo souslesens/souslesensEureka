@@ -142,9 +142,10 @@ var indexer = {
                     console.log("create index");
                     request(options, function (error, response, body) {
                         if (error) {
-                            console.log("create index error "+JSON.stringify(json,null,2))
+                            console.log("create index error " + JSON.stringify(json, null, 2))
                             return callbackSeries(error);
-                        }if (body.error) {
+                        }
+                        if (body.error) {
 
                             return callbackSeries(body.error);
                         }
@@ -251,9 +252,10 @@ var indexer = {
                 //******run thesaurusAnnotator *************
                 function (callbackSeries) {
 
-
+                    if (!config.indexation.thesauri)
+                        return callbackSeries()
                     var thesauri = Object.keys(config.indexation.thesauri);
-                    if(thesauri.length==0)
+                    if (thesauri.length == 0)
                         return callbackSeries();
 
 
@@ -347,55 +349,55 @@ var indexer = {
     indexObjects: function (objects, indexName, elasticUrl, callback) {
 
         async.series([
-            function (callbackSeries) {
-                if (!elasticUrl)
-                    elasticUrl = elasticRestProxy.getElasticUrl()
+                function (callbackSeries) {
+                    if (!elasticUrl)
+                        elasticUrl = elasticRestProxy.getElasticUrl()
 
-                var bulkStr = ""
-                objects.forEach(function (item) {
-                    bulkStr += JSON.stringify({index: {_index: indexName, _type: indexName, _id: item.id}}) + "\r\n"
-                    bulkStr += JSON.stringify(item) + "\r\n";
-
-                })
-
-                var options = {
-                    method: 'POST',
-                    body: bulkStr,
-                    encoding: null,
-                   // timeout: 1000 * 3600 * 24 * 3, //3 days //Set your timeout value in milliseconds or 0 for unlimited
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    url: elasticUrl + "_bulk?refresh=wait_for"
-                };
-                console.log(" indexing bulkStr \n "+bulkStr)
-                request(options, function (error, response, body) {
-                    if (error) {
-                        console.log(" indexing bulkStr error")
-                        return callbackSeries(error)
-
-                    }
-                    elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
-                        if (err) {
-                            console.log(" indexing bulkStr error")
-                            return callbackSeries(err);
-                        }
-                        var message = "indexed " + objects.length + " records ";
-                        socket.message(message);
-                        setTimeout(function () {
-                            elasticRestProxy.refreshIndex(config, function (err, result) {
-                                if (err)
-                                    return callbackSeries(err);
-                                return callbackSeries()
-                            });
-                        }, 500)
-
+                    var bulkStr = ""
+                    objects.forEach(function (item) {
+                        bulkStr += JSON.stringify({index: {_index: indexName, _type: indexName, _id: item.id}}) + "\r\n"
+                        bulkStr += JSON.stringify(item) + "\r\n";
 
                     })
 
+                    var options = {
+                        method: 'POST',
+                        body: bulkStr,
+                        encoding: null,
+                        // timeout: 1000 * 3600 * 24 * 3, //3 days //Set your timeout value in milliseconds or 0 for unlimited
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        url: elasticUrl + "_bulk?refresh=wait_for"
+                    };
+                    console.log(" indexing bulkStr \n " + bulkStr)
+                    request(options, function (error, response, body) {
+                        if (error) {
+                            console.log(" indexing bulkStr error")
+                            return callbackSeries(error)
 
-                })
-            }
+                        }
+                        elasticRestProxy.checkBulkQueryResponse(body, function (err, result) {
+                            if (err) {
+                                console.log(" indexing bulkStr error")
+                                return callbackSeries(err);
+                            }
+                            var message = "indexed " + objects.length + " records ";
+                            socket.message(message);
+                            setTimeout(function () {
+                                elasticRestProxy.refreshIndex(config, function (err, result) {
+                                    if (err)
+                                        return callbackSeries(err);
+                                    return callbackSeries()
+                                });
+                            }, 500)
+
+
+                        })
+
+
+                    })
+                }
             ]
             , function (err) {
                 callback(err);

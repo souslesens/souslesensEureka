@@ -71,7 +71,7 @@ var Photos = (function () {
         var treePath = obj.node.id
         var files = obj.node.data.files;
 
-        if (files.length == 0 || files.length > 100) {
+        if (files.length == 0 ) {
             $("#waitImg").css("display", "none")
             return;
         }
@@ -123,26 +123,52 @@ var Photos = (function () {
         }
 
         self.checkPhotoExists(photoPaths[0].thumb, function (photo1Exists) {
+            $("#photosPagerDiv").html("");
+            var numberOfPhotos=photoPaths.length;
+            var slices = common.array.slice(photoPaths, appConfig.photos.photosSliceSize);
+            self.currentPhotosSlices=slices;
+            self.currentPhotosSlices.currentSlice=0
+            if(slices.length>0){
 
-            if (photo1Exists || !useFonds) {
-                var fr = $('.fotorama').fotorama();
-                var fotorama = fr.data('fotorama');
-                if (fotorama) {
+                $("#photoMessageDiv").html("<div style='display:flex;flex-direction: row'>"+numberOfPhotos +" photos" +
+                    "<button id='photosNextSliceButton' onclick='Photos.loadPhotosInFotorama(1)'>"+appConfig.photos.photosSliceSize+" Suivantes</button>" +
+                    "<button id='photosPreviousSliceButton' onclick='Photos.loadPhotosInFotorama(-1)'>"+appConfig.photos.photosSliceSize+" Precedentes</button></div>")
 
-                    fotorama.load(photoPaths.slice(0, 1));
-
-
-                    fotorama.load(photoPaths);
-                    // fotorama.show(0);
-                } else {
-                    $('.fotorama').fotorama({data: photoPaths});
-                }
-            } else {
-                self.onTreeNodeSelect(null, self.currentTreeNodeObj, true)
             }
+            self.loadPhotosInFotorama(0)
+
+
+
 
         })
 
+        self.loadPhotosInFotorama=function(increment){
+            self.currentPhotosSlices.currentSlice+=increment
+
+            if(self.currentPhotosSlices[self.currentPhotosSlices.currentSlice].length<appConfig.photos.photosSliceSize)
+               $('#photosNextSliceButton').css('display','none')
+            else
+                $('#photosNextSliceButton').css('display','block')
+            if(self.currentPhotosSlices.currentSlice==0)
+                $('#photosPreviousSliceButton').css('display','none')
+            else
+                $('#photosPreviousSliceButton').css('display','block')
+
+            var photosSlice= self.currentPhotosSlices[self.currentPhotosSlices.currentSlice];
+            var fr = $('.fotorama').fotorama();
+                var fotorama = fr.data('fotorama');
+                if (fotorama) {
+
+                    fotorama.load(photosSlice.slice(0, 1));
+
+
+                    fotorama.load(photosSlice);
+                    // fotorama.show(0);
+                } else {
+                    $('.fotorama').fotorama({data: photosSlice});
+                }
+
+        }
 
         //   console.log(JSON.stringify(photoPaths, null, 2))
 

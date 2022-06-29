@@ -11,8 +11,8 @@
     "connOptions": {
       "host": "192.168.2.1",
       "port": "3306",
-      "user": "recherche",
-      "password": "HfD1!Ga45!ù$",
+      "user": "recherche194",
+      "password": "4cuGEbe4W83J5",
       "database": "cijwa",
       "table": "artotheque"
     },
@@ -141,5 +141,10 @@
         "cssClass": "excerpt"
       }
     }
-  ]
+  ],
+  "indexation": {
+    "elasticUrl": "http://192.168.2.2:2009",
+    "deleteOldIndex": "yes",
+    "applythesauri": "no"
+  }
 }

@@ -45,6 +45,7 @@ appConfig.photos={
         arts:"artotheque",
         photos:"phototheque"
     },
+    photosSliceSize:30,
  maxPhotosInFotorama:100,
     //versementsPath:"smb://serveur.local/serveur/Equipe/Pole_Archives/01-Instruments_de_RECHERCHE/1107-INT-PAEFI-1970_2018.odt",
 

@@ -63,6 +63,7 @@ var mainController = (function () {
     }
 
     self.initSocket = function () {
+        return;
         var socket = io();
         var socket = io("/", {path: '/socket.io'})
         socket.on('connect', function (data) {

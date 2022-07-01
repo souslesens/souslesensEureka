@@ -41,6 +41,11 @@ var util = {
         return new Buffer(bitmap).toString('base64');
     }
     ,
+    getRandomHexaId: function (length) {
+        const str = Math.floor(Math.random() * Math.pow(16, length)).toString(16);
+        return "0".repeat(length - str.length) + str;
+
+    },
     prepareJsonForsource: function (obj) {
         /*  if (!(typeof obj === "object"))
          obj = JSON.parse(obj);*/

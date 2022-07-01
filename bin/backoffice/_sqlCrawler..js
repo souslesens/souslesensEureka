@@ -134,8 +134,9 @@ var sqlCrawler = {
 
                         })
                         record[config.schema.contentField] = content;
-                        var incrementRecordId = util.getStringHash(content);
-                        record.incrementRecordId = incrementRecordId;
+                       // var incrementRecordId = util.getStringHash(content);
+                       var incrementRecordId = util.getRandomHexaId(12)
+                       // record.incrementRecordId = incrementRecordId;
                         var id = "R" + incrementRecordId;
 
 

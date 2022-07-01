@@ -262,11 +262,6 @@ var Synchronizer = {
 module.exports = Synchronizer
 //var x=Synchronizer.getConfig()
 
-if (true) {
-    Synchronizer.syncPhotosIndexes({}, function (err, result) {
-
-    })
-}
 
 
 const myArgs = process.argv.slice(2);
@@ -277,24 +272,33 @@ var possibleTasks = [
     "syncIndexes",
     "updateIndexVersements",
     "syncPhotosIndexes",
-    "syncGeneratePDFbordereaux"
+    "syncGeneratePDFbordereaux",
+
 ]
 
 var tasks = []
 myArgs.forEach(function (arg) {
-    if (possibleTasks.indexOf(arg) < 0) {
-        return console.log("arguments are any of " + possibleTasks.toString())
+    if (possibleTasks.indexOf(arg) < 0 && arg!="ALL") {
+        return console.log("no argument. arguments are any of " + possibleTasks.toString() +" or 'ALL'")
     }
     tasks.push(arg)
 
 })
 
 
-if (myArgs.length == 0 || tasks.length == 0)
-    return ;//console.log("arguments are any of " + possibleTasks.toString())
+if (myArgs.length == 0 )
+    return console.log("arguments are any of " + possibleTasks.toString()+" or 'ALL'")
 else {
+    if(myArgs.indexOf("ALL")>-1)
+        tasks=possibleTasks
     var options = {tasks: tasks}
+    console.log (" Running Synchronizer  with tasks "+tasks.toString())
+    var startTime=new Date()
     Synchronizer.synchronizeAll(options, function (err, result) {
+        if( err)
+            return console.log(err)
+        var duration=Math.round((new Date()-startTime)/1000)
+        return "SYNCHRONIZER ALL DONE in "+duration+ " sec."
 
     })
 }

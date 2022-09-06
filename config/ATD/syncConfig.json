@@ -9,8 +9,8 @@
     "Polytheque": ""
   },
   "indexes": [
-    "versements.json",
     "artotheque.json",
+    "versements.json",
     "audiotheque.json",
     "photos.json",
     "videotheque.json"

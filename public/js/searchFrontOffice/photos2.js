@@ -25,6 +25,7 @@ var Photos = (function () {
         var regexSep = new RegExp("/" + sep + "/", "g")
 
         $("#photoMessageDiv").html("recherche des photos en cours...")
+
         self.getPhotosTree(hit, function (err, jstreeData) {
 
             if (err) {
@@ -290,7 +291,13 @@ $("#photos_ajouterpanierButton").css("display","inline")
             //  options.pattern = [hit._source.dossier, hit._source.sousdossier, hit._source.document]
 
         } else if (index == "versements") {
+            if(hit._source.title)
             options.pattern = [hit._source.title.substring(0, 4)]
+            else if(hit._source.Arko_cote)
+                options.pattern = [hit._source.Arko_cote.substring(3)]
+            else
+                options.pattern=["XXX"]
+
         } else if (index == "artotheque" || index == "arts") {
 
             var niveau2 = hit._source.collection.substring(0, 3)

@@ -138,6 +138,7 @@ var PhotosScanner = {
 
                 })
             } else if (options.processor == "indexPhotosCatalog") {
+           //callbackEach();
                 if ((index++) == 0) {
                     options.deleteOldIndex = true
                     var message = "dir\ttotalDirsIndexed\tfiles\telasticDocs\tduration sec. \n"
@@ -151,7 +152,7 @@ var PhotosScanner = {
                     totalDirsIndexed += result.dirs;
 
                     var message = dir1 + "\t" + result.dirs + "\t" + result.files + "\t" + result.elasticDocs + "\t" + result.duration + "\n"
-
+                    console.log(message)
                     PhotosScanner.writeJournal(options.journalFilePath, message)
                     journal = ""
                     if (index % 10 == 0)
@@ -187,10 +188,9 @@ var PhotosScanner = {
             var journalPath = options.journalDir + options.indexName + "_" + new Date() + ".txt"
             PhotosScanner.writeJournal(journalPath, journal)
 
-            if(callback)
-                return callback(err,"done")
-            else
-                console.log(" ALL DONE" )
+            if (callback)
+                return callback(err, "done")
+            console.log(" ALL DONE")
         })
         //  return callback(null, dirFilesMap)
     },
@@ -711,10 +711,10 @@ var PhotosScanner = {
 
         PhotosScanner.getDirContent(_options, function (err, result) {
             if (err) {
-                if(callback){
+                if (callback) {
                     return callback(err);
-                }else
-                return console.log(err)
+                } else
+                    return console.log(err)
             }
             if (callback)
                 return callback(null, "done")

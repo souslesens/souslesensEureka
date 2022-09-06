@@ -50,6 +50,7 @@ var indexer = {
                 function (callbackSeries) {
                     var message = "starting indexation index :" + index
                     socket.message(message);
+                    console.log(message);
                     callbackSeries();
                 },
 

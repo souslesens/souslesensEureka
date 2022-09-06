@@ -170,7 +170,7 @@ var sqlCrawler = {
                         elasticRestProxy.checkBulkQueryResponse(body, function(err,result){
                             if(err)
                                 return callbackWhilst(err);
-                            var message = "indexation finished" +   totalSqlRecords + " records ";
+                            var message = "indexation " +   totalSqlRecords + " records ";
                             socket.message(message)
                             console.log(message)
                             return callbackWhilst()

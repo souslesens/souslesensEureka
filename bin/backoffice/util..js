@@ -1,4 +1,5 @@
 var fs=require('fs');
+const path = require("path");
 
 var util = {
 
@@ -230,6 +231,22 @@ var util = {
         r = "" + r.charAt(0).toLowerCase() + r.substring(1);
         headerArray.push(r);
         return r;
+    },
+
+    clearDir:function(dirPath,callback){
+        fs.readdir(dirPath, (err, files) => {
+            if (err) return callback(err);
+
+            for (const file of files) {
+                fs.unlinkSync(path.join(dirPath, file), err => {
+                    return callback(err);
+                });
+                return callback(null);
+            }
+        });
+
+
+
     }
 
 
@@ -237,5 +254,6 @@ var util = {
 
 
 }
+
 
 module.exports = util;

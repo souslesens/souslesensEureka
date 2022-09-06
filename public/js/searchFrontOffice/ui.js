@@ -235,7 +235,7 @@ var ui = (function () {
                         $("#detailVersement_DataDivLeft").html(htmlObj.htmlLeft)
                         $("#detailVersement_DataDivRight").html(htmlObj.htmlRight)
 
-                        if(hit._source.title) {
+                        if(hit._source.Arko_lien_fichiers) {
                            // var p = hit._source.title.lastIndexOf(".")
                             var path=hit._source.Arko_lien_fichiers
                           var p = path.lastIndexOf("/")

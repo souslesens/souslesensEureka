@@ -57,6 +57,7 @@ var mergeArkotheque = {
                 }
                 , function (callbackSeries) {
                     async.eachSeries(mergedData, function (line, callbackEach) {
+
                         var escapeCols = [
                             // 'lien_fichiers', 'intitule', 'VersementsId', 'producteurs'
                         ]
@@ -129,6 +130,9 @@ var mergeArkotheque = {
                             url: elasticUrl + versementsIndex + "/_update_by_query"
                         };
 
+                        if(line.cote.indexOf("0371")>-1)
+                            var x=3
+
                         //  console.log(JSON.stringify(query, null, 2));
                         request(options, function (error, response, body) {
                             if (error)
@@ -170,7 +174,7 @@ var mergeArkotheque = {
                         bulkStr += JSON.stringify({
                             index: {
                                 _index: versementsIndex,
-                                _type: versementsIndex,
+                                _type: "_doc",
                                 _id: "ARKO_" + line.numeroEntree
                             }
                         }) + "\r\n"

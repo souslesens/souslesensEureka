@@ -5,8 +5,11 @@ const path = require('path')
 const PhotoScanner = require('./PhotosScanner.')
 const indexer = require('./backoffice/indexer.')
 
+const util=require('./backoffice/util.')
+
 const mergeArkotheque = require('./backoffice/mergeArkotheque.')
 const elasticProxy = require("./elasticRestProxy.");
+const toPdf = require("office-to-pdf");
 
 
 var Synchronizer = {
@@ -70,7 +73,7 @@ var Synchronizer = {
                     }
 
 
-                    Synchronizer.message(" finished syncGeneratePDFbordereaux" +Synchronizer.getTaskDuration())
+                    Synchronizer.message(" finished syncGeneratePDFbordereaux " +Synchronizer.getTaskDuration())
                     return callbackSeries()
                 })
             },
@@ -85,7 +88,7 @@ var Synchronizer = {
                     }
 
 
-                    Synchronizer.message(" finished updateIndexVersement" +Synchronizer.getTaskDuration())
+                    Synchronizer.message(" finished updateIndexVersement " +Synchronizer.getTaskDuration())
                     return callbackSeries()
                 })
             },
@@ -100,7 +103,7 @@ var Synchronizer = {
                     }
 
 
-                    Synchronizer.message(" finished syncPhotosIndexes"+Synchronizer.getTaskDuration())
+                    Synchronizer.message(" finished syncPhotosIndexes "+Synchronizer.getTaskDuration())
                     return callbackSeries()
                 })
             }
@@ -215,6 +218,7 @@ var Synchronizer = {
                     if (stats.isDirectory(filePath)) {
                         recurse(filePath + "/")
                     } else {
+                        if(filePath.toLowerCase().indexOf(".odt")>-1)
                         allFiles.push(filePath)
                     }
                 }
@@ -230,30 +234,46 @@ var Synchronizer = {
         var toPdf = require("office-to-pdf")
         var files = getAllFiles(IRsourceDir)
         var totalCount=0
-        async.eachSeries(files, function (file, callbackEach) {
-                console.log(file)
+        async.series(
+            [
+                function(callbackSeries) {
+                    util.clearDir(IR_targetPdfDir, function (err, result) {
+                        return callbackSeries(err)
+                    })
+                },
+                    function(callbackSeries) {
+                        async.eachSeries(files, function (file, callbackEach) {
+                                console.log(file)
 
-                var wordBuffer = fs.readFileSync(file)
-                toPdf(wordBuffer).then((pdfBuffer) => {
-                        var fileName = file.substring(file.lastIndexOf("/") + 1)
-                        var p = fileName.lastIndexOf(".")
-                        fileName = fileName.substring(0, p + 1) + "pdf"
-                        var targetPath = IR_targetPdfDir + fileName
-                        fs.writeFileSync(targetPath, pdfBuffer)
-                    totalCount+=1
-                    if(totalCount%10==0)
+                                var wordBuffer = fs.readFileSync(file)
+                                toPdf(wordBuffer).then((pdfBuffer) => {
+                                        var fileName = file.substring(file.lastIndexOf("/") + 1)
+                                        var p = fileName.lastIndexOf(".")
+                                        fileName = fileName.substring(0, p + 1) + "pdf"
+                                        var targetPath = IR_targetPdfDir + fileName
+                                        fs.writeFileSync(targetPath, pdfBuffer)
+                                        totalCount+=1
+                                        if(totalCount%10==0)
 
-                        console.log(totalCount+" documents transformed in pdf")
-                        callbackEach();
-                    }, (err) => {
-                        console.log(err)
-                        return callbackEach(err)
+                                            console.log(totalCount+" documents transformed in pdf")
+                                        callbackEach();
+                                    }, (err) => {
+                                        console.log(err)
+                                        return callbackEach(err)
+                                    }
+                                )
+                            },function(err){
+                            callbackSeries(err)
+                        })
+
                     }
-                )
-            }
+
+
+        ]
             , function (err) {
                 return callback(err)
             })
+
     }
 
 
@@ -284,7 +304,13 @@ myArgs.forEach(function (arg) {
     tasks.push(arg)
 
 })
+if(false){
+    var options = {tasks: ["syncGeneratePDFbordereaux"]}
+    Synchronizer.synchronizeAll(options, function (err, result) {
 
+    })
+    return;
+}
 
 if (myArgs.length == 0 )
     return console.log("arguments are any of " + possibleTasks.toString()+" or 'ALL'")
@@ -303,11 +329,6 @@ else {
     })
 }
 
-if(false){
-    var options = {tasks: ["syncGeneratePDFbordereaux","syncPhotosIndexes"]}
-    Synchronizer.synchronizeAll(options, function (err, result) {
 
-    })
-}
 
 
